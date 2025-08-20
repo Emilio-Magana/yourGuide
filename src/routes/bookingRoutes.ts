@@ -1,13 +1,13 @@
-const express = require("express");
-const {
+import express from "express";
+import {
   getCheckoutSession,
   getAllBookings,
   createBooking,
   getBooking,
   updateBooking,
   deleteBooking,
-} = require("./../controllers/bookingController");
-const { protect, restrictTo } = require("./../controllers/authController");
+} from "@/controllers/bookingController";
+import { protect, restrictTo } from "@/controllers/authController";
 
 const router = express.Router();
 
@@ -18,4 +18,4 @@ router.route("/").get(getAllBookings).post(createBooking);
 router.get("/checkout-session/:tourId", getCheckoutSession);
 router.route("/:id").get(getBooking).patch(updateBooking).delete(deleteBooking);
 
-module.exports = router;
+export default router;

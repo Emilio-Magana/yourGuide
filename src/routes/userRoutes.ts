@@ -1,7 +1,5 @@
-const express = require("express");
-const router = express.Router();
-const app = express();
-const {
+import express from "express";
+import {
   getAllUsers,
   createUser,
   getUser,
@@ -12,8 +10,8 @@ const {
   getMe,
   uploadUserPhoto,
   resizeUserPhoto,
-} = require("./../controllers/userController");
-const {
+} from "@/controllers/userController";
+import {
   signup,
   login,
   forgotPassword,
@@ -21,7 +19,9 @@ const {
   updatePassword,
   protect,
   restrictTo,
-} = require("./../controllers/authController");
+} from "@/controllers/authController";
+const router = express.Router();
+const app = express();
 
 router.post("/signup", signup);
 router.post("/login", login);
@@ -43,4 +43,4 @@ router.route("/:id").get(getUser).patch(updateUser).delete(deleteUser);
 
 app.use("/api/v1/users", router);
 
-module.exports = router;
+export default router;

@@ -29,9 +29,9 @@ const upload = multer({
   fileFilter: multerFilter,
 });
 
-exports.uploadUserPhoto = upload.single("photo");
+const uploadUserPhoto = upload.single("photo");
 
-exports.resizeUserPhoto = catchAsync(async (req, res, next) => {
+const resizeUserPhoto = catchAsync(async (req, res, next) => {
   if (!req.file) return next();
 
   req.file.filename = `user-${req.user.id}-${Date.now()}.jpeg`;
@@ -53,12 +53,12 @@ const filterObj = (obj, ...allowedFields) => {
   return newObj;
 };
 
-exports.getMe = (req, res, next) => {
+const getMe = (req, res, next) => {
   req.params.id = req.user.id;
   next();
 };
 
-exports.updateMe = catchAsync(async (req, res, next) => {
+const updateMe = catchAsync(async (req, res, next) => {
   // 1) Create error if user POSTs password data
   if (req.body.password || req.body.passwordConfirm) {
     return next(
@@ -87,7 +87,7 @@ exports.updateMe = catchAsync(async (req, res, next) => {
   });
 });
 
-exports.deleteMe = catchAsync(async (req, res, next) => {
+const deleteMe = catchAsync(async (req, res, next) => {
   await User.findByIdAndUpdate(req.user.id, { active: false });
 
   res.status(204).json({
@@ -96,16 +96,29 @@ exports.deleteMe = catchAsync(async (req, res, next) => {
   });
 });
 
-exports.createUser = (req, res) => {
+const createUser = (req, res) => {
   res.status(500).json({
     status: "error",
     message: "This route is not defined! Please use /signup instead",
   });
 };
 
-exports.getUser = getOne(User);
-exports.getAllUsers = getAll(User);
+const getUser = getOne(User);
+const getAllUsers = getAll(User);
 
 // Do NOT update passwords with this!
-exports.updateUser = updateOne(User);
-exports.deleteUser = deleteOne(User);
+const updateUser = updateOne(User);
+const deleteUser = deleteOne(User);
+
+export {
+  uploadUserPhoto,
+  resizeUserPhoto,
+  getMe,
+  updateMe,
+  deleteMe,
+  createUser,
+  getUser,
+  getAllUsers,
+  updateUser,
+  deleteUser,
+};

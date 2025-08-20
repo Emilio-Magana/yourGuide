@@ -1,13 +1,14 @@
-import jwt, { SignOptions } from "jsonwebtoken";
-import type { StringValue } from "ms";
-import { promisify } from "util";
 import crypto from "crypto";
+import { promisify } from "util";
+import type { StringValue } from "ms";
+import jwt, { SignOptions } from "jsonwebtoken";
 import Email from "@/utils/email";
-import { User } from "@/models/userModel";
 import AppError from "@/utils/appError";
+import { User } from "@/models/userModel";
 import { catchAsync } from "@/utils/catchAsync";
 import { ENV_VARS } from "@/common/constants/envs";
 import { ExpressMiddleware } from "@/common/interfaces/mainInterfaces";
+import { Document } from "mongoose";
 
 const { JWT_SECRET, JWT_EXPIRES_IN, JWT_COOKIE_EXPIRES_IN } = ENV_VARS;
 
@@ -19,12 +20,12 @@ const signToken = (id: string) => {
 };
 
 const createSendToken = (
-  user,
+  user: Document,
   statusCode: Number,
   req: Request,
   res: Response,
 ) => {
-  const token = signToken(user._id);
+  const token = signToken(user._id as string);
 
   res.cookie("jwt", token, {
     expires: new Date(
@@ -46,7 +47,7 @@ const createSendToken = (
   });
 };
 
-exports.signup = catchAsync(async ({ req, res, next }: ExpressMiddleware) => {
+const signup = catchAsync(async ({ req, res, next }: ExpressMiddleware) => {
   const newUser = await User.create({
     name: req.body.name,
     email: req.body.email,
@@ -61,7 +62,7 @@ exports.signup = catchAsync(async ({ req, res, next }: ExpressMiddleware) => {
   createSendToken(newUser, 201, req, res);
 });
 
-exports.login = catchAsync(async ({ req, res, next }: ExpressMiddleware) => {
+const login = catchAsync(async ({ req, res, next }: ExpressMiddleware) => {
   const { email, password } = req.body;
 
   // 1) Check if email and password exist
@@ -79,7 +80,7 @@ exports.login = catchAsync(async ({ req, res, next }: ExpressMiddleware) => {
   createSendToken(user, 200, req, res);
 });
 
-exports.logout = (req, res) => {
+const logout = ({ req, res }: ExpressMiddleware) => {
   res.cookie("jwt", "loggedout", {
     expires: new Date(Date.now() + 10 * 1000),
     httpOnly: true,
@@ -87,7 +88,7 @@ exports.logout = (req, res) => {
   res.status(200).json({ status: "success" });
 };
 
-exports.protect = catchAsync(async ({ req, res, next }: ExpressMiddleware) => {
+const protect = catchAsync(async ({ req, res, next }: ExpressMiddleware) => {
   // 1) Getting token and check of it's there
   let token;
   if (
@@ -106,7 +107,7 @@ exports.protect = catchAsync(async ({ req, res, next }: ExpressMiddleware) => {
   }
 
   // 2) Verification token
-  const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
+  const decoded = await promisify(jwt.verify)(token, ENV_VARS.JWT_SECRET);
 
   // 3) Check if user still exists
   const currentUser = await User.findById(decoded.id);
@@ -133,13 +134,13 @@ exports.protect = catchAsync(async ({ req, res, next }: ExpressMiddleware) => {
 });
 
 // Only for rendered pages, no errors!
-exports.isLoggedIn = async ({ req, res, next }: ExpressMiddleware) => {
+const isLoggedIn = async ({ req, res, next }: ExpressMiddleware) => {
   if (req.cookies.jwt) {
     try {
       // 1) verify token
       const decoded = await promisify(jwt.verify)(
         req.cookies.jwt,
-        process.env.JWT_SECRET,
+        ENV_VARS.JWT_SECRET,
       );
 
       // 2) Check if user still exists
@@ -163,7 +164,7 @@ exports.isLoggedIn = async ({ req, res, next }: ExpressMiddleware) => {
   next();
 };
 
-exports.restrictTo = (...roles) => {
+const restrictTo = (...roles) => {
   return ({ req, res, next }: ExpressMiddleware) => {
     // roles ['admin', 'lead-guide']. role='user'
     if (!roles.includes(req.user.role)) {
@@ -176,7 +177,7 @@ exports.restrictTo = (...roles) => {
   };
 };
 
-exports.forgotPassword = catchAsync(
+const forgotPassword = catchAsync(
   async ({ req, res, next }: ExpressMiddleware) => {
     // 1) Get user based on POSTed email
     const user = await User.findOne({ email: req.body.email });
@@ -205,14 +206,16 @@ exports.forgotPassword = catchAsync(
       await user.save({ validateBeforeSave: false });
 
       return next(
-        new AppError("There was an error sending the email. Try again later!"),
-        500,
+        new AppError(
+          "There was an error sending the email. Try again later!",
+          500,
+        ),
       );
     }
   },
 );
 
-exports.resetPassword = catchAsync(
+const resetPassword = catchAsync(
   async ({ req, res, next }: ExpressMiddleware) => {
     // 1) Get user based on the token
     const hashedToken = crypto
@@ -241,7 +244,7 @@ exports.resetPassword = catchAsync(
   },
 );
 
-exports.updatePassword = catchAsync(
+const updatePassword = catchAsync(
   async ({ req, res, next }: ExpressMiddleware) => {
     // 1) Get user from collection
     const user = await User.findById(req.user.id).select("+password");
@@ -263,3 +266,14 @@ exports.updatePassword = catchAsync(
     createSendToken(user, 200, req, res);
   },
 );
+export {
+  signup,
+  login,
+  logout,
+  protect,
+  isLoggedIn,
+  restrictTo,
+  forgotPassword,
+  resetPassword,
+  updatePassword,
+};

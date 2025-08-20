@@ -13,7 +13,7 @@ import {
 } from "./handlerFactory";
 import { ExpressMiddleware } from "@/common/interfaces/mainInterfaces";
 
-exports.getCheckoutSession = catchAsync(
+const getCheckoutSession = catchAsync(
   async ({ req, res, next }: ExpressMiddleware) => {
     // 1) Get the currently booked tour
     const tour = await Tour.findById(req.params.tourId);
@@ -58,7 +58,7 @@ const createBookingCheckout = async (session) => {
   await Booking.create({ tour, user, price });
 };
 
-exports.webhookCheckout = ({ req, res, next }: ExpressMiddleware) => {
+const webhookCheckout = ({ req, res, next }: ExpressMiddleware) => {
   const signature = req.headers["stripe-signature"];
 
   let event;
@@ -78,8 +78,17 @@ exports.webhookCheckout = ({ req, res, next }: ExpressMiddleware) => {
   res.status(200).json({ received: true });
 };
 
-exports.createBooking = createOne(Booking);
-exports.getBooking = getOne(Booking);
-exports.getAllBookings = getAll(Booking);
-exports.updateBooking = updateOne(Booking);
-exports.deleteBooking = deleteOne(Booking);
+const createBooking = createOne(Booking);
+const getBooking = getOne(Booking);
+const getAllBookings = getAll(Booking);
+const updateBooking = updateOne(Booking);
+const deleteBooking = deleteOne(Booking);
+export {
+  getCheckoutSession,
+  webhookCheckout,
+  createBooking,
+  getBooking,
+  getAllBookings,
+  updateBooking,
+  deleteBooking,
+};

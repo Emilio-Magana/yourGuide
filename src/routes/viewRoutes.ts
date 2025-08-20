@@ -1,5 +1,5 @@
-const express = require("express");
-const {
+import express from "express";
+import {
   alerts,
   getTour,
   getLoginForm,
@@ -7,8 +7,8 @@ const {
   getAccount,
   getMyTours,
   updateUserData,
-} = require("../controllers/viewsController");
-const { isLoggedIn, protect } = require("../controllers/authController");
+} from "@/controllers/viewsController";
+import { isLoggedIn, protect } from "@/controllers/authController";
 
 const router = express.Router();
 
@@ -24,4 +24,4 @@ router.get("/me", getAccount);
 router.get("/my-tours", getMyTours);
 router.post("/submit-user-data", updateUserData);
 
-module.exports = router;
+export default router;

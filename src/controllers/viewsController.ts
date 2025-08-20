@@ -5,7 +5,7 @@ import { catchAsync } from "../utils/catchAsync";
 import AppError from "../utils/appError";
 import { ExpressMiddleware } from "@/common/interfaces/mainInterfaces";
 
-exports.alerts = ({ req, res, next }: ExpressMiddleware) => {
+const alerts = ({ req, res, next }: ExpressMiddleware) => {
   const { alert } = req.query;
   if (alert === "booking")
     res.locals.alert =
@@ -13,7 +13,7 @@ exports.alerts = ({ req, res, next }: ExpressMiddleware) => {
   next();
 };
 
-exports.getOverview = catchAsync(
+const getOverview = catchAsync(
   async ({ req, res, next }: ExpressMiddleware) => {
     // 1) Get tour data from collection
     const tours = await Tour.find();
@@ -27,7 +27,7 @@ exports.getOverview = catchAsync(
   },
 );
 
-exports.getTour = catchAsync(async ({ req, res, next }: ExpressMiddleware) => {
+const getTour = catchAsync(async ({ req, res, next }: ExpressMiddleware) => {
   // 1) Get the data, for the requested tour (including reviews and guides)
   const tour = await Tour.findOne({ slug: req.params.slug }).populate({
     path: "reviews",
@@ -46,35 +46,33 @@ exports.getTour = catchAsync(async ({ req, res, next }: ExpressMiddleware) => {
   });
 });
 
-exports.getLoginForm = ({ req, res }: ExpressMiddleware) => {
+const getLoginForm = ({ req, res }: ExpressMiddleware) => {
   res.status(200).render("login", {
     title: "Log into your account",
   });
 };
 
-exports.getAccount = ({ req, res }: ExpressMiddleware) => {
+const getAccount = ({ req, res }: ExpressMiddleware) => {
   res.status(200).render("account", {
     title: "Your account",
   });
 };
 
-exports.getMyTours = catchAsync(
-  async ({ req, res, next }: ExpressMiddleware) => {
-    // 1) Find all bookings
-    const bookings = await Booking.find({ user: req.user.id });
+const getMyTours = catchAsync(async ({ req, res, next }: ExpressMiddleware) => {
+  // 1) Find all bookings
+  const bookings = await Booking.find({ user: req.user.id });
 
-    // 2) Find tours with the returned IDs
-    const tourIDs = bookings.map((el) => el.tour);
-    const tours = await Tour.find({ _id: { $in: tourIDs } });
+  // 2) Find tours with the returned IDs
+  const tourIDs = bookings.map((el) => el.tour);
+  const tours = await Tour.find({ _id: { $in: tourIDs } });
 
-    res.status(200).render("overview", {
-      title: "My Tours",
-      tours,
-    });
-  },
-);
+  res.status(200).render("overview", {
+    title: "My Tours",
+    tours,
+  });
+});
 
-exports.updateUserData = catchAsync(
+const updateUserData = catchAsync(
   async ({ req, res, next }: ExpressMiddleware) => {
     const updatedUser = await User.findByIdAndUpdate(
       req.user.id,
@@ -94,3 +92,13 @@ exports.updateUserData = catchAsync(
     });
   },
 );
+
+export {
+  alerts,
+  getOverview,
+  getTour,
+  updateUserData,
+  getMyTours,
+  getAccount,
+  getLoginForm,
+};

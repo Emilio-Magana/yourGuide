@@ -1,13 +1,13 @@
-const express = require("express");
-const {
+import express from "express";
+import {
   getAllReviews,
   createReview,
   deleteReview,
   updateReview,
   setTourUserIds,
   getReview,
-} = require("../controllers/reviewController");
-const { protect, restrictTo } = require("./../controllers/authController");
+} from "@/controllers/reviewController";
+import { protect, restrictTo } from "@/controllers/authController";
 
 const router = express.Router({ mergeParams: true });
 
@@ -23,4 +23,4 @@ router
   .delete(restrictTo("user", "admin"), deleteReview)
   .patch(restrictTo("user", "admin"), updateReview);
 
-module.exports = router;
+export default router;

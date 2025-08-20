@@ -26,7 +26,7 @@ const upload = multer({
   fileFilter: multerFilter,
 });
 
-exports.uploadTourImages = upload.fields([
+const uploadTourImages = upload.fields([
   { name: "imageCover", maxCount: 1 },
   { name: "images", maxCount: 3 },
 ]);
@@ -34,7 +34,7 @@ exports.uploadTourImages = upload.fields([
 // upload.single('image') req.file
 // upload.array('images', 5) req.files
 
-exports.resizeTourImages = catchAsync(async (req, res, next) => {
+const resizeTourImages = catchAsync(async (req, res, next) => {
   if (!req.files.imageCover || !req.files.images) return next();
 
   // 1) Cover image
@@ -65,14 +65,14 @@ exports.resizeTourImages = catchAsync(async (req, res, next) => {
   next();
 });
 
-exports.aliasTopTours = (req, res, next) => {
+const aliasTopTours = (req, res, next) => {
   req.query.limit = "5";
   req.query.sort = "-ratingsAverage,price";
   req.query.fields = "name,price,ratingsAverage,summary,difficulty";
   next();
 };
 
-exports.getTourStats = catchAsync(async (req, res, next) => {
+const getTourStats = catchAsync(async (req, res, next) => {
   const stats = await Tour.aggregate([
     {
       $match: { ratingsAverage: { $gte: 4.5 } },
@@ -104,7 +104,7 @@ exports.getTourStats = catchAsync(async (req, res, next) => {
   });
 });
 
-exports.getMonthlyPlan = catchAsync(async (req, res, next) => {
+const getMonthlyPlan = catchAsync(async (req, res, next) => {
   const year = req.params.year * 1; // 2021
 
   const plan = await Tour.aggregate([
@@ -152,7 +152,7 @@ exports.getMonthlyPlan = catchAsync(async (req, res, next) => {
 
 // /tours-within/:distance/center/:latlng/unit/:unit
 // /tours-within/233/center/34.111745,-118.113491/unit/mi
-exports.getToursWithin = catchAsync(async (req, res, next) => {
+const getToursWithin = catchAsync(async (req, res, next) => {
   const { distance, latlng, unit } = req.params;
   const [lat, lng] = latlng.split(",");
 
@@ -180,7 +180,7 @@ exports.getToursWithin = catchAsync(async (req, res, next) => {
   });
 });
 
-exports.getDistances = catchAsync(async (req, res, next) => {
+const getDistances = catchAsync(async (req, res, next) => {
   const { latlng, unit } = req.params;
   const [lat, lng] = latlng.split(",");
 
@@ -221,8 +221,22 @@ exports.getDistances = catchAsync(async (req, res, next) => {
     },
   });
 });
-exports.getAllTours = getAll(Tour);
-exports.getTour = getOne(Tour, { path: "reviews" });
-exports.createTour = createOne(Tour);
-exports.updateTour = updateOne(Tour);
-exports.deleteTour = deleteOne(Tour);
+const getAllTours = getAll(Tour);
+const getTour = getOne(Tour, { path: "reviews" });
+const createTour = createOne(Tour);
+const updateTour = updateOne(Tour);
+const deleteTour = deleteOne(Tour);
+export {
+  uploadTourImages,
+  resizeTourImages,
+  aliasTopTours,
+  getTourStats,
+  getMonthlyPlan,
+  getToursWithin,
+  getDistances,
+  getAllTours,
+  getTour,
+  createTour,
+  updateTour,
+  deleteTour,
+};
