@@ -1,7 +1,56 @@
-import mongoose from "mongoose";
+import { Schema, Document, model } from "mongoose";
 const slugify = require("slugify");
+import { IUser } from "./userModel";
 
-const tourSchema = new mongoose.Schema(
+/**
+ * Type to model the Booking Schema for Typescript
+ * TTour
+ * @param name:string
+ * @param slug:string
+ * @param duration:number
+ * @param maxGroupSize:number
+ * @param difficulty:string;
+ * @param ratingsAverage:number;
+ * @param ratingsQuantity:number;
+ * @param price:number;
+ * @param priceDiscount:number;
+ * @param summary:string;
+ * @param description:string;
+ * @param imageCover:string;
+ * @param images:number[];
+ * @param createdAt:Date;
+ * @param startDates:Date[];
+ * @param secretTour:boolean;
+ * @param startLocation:string;
+ * @param locations:Array<string>;
+ * @param guides:Array<IUser["_id"]>;
+ */
+
+export type TTour = {
+  name: string;
+  slug: string;
+  duration: number;
+  maxGroupSize: number;
+  difficulty: string;
+  ratingsAverage: number;
+  ratingsQuantity: number;
+  price: number;
+  priceDiscount: number;
+  summary: string;
+  description: string;
+  imageCover: string;
+  images: number[];
+  createdAt: Date;
+  startDates: Date[];
+  secretTour: boolean;
+  startLocation: string;
+  locations: Array<string>;
+  guides: Array<IUser["_id"]>;
+};
+
+export interface ITour extends TTour, Document {}
+
+const tourSchema: Schema = new Schema(
   {
     name: {
       type: String,
@@ -104,7 +153,7 @@ const tourSchema = new mongoose.Schema(
     ],
     guides: [
       {
-        type: mongoose.Schema.ObjectId,
+        type: Schema.Types.ObjectId,
         ref: "User",
       },
     ],
@@ -162,10 +211,11 @@ tourSchema.post(/^find/, function (docs, next) {
 
 // AGGREGATION MIDDLEWARE
 // tourSchema.pre('aggregate', function(next) {
-//   this.pipeline().unshift({ $match: { secretTour: { $ne: true } } });
+// this.pipeline().unshift({ $match: { secretTour: { $ne: true } } });
 
-//   console.log(this.pipeline());
-//   next();
+// console.log(this.pipeline());
+// next();
 // });
 
-export const Tour = mongoose.model("Tour", tourSchema);
+const Tour = model<ITour>("Tour", tourSchema);
+export default Tour;

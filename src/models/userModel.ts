@@ -1,9 +1,42 @@
-import mongoose from "mongoose";
+import { Schema, model, Document } from "mongoose";
 import crypto from "crypto";
 import validator from "validator";
 import bcrypt from "bcrypt";
 
-const userSchema = new mongoose.Schema({
+/**
+ * Type to model the Booking Schema for Typescript
+ * TTour
+ * @param name:string
+ * @param email:string
+ * @param password:string
+ * @param photo:string
+ * @param role:string;
+ * @param passwordConfirm:string;
+ * @param passwordChangedat:Date;
+ * @param passwordResetToken:string;
+ * @param passwordResetExpires:Date;
+ * @param active:boolean;
+ * @param description:string;
+
+ */
+
+export type TUser = {
+  name: string;
+  email: string;
+  password: string;
+  photo: string;
+  role: string;
+  passwordConfirm: string;
+  passwordChangedat: Date;
+  passwordResetToken: string;
+  passwordResetExpires: Date;
+  active: boolean;
+  description: string;
+};
+
+export interface IUser extends TUser, Document {}
+
+const userSchema = new Schema({
   name: {
     type: String,
     required: [true, "user must have a name"],
@@ -93,4 +126,5 @@ userSchema.pre(/^find/, function (next) {
   next();
 });
 
-export const User = mongoose.model("User", userSchema);
+const User = model<IUser>("User", userSchema);
+export default User;

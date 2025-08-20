@@ -1,13 +1,35 @@
-import mongoose from "mongoose";
+import { Schema, model, Document } from "mongoose";
+import { IUser } from "./userModel";
+import { ITour } from "./tourModel";
 
-const bookingSchema = new mongoose.Schema({
+/**
+ * Type to model the Booking Schema for Typescript
+ * TBooking
+ * @param tour:ref => Tour._id
+ * @param user:ref => User._id
+ * @param price:Number
+ * @param paid:Boolean
+ * @param createdAt: Date;
+ */
+
+export type TBooking = {
+  tour: ITour["_id"];
+  user: IUser["_id"];
+  price: number;
+  paid: boolean;
+  createdAt: Date;
+};
+
+export interface IBooking extends TBooking, Document {}
+
+const bookingSchema: Schema = new Schema({
   tour: {
-    type: mongoose.Schema.ObjectId,
+    type: Schema.Types.ObjectId,
     ref: "Tour",
     required: [true, "Booking must belong to a Tour!"],
   },
   user: {
-    type: mongoose.Schema.ObjectId,
+    type: Schema.Types.ObjectId,
     ref: "User",
     required: [true, "Booking must belong to a User!"],
   },
@@ -15,13 +37,13 @@ const bookingSchema = new mongoose.Schema({
     type: Number,
     require: [true, "Booking must have a price."],
   },
-  createdAt: {
-    type: Date,
-    default: Date.now(),
-  },
   paid: {
     type: Boolean,
     default: true,
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now(),
   },
 });
 
@@ -33,4 +55,5 @@ bookingSchema.pre(/^find/, function (next) {
   next();
 });
 
-export const Booking = mongoose.model("Booking", bookingSchema);
+const Booking = model<IBooking>("Booking", bookingSchema);
+export default Booking;

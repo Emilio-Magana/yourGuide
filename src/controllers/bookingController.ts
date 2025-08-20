@@ -1,8 +1,8 @@
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 // import stripe from "stripe";
-import { Tour } from "@/models/tourModel";
-import { User } from "@/models/userModel";
-import { Booking } from "@/models/bookingModel";
+import Tour, { ITour } from "@/models/tourModel";
+import User, { IUser } from "@/models/userModel";
+import Booking from "@/models/bookingModel";
 import { catchAsync } from "@/utils/catchAsync";
 import {
   deleteOne,
@@ -16,7 +16,7 @@ import { ExpressMiddleware } from "@/common/interfaces/mainInterfaces";
 const getCheckoutSession = catchAsync(
   async ({ req, res, next }: ExpressMiddleware) => {
     // 1) Get the currently booked tour
-    const tour = await Tour.findById(req.params.tourId);
+    const tour: ITour = await Tour.findById(req.params.tourId);
     // console.log(tour);
 
     // 2) Create checkout session
@@ -53,7 +53,8 @@ const getCheckoutSession = catchAsync(
 
 const createBookingCheckout = async (session) => {
   const tour = session.client_reference_id;
-  const user = (await User.findOne({ email: session.customer_email })).id;
+  const user: IUser = (await User.findOne({ email: session.customer_email }))
+    .id;
   const price = session.display_items[0].amount / 100;
   await Booking.create({ tour, user, price });
 };
@@ -83,6 +84,7 @@ const getBooking = getOne(Booking);
 const getAllBookings = getAll(Booking);
 const updateBooking = updateOne(Booking);
 const deleteBooking = deleteOne(Booking);
+
 export {
   getCheckoutSession,
   webhookCheckout,

@@ -2,8 +2,7 @@ import fs from "node:fs/promises";
 import express from "express";
 import { ENV_VARS } from "./src/common/constants/envs.js";
 
-// This is the function to validate if any env keys are missing
-// This function is pretty generic, so feel free to use in any language
+// Function will validate if any env keys are missing
 function validateENVVariables() {
   //  Check if any ENV_VAR is missing
   let anyKeyMissing = false;
