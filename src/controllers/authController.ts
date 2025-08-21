@@ -7,16 +7,17 @@ import AppError from "@/utils/appError";
 import User, { IUser } from "@/models/userModel";
 import { catchAsync } from "@/utils/catchAsync";
 import { ENV_VARS } from "@/common/constants/envs";
-import { ExpressMiddleware } from "@/common/interfaces/mainInterfaces";
-import { NextFunction, Request, RequestHandler, Response } from "express";
+import {
+  AuthenticatedRequest,
+  ExpressMiddleware,
+} from "@/common/interfaces/mainInterfaces";
+import { Request, RequestHandler, Response } from "express";
 
 const { JWT_SECRET, JWT_EXPIRES_IN, JWT_COOKIE_EXPIRES_IN } = ENV_VARS;
 
-interface AuthenticatedRequest extends Request {
-  user: {
-    role: string;
-  };
-}
+// interface AuthenticatedRequest extends Request {
+//   user: TUser;
+// }
 
 const signToken = (id: string) => {
   const options: SignOptions = {
@@ -41,14 +42,18 @@ const createSendToken = (
     secure: req.secure || req.headers["x-forwarded-proto"] === "https",
   });
 
-  // Remove password from output
-  user.password = undefined;
+  // // Remove password from output
+  // user.password = undefined;
+
+  // Convert to plain object and remove password
+  const safeUser = user.toObject();
+  delete safeUser.password;
 
   res.status(statusCode).json({
     status: "success",
     token,
     data: {
-      user,
+      user: safeUser,
     },
   });
 };

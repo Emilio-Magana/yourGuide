@@ -4,8 +4,8 @@ import APIFeatures from "@/utils/apiFeatures";
 import { ExpressMiddleware } from "@/common/interfaces/mainInterfaces";
 import { Model, Document } from "mongoose";
 
-const deleteOne = (<T extends Document>(Model: Model<T>) =>
-  catchAsync(async ( { req, res, next }: ExpressMiddleware ) => {
+const deleteOne = <T extends Document>(Model: Model<T>) =>
+  catchAsync(async ({ req, res, next }: ExpressMiddleware) => {
     const doc = await Model.findByIdAndDelete(req.params.id);
 
     if (!doc) {
@@ -49,7 +49,10 @@ const createOne = <T extends Document>(Model: Model<T>) =>
     });
   });
 
-const getOne = (Model, popOptions?) =>
+const getOne = <T extends Document>(
+  Model: Model<T>,
+  popOptions?: string | string[],
+) =>
   catchAsync(async ({ req, res, next }: ExpressMiddleware) => {
     let query = Model.findById(req.params.id);
     if (popOptions) query = query.populate(popOptions);

@@ -1,22 +1,15 @@
+import { Request, Response } from "express";
 import multer from "multer";
 import sharp from "sharp";
-import { User } from "@/models/userModel";
-import { catchAsync } from "@/utils/catchAsync";
+import User from "@/models/userModel";
 import AppError from "@/utils/appError";
+import { catchAsync } from "@/utils/catchAsync";
+import { ExpressMiddleware } from "@/common/interfaces/mainInterfaces";
 import { deleteOne, updateOne, getOne, getAll } from "./handlerFactory";
 
-// const multerStorage = multer.diskStorage({
-//   destination: (req, file, cb) => {
-//     cb(null, 'public/img/users');
-//   },
-//   filename: (req, file, cb) => {
-//     const ext = file.mimetype.split('/')[1];
-//     cb(null, `user-${req.user.id}-${Date.now()}.${ext}`);
-//   }
-// });
 const multerStorage = multer.memoryStorage();
 
-const multerFilter = (req, file, cb) => {
+const multerFilter = (req: Request, file, cb) => {
   if (file.mimetype.startsWith("image")) {
     cb(null, true);
   } else {
@@ -31,21 +24,23 @@ const upload = multer({
 
 const uploadUserPhoto = upload.single("photo");
 
-const resizeUserPhoto = catchAsync(async (req, res, next) => {
-  if (!req.file) return next();
+const resizeUserPhoto = catchAsync(
+  async ({ req, res, next }: ExpressMiddleware) => {
+    if (!req.file) return next();
 
-  req.file.filename = `user-${req.user.id}-${Date.now()}.jpeg`;
+    req.file.filename = `user-${req.user.id}-${Date.now()}.jpeg`;
 
-  await sharp(req.file.buffer)
-    .resize(500, 500)
-    .toFormat("jpeg")
-    .jpeg({ quality: 90 })
-    .toFile(`public/img/users/${req.file.filename}`);
+    await sharp(req.file.buffer)
+      .resize(500, 500)
+      .toFormat("jpeg")
+      .jpeg({ quality: 90 })
+      .toFile(`public/img/users/${req.file.filename}`);
 
-  next();
-});
+    next();
+  },
+);
 
-const filterObj = (obj, ...allowedFields) => {
+const filterObj = (obj: Object, ...allowedFields: string[]) => {
   const newObj = {};
   Object.keys(obj).forEach((el) => {
     if (allowedFields.includes(el)) newObj[el] = obj[el];
@@ -53,12 +48,12 @@ const filterObj = (obj, ...allowedFields) => {
   return newObj;
 };
 
-const getMe = (req, res, next) => {
+const getMe = ({ req, res, next }: ExpressMiddleware) => {
   req.params.id = req.user.id;
   next();
 };
 
-const updateMe = catchAsync(async (req, res, next) => {
+const updateMe = catchAsync(async ({ req, res, next }: ExpressMiddleware) => {
   // 1) Create error if user POSTs password data
   if (req.body.password || req.body.passwordConfirm) {
     return next(
@@ -87,7 +82,7 @@ const updateMe = catchAsync(async (req, res, next) => {
   });
 });
 
-const deleteMe = catchAsync(async (req, res, next) => {
+const deleteMe = catchAsync(async ({ req, res, next }: ExpressMiddleware) => {
   await User.findByIdAndUpdate(req.user.id, { active: false });
 
   res.status(204).json({
@@ -96,7 +91,7 @@ const deleteMe = catchAsync(async (req, res, next) => {
   });
 });
 
-const createUser = (req, res) => {
+const createUser = (req: Request, res: Response) => {
   res.status(500).json({
     status: "error",
     message: "This route is not defined! Please use /signup instead",

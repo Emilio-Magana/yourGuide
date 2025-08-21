@@ -1,6 +1,6 @@
 import AppError from "../utils/appError";
 import Tour from "../models/tourModel";
-import User, { IUser } from "../models/userModel";
+import User from "../models/userModel";
 import Booking from "../models/bookingModel";
 import { catchAsync } from "../utils/catchAsync";
 import { ExpressMiddleware } from "@/common/interfaces/mainInterfaces";
@@ -31,7 +31,7 @@ const getTour = catchAsync(async ({ req, res, next }: ExpressMiddleware) => {
   // 1) Get the data, for the requested tour (including reviews and guides)
   const tour = await Tour.findOne({ slug: req.params.slug }).populate({
     path: "reviews",
-    fields: "review rating user",
+    select: "review rating user",
   });
 
   if (!tour) {

@@ -1,9 +1,14 @@
+import { IUser } from "@/models/userModel";
 import { Request, Response, NextFunction } from "express";
 
+interface AuthenticatedRequest extends Request {
+  user: IUser;
+}
+
 interface ExpressMiddleware {
-  req: Request;
+  req: AuthenticatedRequest;
   res: Response;
   next: NextFunction;
 }
 
-export type { ExpressMiddleware };
+export type { ExpressMiddleware, AuthenticatedRequest };

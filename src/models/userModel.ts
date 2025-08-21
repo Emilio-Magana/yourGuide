@@ -26,8 +26,8 @@ export type TUser = {
   role: "user" | "admin" | "guide" | "lead-guide";
   passwordConfirm: string;
   passwordChangedat: Date;
-  passwordResetToken: string;
-  passwordResetExpires: Date;
+  passwordResetToken?: string;
+  passwordResetExpires?: Date;
   active: boolean;
 };
 
