@@ -1,9 +1,11 @@
 import { catchAsync } from "@/utils/catchAsync";
 import AppError from "@/utils/appError";
 import APIFeatures from "@/utils/apiFeatures";
+import { ExpressMiddleware } from "@/common/interfaces/mainInterfaces";
+import { Model, Document } from "mongoose";
 
-const deleteOne = (Model) =>
-  catchAsync(async (req, res, next) => {
+const deleteOne = (<T extends Document>(Model: Model<T>) =>
+  catchAsync(async ( { req, res, next }: ExpressMiddleware ) => {
     const doc = await Model.findByIdAndDelete(req.params.id);
 
     if (!doc) {
@@ -16,8 +18,8 @@ const deleteOne = (Model) =>
     });
   });
 
-const updateOne = (Model) =>
-  catchAsync(async (req, res, next) => {
+const updateOne = <T extends Document>(Model: Model<T>) =>
+  catchAsync(async ({ req, res, next }: ExpressMiddleware) => {
     const doc = await Model.findByIdAndUpdate(req.params.id, req.body, {
       new: true,
       runValidators: true,
@@ -35,8 +37,8 @@ const updateOne = (Model) =>
     });
   });
 
-const createOne = (Model) =>
-  catchAsync(async (req, res, next) => {
+const createOne = <T extends Document>(Model: Model<T>) =>
+  catchAsync(async ({ req, res, next }: ExpressMiddleware) => {
     const doc = await Model.create(req.body);
 
     res.status(201).json({
@@ -48,7 +50,7 @@ const createOne = (Model) =>
   });
 
 const getOne = (Model, popOptions?) =>
-  catchAsync(async (req, res, next) => {
+  catchAsync(async ({ req, res, next }: ExpressMiddleware) => {
     let query = Model.findById(req.params.id);
     if (popOptions) query = query.populate(popOptions);
     const doc = await query;
@@ -65,8 +67,8 @@ const getOne = (Model, popOptions?) =>
     });
   });
 
-const getAll = (Model) =>
-  catchAsync(async (req, res, next) => {
+const getAll = <T extends Document>(Model: Model<T>) =>
+  catchAsync(async ({ req, res, next }: ExpressMiddleware) => {
     // To allow for nested GET reviews on tour (hack)
     let filter = {};
     if (req.params.tourId) filter = { tour: req.params.tourId };

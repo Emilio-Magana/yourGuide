@@ -1,8 +1,14 @@
-export default class apiFeatures {
-  constructor(query, queryString) {
+import { Query } from "mongoose";
+
+export default class apiFeatures<T> {
+  query: Query<T[], T>;
+  queryString: Record<string, any>;
+
+  constructor(query: Query<T[], T>, queryString: Record<string, any>) {
     this.query = query;
     this.queryString = queryString;
   }
+
   filter() {
     const queryObj = { ...this.queryString };
     const excludedFields = ["page", "sort", "limit", "fields"];

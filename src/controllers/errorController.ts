@@ -1,18 +1,22 @@
-import AppError from "@/utils/appError");
+import AppError from "@/utils/appError";
+import { NextFunction, Request, Response } from "express";
+import { Error } from "mongoose";
 
-const handleCastErrorDB = (err) => {
+const handleCastErrorDB = (err: Error.CastError) => {
   const message = `Invalid ${err.path}: ${err.value}.`;
   return new AppError(message, 400);
 };
 
-const handleDuplicateFieldsDB = (err) => {
-  const value = err.errmsg.match(/(["'])(\\?.)*?\1/)[0];
-
+const handleDuplicateFieldsDB = (
+  err: Error & { code?: number; keyValue?: Record<string, any> },
+) => {
+  // const value = err.errmsg.match(/(["'])(\\?.)*?\1/)[0];
+  const value = JSON.stringify(err.keyValue);
   const message = `Duplicate field value: ${value}. Please use another value!`;
   return new AppError(message, 400);
 };
 
-const handleValidationErrorDB = (err) => {
+const handleValidationErrorDB = (err: Error.ValidationError) => {
   const errors = Object.values(err.errors).map((el) => el.message);
 
   const message = `Invalid input data. ${errors.join(". ")}`;
@@ -25,7 +29,7 @@ const handleJWTError = () =>
 const handleJWTExpiredError = () =>
   new AppError("Your token has expired! Please log in again.", 401);
 
-const sendErrorDev = (err, req, res) => {
+const sendErrorDev = (err: any, req: Request, res: Response) => {
   // A) API
   if (req.originalUrl.startsWith("/api")) {
     return res.status(err.statusCode).json({
@@ -44,7 +48,7 @@ const sendErrorDev = (err, req, res) => {
   });
 };
 
-const sendErrorProd = (err, req, res) => {
+const sendErrorProd = (err: any, req: Request, res: Response) => {
   // A) API
   if (req.originalUrl.startsWith("/api")) {
     // A) Operational, trusted error: send message to client
@@ -82,8 +86,12 @@ const sendErrorProd = (err, req, res) => {
   });
 };
 
-module.exports = (err, req, res, next) => {
-
+const errorHandler = (
+  err: any,
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   err.statusCode = err.statusCode || 500;
   err.status = err.status || "error";
 
@@ -103,3 +111,5 @@ module.exports = (err, req, res, next) => {
     sendErrorProd(error, req, res);
   }
 };
+
+export default errorHandler;

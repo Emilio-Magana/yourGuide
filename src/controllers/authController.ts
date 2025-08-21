@@ -4,13 +4,20 @@ import type { StringValue } from "ms";
 import jwt, { SignOptions } from "jsonwebtoken";
 import Email from "@/utils/email";
 import AppError from "@/utils/appError";
-import { User } from "@/models/userModel";
+import User, { IUser } from "@/models/userModel";
 import { catchAsync } from "@/utils/catchAsync";
 import { ENV_VARS } from "@/common/constants/envs";
 import { ExpressMiddleware } from "@/common/interfaces/mainInterfaces";
-import { Document } from "mongoose";
+import { NextFunction, Request, Response } from "express";
 
 const { JWT_SECRET, JWT_EXPIRES_IN, JWT_COOKIE_EXPIRES_IN } = ENV_VARS;
+
+interface AuthenticatedRequest extends Request {
+  user: {
+    role: string;
+    // add other user fields if needed (id, email, etc.)
+  };
+}
 
 const signToken = (id: string) => {
   const options: SignOptions = {
@@ -20,8 +27,8 @@ const signToken = (id: string) => {
 };
 
 const createSendToken = (
-  user: Document,
-  statusCode: Number,
+  user: IUser,
+  statusCode: number,
   req: Request,
   res: Response,
 ) => {
@@ -48,7 +55,7 @@ const createSendToken = (
 };
 
 const signup = catchAsync(async ({ req, res, next }: ExpressMiddleware) => {
-  const newUser = await User.create({
+  const newUser: IUser = await User.create({
     name: req.body.name,
     email: req.body.email,
     password: req.body.password,
@@ -70,7 +77,7 @@ const login = catchAsync(async ({ req, res, next }: ExpressMiddleware) => {
     return next(new AppError("Please provide email and password!", 400));
   }
   // 2) Check if user exists && password is correct
-  const user = await User.findOne({ email }).select("+password");
+  const user: IUser = await User.findOne({ email }).select("+password");
 
   if (!user || !(await user.correctPassword(password, user.password))) {
     return next(new AppError("Incorrect email or password", 401));
@@ -80,7 +87,7 @@ const login = catchAsync(async ({ req, res, next }: ExpressMiddleware) => {
   createSendToken(user, 200, req, res);
 });
 
-const logout = ({ req, res }: ExpressMiddleware) => {
+const logout = (req: Request, res: Response) => {
   res.cookie("jwt", "loggedout", {
     expires: new Date(Date.now() + 10 * 1000),
     httpOnly: true,
@@ -110,7 +117,7 @@ const protect = catchAsync(async ({ req, res, next }: ExpressMiddleware) => {
   const decoded = await promisify(jwt.verify)(token, ENV_VARS.JWT_SECRET);
 
   // 3) Check if user still exists
-  const currentUser = await User.findById(decoded.id);
+  const currentUser: IUser | null = await User.findById(decoded.id);
   if (!currentUser) {
     return next(
       new AppError(
@@ -144,7 +151,7 @@ const isLoggedIn = async ({ req, res, next }: ExpressMiddleware) => {
       );
 
       // 2) Check if user still exists
-      const currentUser = await User.findById(decoded.id);
+      const currentUser: IUser | null = await User.findById(decoded.id);
       if (!currentUser) {
         return next();
       }
@@ -164,8 +171,8 @@ const isLoggedIn = async ({ req, res, next }: ExpressMiddleware) => {
   next();
 };
 
-const restrictTo = (...roles) => {
-  return ({ req, res, next }: ExpressMiddleware) => {
+const restrictTo = (...roles: string[]) => {
+  return (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
     // roles ['admin', 'lead-guide']. role='user'
     if (!roles.includes(req.user.role)) {
       return next(
@@ -180,7 +187,7 @@ const restrictTo = (...roles) => {
 const forgotPassword = catchAsync(
   async ({ req, res, next }: ExpressMiddleware) => {
     // 1) Get user based on POSTed email
-    const user = await User.findOne({ email: req.body.email });
+    const user: IUser | null = await User.findOne({ email: req.body.email });
     if (!user) {
       return next(new AppError("There is no user with email address.", 404));
     }
@@ -223,7 +230,7 @@ const resetPassword = catchAsync(
       .update(req.params.token)
       .digest("hex");
 
-    const user = await User.findOne({
+    const user: IUser | null = await User.findOne({
       passwordResetToken: hashedToken,
       passwordResetExpires: { $gt: Date.now() },
     });
@@ -234,9 +241,13 @@ const resetPassword = catchAsync(
     }
     user.password = req.body.password;
     user.passwordConfirm = req.body.passwordConfirm;
-    user.passwordResetToken = undefined;
-    user.passwordResetExpires = undefined;
     await user.save();
+
+    // After saving, unset reset fields with an update
+    await User.updateOne(
+      { _id: user._id },
+      { $unset: { passwordResetToken: 1, passwordResetExpires: 1 } },
+    );
 
     // 3) Update changedPasswordAt property for the user
     // 4) Log the user in, send JWT
@@ -247,7 +258,7 @@ const resetPassword = catchAsync(
 const updatePassword = catchAsync(
   async ({ req, res, next }: ExpressMiddleware) => {
     // 1) Get user from collection
-    const user = await User.findById(req.user.id).select("+password");
+    const user: IUser = await User.findById(req.user.id).select("+password");
 
     // 2) Check if POSTed current password is correct
     if (

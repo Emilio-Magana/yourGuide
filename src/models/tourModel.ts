@@ -1,4 +1,4 @@
-import { Schema, Document, model } from "mongoose";
+import { Schema, Document, model, Query } from "mongoose";
 const slugify = require("slugify");
 import { IUser } from "./userModel";
 
@@ -21,8 +21,19 @@ import { IUser } from "./userModel";
  * @param createdAt:Date;
  * @param startDates:Date[];
  * @param secretTour:boolean;
- * @param startLocation:string;
- * @param locations:Array<string>;
+ * @param startLocation:{
+    type: string;
+    coordinates: number[];
+    address: string;
+    description: string;
+  };
+ * @param locations:Array<{
+    type: string;
+    coordinates: number[];
+    address: string;
+    description: string;
+    day: number;
+  }>;
  * @param guides:Array<IUser["_id"]>;
  */
 
@@ -31,7 +42,7 @@ export type TTour = {
   slug: string;
   duration: number;
   maxGroupSize: number;
-  difficulty: string;
+  difficulty: "easy" | "medium" | "difficult";
   ratingsAverage: number;
   ratingsQuantity: number;
   price: number;
@@ -43,12 +54,25 @@ export type TTour = {
   createdAt: Date;
   startDates: Date[];
   secretTour: boolean;
-  startLocation: string;
-  locations: Array<string>;
+  startLocation: {
+    type: string;
+    coordinates: number[];
+    address: string;
+    description: string;
+  };
+  locations: Array<{
+    type: string;
+    coordinates: number[];
+    address: string;
+    description: string;
+    day: number;
+  }>;
   guides: Array<IUser["_id"]>;
 };
 
-export interface ITour extends TTour, Document {}
+export interface ITour extends TTour, Document {
+  durationWeeks: number;
+}
 
 const tourSchema: Schema = new Schema(
   {
@@ -96,7 +120,7 @@ const tourSchema: Schema = new Schema(
     priceDiscount: {
       type: Number,
       validate: {
-        validator: function (val: number) {
+        validator: function (this: ITour, val: number) {
           // this only points to current doc on NEW document creation
           return val < this.price;
         },
@@ -169,7 +193,7 @@ tourSchema.index({ price: 1, ratingsAverage: -1 });
 tourSchema.index({ slug: 1 });
 tourSchema.index({ startLocation: "2dsphere" });
 
-tourSchema.virtual("durationWeeks").get(function () {
+tourSchema.virtual("durationWeeks").get(function (this: ITour) {
   return this.duration / 7;
 });
 
@@ -188,14 +212,14 @@ tourSchema.pre("save", function (next) {
 
 // QUERY MIDDLEWARE
 // tourSchema.pre('find', function(next) {
-tourSchema.pre(/^find/, function (next) {
+tourSchema.pre<Query<ITour[], ITour>>(/^find/, function (next) {
   this.find({ secretTour: { $ne: true } });
 
   this.start = Date.now();
   next();
 });
 
-tourSchema.pre(/^find/, function (next) {
+tourSchema.pre<Query<ITour[], ITour>>(/^find/, function (next) {
   this.populate({
     path: "guides",
     select: "-__v -passwordChangedAt",
@@ -203,19 +227,6 @@ tourSchema.pre(/^find/, function (next) {
 
   next();
 });
-
-tourSchema.post(/^find/, function (docs, next) {
-  console.log(`Query took ${Date.now() - this.start} milliseconds!`);
-  next();
-});
-
-// AGGREGATION MIDDLEWARE
-// tourSchema.pre('aggregate', function(next) {
-// this.pipeline().unshift({ $match: { secretTour: { $ne: true } } });
-
-// console.log(this.pipeline());
-// next();
-// });
 
 const Tour = model<ITour>("Tour", tourSchema);
 export default Tour;

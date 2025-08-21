@@ -1,6 +1,6 @@
 import multer from "multer";
 import sharp from "sharp";
-import Tour from "./../models/tourModel";
+import Tour, { ITour } from "./../models/tourModel";
 import { catchAsync } from "./../utils/catchAsync";
 import {
   deleteOne,
@@ -11,10 +11,11 @@ import {
 } from "./handlerFactory";
 import AppError from "./../utils/appError";
 import { ExpressMiddleware } from "@/common/interfaces/mainInterfaces";
+import { Request } from "express";
 
 const multerStorage = multer.memoryStorage();
 
-const multerFilter = (req, file, cb) => {
+const multerFilter = (req: Request, file, cb) => {
   if (file.mimetype.startsWith("image")) {
     cb(null, true);
   } else {
@@ -164,7 +165,8 @@ const getToursWithin = catchAsync(
     const { distance, latlng, unit } = req.params;
     const [lat, lng] = latlng.split(",");
 
-    const radius = unit === "mi" ? distance / 3963.2 : distance / 6378.1;
+    const radius =
+      unit === "mi" ? Number(distance) / 3963.2 : Number(distance) / 6378.1;
 
     if (!lat || !lng) {
       next(
@@ -175,7 +177,7 @@ const getToursWithin = catchAsync(
       );
     }
 
-    const tours = await Tour.find({
+    const tours: ITour = await Tour.find({
       startLocation: { $geoWithin: { $centerSphere: [[lng, lat], radius] } },
     });
 
@@ -210,7 +212,7 @@ const getDistances = catchAsync(
         $geoNear: {
           near: {
             type: "Point",
-            coordinates: [lng * 1, lat * 1],
+            coordinates: [Number(lng), Number(lat)],
           },
           distanceField: "distance",
           distanceMultiplier: multiplier,

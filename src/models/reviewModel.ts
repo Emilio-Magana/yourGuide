@@ -1,7 +1,29 @@
-import mongoose from "mongoose";
-import { Tour } from "@/models/tourModel";
+import { Schema, Document, model } from "mongoose";
+import { IUser } from "./userModel";
+import { ITour } from "./tourModel";
+import Tour from "@/models/tourModel";
 
-const reviewSchema = new mongoose.Schema(
+/**
+ * Type to model the Booking Schema for Typescript
+ * TBooking
+ * @param review:number
+ * @param rating:string
+ * @param createdAt: Date;
+ * @param tour:ref => Tour._id
+ * @param user:ref => User._id
+ */
+
+export type TReview = {
+  review: string;
+  rating: number;
+  createdAt: Date;
+  tour: ITour["_id"];
+  user: IUser["_id"];
+};
+
+export interface IReview extends TReview, Document {}
+
+const reviewSchema = new Schema(
   {
     review: {
       type: String,
@@ -17,12 +39,12 @@ const reviewSchema = new mongoose.Schema(
       default: Date.now,
     },
     tour: {
-      type: mongoose.Schema.ObjectId,
+      type: Schema.Types.ObjectId,
       ref: "Tour",
       required: [true, "Review must belong to a tour."],
     },
     user: {
-      type: mongoose.Schema.ObjectId,
+      type: Schema.Types.ObjectId,
       ref: "User",
       required: [true, "Review must belong to a user"],
     },
@@ -36,14 +58,6 @@ const reviewSchema = new mongoose.Schema(
 reviewSchema.index({ tour: 1, user: 1 }, { unique: true });
 
 reviewSchema.pre(/^find/, function (next) {
-  // this.populate({
-  //   path: 'tour',
-  //   select: 'name'
-  // }).populate({
-  //   path: 'user',
-  //   select: 'name photo'
-  // });
-
   this.populate({
     path: "user",
     select: "name photo",
@@ -97,4 +111,5 @@ reviewSchema.post(/^findOneAnd/, async function () {
   await this.r.constructor.calcAverageRatings(this.r.tour);
 });
 
-export const Review = mongoose.model("Review", reviewSchema);
+const Review = model<IReview>("Review", reviewSchema);
+export default Review;

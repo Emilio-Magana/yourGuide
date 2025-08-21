@@ -1,8 +1,8 @@
-import { Tour } from "../models/tourModel";
-import { User } from "../models/userModel";
-import { Booking } from "../models/bookingModel";
-import { catchAsync } from "../utils/catchAsync";
 import AppError from "../utils/appError";
+import Tour from "../models/tourModel";
+import User, { IUser } from "../models/userModel";
+import Booking from "../models/bookingModel";
+import { catchAsync } from "../utils/catchAsync";
 import { ExpressMiddleware } from "@/common/interfaces/mainInterfaces";
 
 const alerts = ({ req, res, next }: ExpressMiddleware) => {
@@ -85,6 +85,9 @@ const updateUserData = catchAsync(
         runValidators: true,
       },
     );
+    if (!updatedUser) {
+      return next(new AppError("User not found", 404));
+    }
 
     res.status(200).render("account", {
       title: "Your account",

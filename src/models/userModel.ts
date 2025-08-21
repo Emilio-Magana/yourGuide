@@ -1,23 +1,21 @@
-import { Schema, model, Document } from "mongoose";
+import { Schema, model, Document, Query } from "mongoose";
 import crypto from "crypto";
 import validator from "validator";
 import bcrypt from "bcrypt";
 
 /**
  * Type to model the Booking Schema for Typescript
- * TTour
+ * TUser
  * @param name:string
  * @param email:string
- * @param password:string
+ * @param password:string | undefined
  * @param photo:string
- * @param role:string;
+ * @param role:"user" | "admin" | "guide" | "lead-guide";
  * @param passwordConfirm:string;
  * @param passwordChangedat:Date;
  * @param passwordResetToken:string;
  * @param passwordResetExpires:Date;
  * @param active:boolean;
- * @param description:string;
-
  */
 
 export type TUser = {
@@ -25,16 +23,22 @@ export type TUser = {
   email: string;
   password: string;
   photo: string;
-  role: string;
+  role: "user" | "admin" | "guide" | "lead-guide";
   passwordConfirm: string;
   passwordChangedat: Date;
   passwordResetToken: string;
   passwordResetExpires: Date;
   active: boolean;
-  description: string;
 };
 
-export interface IUser extends TUser, Document {}
+export interface IUser extends TUser, Document {
+  correctPassword(
+    candidatePassword: string,
+    userPassword: string,
+  ): Promise<boolean>;
+  changedPasswordAfter(JWTTimestamp: number): boolean;
+  createPasswordResetToken(): string;
+}
 
 const userSchema = new Schema({
   name: {
@@ -65,11 +69,12 @@ const userSchema = new Schema({
     type: String,
     required: [true, "You must confirm your password"],
     validate: {
-      validator: function (val: string) {
+      validator: function (this: IUser, val: string) {
         return val === this.password;
       },
       message: "The passwords must match",
     },
+    default: undefined,
   },
   passwordChangedat: Date,
   passwordResetToken: String,
@@ -77,34 +82,35 @@ const userSchema = new Schema({
   active: { type: Boolean, default: true, select: false },
 });
 
-userSchema.pre("save", async function (next) {
+userSchema.pre<IUser>("save", async function (next) {
   //if password not modified we don't have to hash it
   if (!this.isModified("password")) return next();
   this.password = await bcrypt.hash(this.password, 12);
-  this.passwordConfirm = undefined;
+  this.set({ passwordConfirm: undefined }, undefined, { strict: false });
   next();
 });
-userSchema.pre("save", function (next) {
+userSchema.pre<IUser>("save", function (next) {
   if (!this.isModified("password") || this.isNew) {
     return next();
   }
 
-  this.passwordChangedat = Date.now() - 1000;
+  this.passwordChangedat = new Date(Date.now() - 1000);
   next();
 });
 
 userSchema.methods.correctPassword = async function (
-  candidatePassword,
-  userPassword,
+  candidatePassword: string,
+  userPassword: string,
 ) {
   return await bcrypt.compare(candidatePassword, userPassword);
 };
-userSchema.methods.changedPasswordAfter = function (JWTTimestamp) {
+userSchema.methods.changedPasswordAfter = function (
+  JWTTimestamp: number,
+): boolean {
   if (this.passwordChangedat) {
     // console.log(this.passwordChangedat);
-    const changedTimestamp = parseInt(
+    const changedTimestamp = Math.floor(
       this.passwordChangedat.getTime() / 1000,
-      10,
     );
     return JWTTimestamp < changedTimestamp;
   }
@@ -121,7 +127,7 @@ userSchema.methods.createPasswordResetToken = function () {
   this.passwordResetExpires = Date.now() + 10 * 60 * 1000;
   return resetToken;
 };
-userSchema.pre(/^find/, function (next) {
+userSchema.pre<Query<IUser[], IUser>>(/^find/, function (next) {
   this.find({ active: { $ne: false } });
   next();
 });

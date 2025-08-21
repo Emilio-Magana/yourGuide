@@ -1,6 +1,7 @@
-const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
-// import stripe from "stripe";
-import Tour, { ITour } from "@/models/tourModel";
+// const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
+import Stripe from "stripe";
+import { Request, Response, NextFunction } from "express";
+import Tour from "@/models/tourModel";
 import User, { IUser } from "@/models/userModel";
 import Booking from "@/models/bookingModel";
 import { catchAsync } from "@/utils/catchAsync";
@@ -12,19 +13,30 @@ import {
   getAll,
 } from "./handlerFactory";
 import { ExpressMiddleware } from "@/common/interfaces/mainInterfaces";
+import AppError from "@/utils/appError";
+
+export const stripe = new Stripe(
+  process.env.STRIPE_SECRET_KEY || "api_key_placeholder",
+  {
+    // ...
+  },
+);
+interface AuthenticatedRequest extends Request {
+  user: IUser;
+}
 
 const getCheckoutSession = catchAsync(
-  async ({ req, res, next }: ExpressMiddleware) => {
+  async (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
     // 1) Get the currently booked tour
-    const tour: ITour = await Tour.findById(req.params.tourId);
+    const tour = await Tour.findById(req.params.tourId);
     // console.log(tour);
+    if (!tour) {
+      return next(new AppError("No tour found with that ID", 404));
+    }
 
     // 2) Create checkout session
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
-      // success_url: `${req.protocol}://${req.get('host')}/my-tours/?tour=${
-      //   req.params.tourId
-      // }&user=${req.user.id}&price=${tour.price}`,
       success_url: `${req.protocol}://${req.get("host")}/my-tours?alert=booking`,
       cancel_url: `${req.protocol}://${req.get("host")}/tour/${tour.slug}`,
       customer_email: req.user.email,
@@ -51,12 +63,23 @@ const getCheckoutSession = catchAsync(
   },
 );
 
-const createBookingCheckout = async (session) => {
+const createBookingCheckout = async (session: Stripe.Checkout.Session) => {
   const tour = session.client_reference_id;
-  const user: IUser = (await User.findOne({ email: session.customer_email }))
-    .id;
-  const price = session.display_items[0].amount / 100;
-  await Booking.create({ tour, user, price });
+  // const user = (await User.findOne({ email: session.customer_email }))?._id;
+  const user = await User.findOne({ email: session.customer_email });
+
+  if (!user) {
+    throw new Error(`User with email ${session.customer_email} not found`);
+  }
+  if (session.amount_total == null) {
+    throw new AppError("Total amount is missing in the session", 400);
+  }
+
+  const userId = user._id;
+  // const price = session.line_items[0].amount / 100;
+
+  const price = session.amount_total / 100;
+  await Booking.create({ tour, user: userId, price });
 };
 
 const webhookCheckout = ({ req, res, next }: ExpressMiddleware) => {

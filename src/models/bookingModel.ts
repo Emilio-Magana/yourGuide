@@ -1,4 +1,4 @@
-import { Schema, model, Document } from "mongoose";
+import { Schema, model, Document, Query } from "mongoose";
 import { IUser } from "./userModel";
 import { ITour } from "./tourModel";
 
@@ -7,8 +7,8 @@ import { ITour } from "./tourModel";
  * TBooking
  * @param tour:ref => Tour._id
  * @param user:ref => User._id
- * @param price:Number
- * @param paid:Boolean
+ * @param price:number
+ * @param paid:boolean
  * @param createdAt: Date;
  */
 
@@ -47,7 +47,7 @@ const bookingSchema: Schema = new Schema({
   },
 });
 
-bookingSchema.pre(/^find/, function (next) {
+bookingSchema.pre<Query<IBooking[], IBooking>>(/^find/, function (next) {
   this.populate("user").populate({
     path: "tour",
     select: "name",
