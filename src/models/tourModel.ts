@@ -67,7 +67,7 @@ export type TTour = {
     description: string;
     day: number;
   }>;
-  guides: Array<IUser["_id"]>;
+  guides: Array<IUser>;
 };
 
 export interface ITour extends TTour, Document {
@@ -215,7 +215,7 @@ tourSchema.pre("save", function (next) {
 tourSchema.pre<Query<ITour[], ITour>>(/^find/, function (next) {
   this.find({ secretTour: { $ne: true } });
 
-  this.start = Date.now();
+  // this.start = Date.now();
   next();
 });
 

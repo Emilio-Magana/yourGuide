@@ -1,4 +1,4 @@
-import { Schema, Document, model } from "mongoose";
+import { Schema, Document, model, Query, Model } from "mongoose";
 import { IUser } from "./userModel";
 import { ITour } from "./tourModel";
 import Tour from "@/models/tourModel";
@@ -17,11 +17,15 @@ export type TReview = {
   review: string;
   rating: number;
   createdAt: Date;
-  tour: ITour["_id"];
-  user: IUser["_id"];
+  tour: ITour;
+  user: IUser;
 };
 
 export interface IReview extends TReview, Document {}
+
+export interface ReviewModel extends Model<IReview> {
+  calcAverageRatings(tourId: string | Schema.Types.ObjectId): Promise<void>;
+}
 
 const reviewSchema = new Schema(
   {
@@ -57,7 +61,7 @@ const reviewSchema = new Schema(
 
 reviewSchema.index({ tour: 1, user: 1 }, { unique: true });
 
-reviewSchema.pre(/^find/, function (next) {
+reviewSchema.pre<Query<IReview[], IReview>>(/^find/, function (next) {
   this.populate({
     path: "user",
     select: "name photo",
@@ -65,7 +69,7 @@ reviewSchema.pre(/^find/, function (next) {
   next();
 });
 
-reviewSchema.statics.calcAverageRatings = async function (tourId) {
+reviewSchema.statics.calcAverageRatings = async function (tourId: string) {
   const stats = await this.aggregate([
     {
       $match: { tour: tourId },
@@ -78,8 +82,6 @@ reviewSchema.statics.calcAverageRatings = async function (tourId) {
       },
     },
   ]);
-  // console.log(stats);
-
   if (stats.length > 0) {
     await Tour.findByIdAndUpdate(tourId, {
       ratingsQuantity: stats[0].nRating,
@@ -93,23 +95,30 @@ reviewSchema.statics.calcAverageRatings = async function (tourId) {
   }
 };
 
-reviewSchema.post("save", function () {
-  // this points to current review
-  this.constructor.calcAverageRatings(this.tour);
+// reviewSchema.post<IReview>("save", function () {
+//   // this points to current review
+//   this.constructor.calcAverageRatings(this.tour);
+// });
+reviewSchema.post<IReview>("save", function () {
+  (this.constructor as ReviewModel).calcAverageRatings(this.tour.toString());
 });
 
 // findByIdAndUpdate
 // findByIdAndDelete
-reviewSchema.pre(/^findOneAnd/, async function (next) {
-  this.r = await this.findOne();
-  // console.log(this.r);
+reviewSchema.pre<Query<IReview, IReview>>(/^findOneAnd/, async function (next) {
+  const query = this as Query<IReview, IReview> & { r?: IReview | null };
+  query.r = await query.findOne();
   next();
 });
 
-reviewSchema.post(/^findOneAnd/, async function () {
-  // await this.findOne(); does NOT work here, query has already executed
-  await this.r.constructor.calcAverageRatings(this.r.tour);
+reviewSchema.post<Query<IReview, IReview>>(/^findOneAnd/, async function () {
+  const query = this as Query<IReview, IReview> & { r?: IReview | null };
+  if (query.r) {
+    await (query.r.constructor as ReviewModel).calcAverageRatings(
+      query.r.tour.toString(),
+    );
+  }
 });
 
-const Review = model<IReview>("Review", reviewSchema);
+const Review = model<IReview, ReviewModel>("Review", reviewSchema);
 export default Review;

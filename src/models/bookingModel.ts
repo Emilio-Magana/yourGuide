@@ -13,8 +13,8 @@ import { ITour } from "./tourModel";
  */
 
 export type TBooking = {
-  tour: ITour["_id"];
-  user: IUser["_id"];
+  tour: ITour;
+  user: IUser;
   price: number;
   paid: boolean;
   createdAt: Date;
