@@ -95,16 +95,10 @@ reviewSchema.statics.calcAverageRatings = async function (tourId: string) {
   }
 };
 
-// reviewSchema.post<IReview>("save", function () {
-//   // this points to current review
-//   this.constructor.calcAverageRatings(this.tour);
-// });
 reviewSchema.post<IReview>("save", function () {
   (this.constructor as ReviewModel).calcAverageRatings(this.tour.toString());
 });
 
-// findByIdAndUpdate
-// findByIdAndDelete
 reviewSchema.pre<Query<IReview, IReview>>(/^findOneAnd/, async function (next) {
   const query = this as Query<IReview, IReview> & { r?: IReview | null };
   query.r = await query.findOne();

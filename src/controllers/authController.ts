@@ -8,14 +8,13 @@ import User, { IUser } from "@/models/userModel";
 import { catchAsync } from "@/utils/catchAsync";
 import { ENV_VARS } from "@/common/constants/envs";
 import { ExpressMiddleware } from "@/common/interfaces/mainInterfaces";
-import { NextFunction, Request, Response } from "express";
+import { NextFunction, Request, RequestHandler, Response } from "express";
 
 const { JWT_SECRET, JWT_EXPIRES_IN, JWT_COOKIE_EXPIRES_IN } = ENV_VARS;
 
 interface AuthenticatedRequest extends Request {
   user: {
     role: string;
-    // add other user fields if needed (id, email, etc.)
   };
 }
 
@@ -171,10 +170,11 @@ const isLoggedIn = async ({ req, res, next }: ExpressMiddleware) => {
   next();
 };
 
-const restrictTo = (...roles: string[]) => {
-  return (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
+const restrictTo = (...roles: string[]): RequestHandler => {
+  return (req, res, next) => {
     // roles ['admin', 'lead-guide']. role='user'
-    if (!roles.includes(req.user.role)) {
+    const authReq = req as AuthenticatedRequest;
+    if (!roles.includes(authReq.user.role)) {
       return next(
         new AppError("You do not have permission to perform this action", 403),
       );
