@@ -1,7 +1,10 @@
-import multer from "multer";
 import sharp from "sharp";
-import Tour, { ITour } from "./../models/tourModel";
-import { catchAsync } from "./../utils/catchAsync";
+import { Request } from "express";
+import multer, { FileFilterCallback } from "multer";
+import Tour from "@/models/tourModel";
+import AppError from "@/utils/appError";
+import { catchAsync } from "@/utils/catchAsync";
+import { ExpressMiddleware } from "@/common/interfaces/mainInterfaces";
 import {
   deleteOne,
   updateOne,
@@ -9,17 +12,25 @@ import {
   getOne,
   getAll,
 } from "./handlerFactory";
-import AppError from "./../utils/appError";
-import { ExpressMiddleware } from "@/common/interfaces/mainInterfaces";
-import { Request } from "express";
+
+interface MulterRequest extends Request {
+  files: {
+    imageCover?: Express.Multer.File[];
+    images?: Express.Multer.File[];
+  };
+}
 
 const multerStorage = multer.memoryStorage();
 
-const multerFilter = (req: Request, file, cb) => {
+const multerFilter = (
+  req: Request,
+  file: Express.Multer.File,
+  cb: FileFilterCallback,
+) => {
   if (file.mimetype.startsWith("image")) {
     cb(null, true);
   } else {
-    cb(new AppError("Not an image! Please upload only images.", 400), false);
+    cb(new AppError("Not an image! Please upload only images.", 401));
   }
 };
 
@@ -33,16 +44,15 @@ const uploadTourImages = upload.fields([
   { name: "images", maxCount: 3 },
 ]);
 
-// upload.single('image') req.file
-// upload.array('images', 5) req.files
-
 const resizeTourImages = catchAsync(
   async ({ req, res, next }: ExpressMiddleware) => {
-    if (!req.files.imageCover || !req.files.images) return next();
+    const { imageCover, images } = (req as MulterRequest).files;
+    if (!imageCover || !images) return next();
+    // if (!req.files.imageCover || !req.files.images) return next();
 
     // 1) Cover image
     req.body.imageCover = `tour-${req.params.id}-${Date.now()}-cover.jpeg`;
-    await sharp(req.files.imageCover[0].buffer)
+    await sharp(imageCover[0].buffer)
       .resize(2000, 1333)
       .toFormat("jpeg")
       .jpeg({ quality: 90 })
@@ -52,7 +62,7 @@ const resizeTourImages = catchAsync(
     req.body.images = [];
 
     await Promise.all(
-      req.files.images.map(async (file, i) => {
+      images.map(async (file, i: number) => {
         const filename = `tour-${req.params.id}-${Date.now()}-${i + 1}.jpeg`;
 
         await sharp(file.buffer)
@@ -64,7 +74,6 @@ const resizeTourImages = catchAsync(
         req.body.images.push(filename);
       }),
     );
-
     next();
   },
 );
@@ -112,7 +121,7 @@ const getTourStats = catchAsync(
 
 const getMonthlyPlan = catchAsync(
   async ({ req, res, next }: ExpressMiddleware) => {
-    const year = req.params.year * 1; // 2021
+    const year = Number(req.params.year); // 2021
 
     const plan = await Tour.aggregate([
       {
@@ -177,7 +186,7 @@ const getToursWithin = catchAsync(
       );
     }
 
-    const tours: ITour = await Tour.find({
+    const tours = await Tour.find({
       startLocation: { $geoWithin: { $centerSphere: [[lng, lat], radius] } },
     });
 

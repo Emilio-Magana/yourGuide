@@ -1,6 +1,6 @@
-import { Request, Response } from "express";
-import multer from "multer";
 import sharp from "sharp";
+import multer, { FileFilterCallback } from "multer";
+import { Request, Response } from "express";
 import User from "@/models/userModel";
 import AppError from "@/utils/appError";
 import { catchAsync } from "@/utils/catchAsync";
@@ -9,11 +9,15 @@ import { deleteOne, updateOne, getOne, getAll } from "./handlerFactory";
 
 const multerStorage = multer.memoryStorage();
 
-const multerFilter = (req: Request, file, cb) => {
+const multerFilter = (
+  req: Request,
+  file: Express.Multer.File,
+  cb: FileFilterCallback,
+) => {
   if (file.mimetype.startsWith("image")) {
     cb(null, true);
   } else {
-    cb(new AppError("Not an image! Please upload only images.", 400), false);
+    cb(new AppError("Not an image! Please upload only images.", 401));
   }
 };
 
@@ -40,8 +44,11 @@ const resizeUserPhoto = catchAsync(
   },
 );
 
-const filterObj = (obj: Object, ...allowedFields: string[]) => {
-  const newObj = {};
+const filterObj = (
+  obj: Record<string, any>,
+  ...allowedFields: any[]
+): Record<string, any> => {
+  const newObj: Record<string, any> = {};
   Object.keys(obj).forEach((el) => {
     if (allowedFields.includes(el)) newObj[el] = obj[el];
   });

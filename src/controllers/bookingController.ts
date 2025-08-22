@@ -1,8 +1,9 @@
-// const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
+const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 import Stripe from "stripe";
-import { Request, Response, NextFunction } from "express";
+import { Response, NextFunction } from "express";
+import User from "@/models/userModel";
 import Tour from "@/models/tourModel";
-import User, { IUser } from "@/models/userModel";
+import AppError from "@/utils/appError";
 import Booking from "@/models/bookingModel";
 import { catchAsync } from "@/utils/catchAsync";
 import {
@@ -12,18 +13,10 @@ import {
   getOne,
   getAll,
 } from "./handlerFactory";
-import { ExpressMiddleware } from "@/common/interfaces/mainInterfaces";
-import AppError from "@/utils/appError";
-
-export const stripe = new Stripe(
-  process.env.STRIPE_SECRET_KEY || "api_key_placeholder",
-  {
-    // ...
-  },
-);
-interface AuthenticatedRequest extends Request {
-  user: IUser;
-}
+import {
+  AuthenticatedRequest,
+  ExpressMiddleware,
+} from "@/common/interfaces/mainInterfaces";
 
 const getCheckoutSession = catchAsync(
   async (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
@@ -64,15 +57,18 @@ const getCheckoutSession = catchAsync(
 );
 
 const createBookingCheckout = async (session: Stripe.Checkout.Session) => {
+  if (!session.amount_total) {
+    throw new AppError("Total amount is missing in the session", 400);
+  }
   const tour = session.client_reference_id;
   // const user = (await User.findOne({ email: session.customer_email }))?._id;
   const user = await User.findOne({ email: session.customer_email });
 
   if (!user) {
-    throw new Error(`User with email ${session.customer_email} not found`);
-  }
-  if (session.amount_total == null) {
-    throw new AppError("Total amount is missing in the session", 400);
+    throw new AppError(
+      `User with email ${session.customer_email} not found`,
+      400,
+    );
   }
 
   const userId = user._id;
@@ -84,6 +80,10 @@ const createBookingCheckout = async (session: Stripe.Checkout.Session) => {
 
 const webhookCheckout = ({ req, res, next }: ExpressMiddleware) => {
   const signature = req.headers["stripe-signature"];
+
+  if (!signature) {
+    throw new AppError("Stripe signature could not be found", 401);
+  }
 
   let event;
   try {

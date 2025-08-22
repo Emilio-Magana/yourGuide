@@ -1,24 +1,11 @@
 import fs from "node:fs/promises";
 import express from "express";
-import { ENV_VARS } from "./src/common/constants/envs.js";
-
-// Function will validate if any env keys are missing
-function validateENVVariables() {
-  //  Check if any ENV_VAR is missing
-  let anyKeyMissing = false;
-  Object.keys(ENV_VARS).forEach((key) => {
-    if (!ENV_VARS[key] || ENV_VARS[key] === undefined) {
-      console.error(`environment variable ${key} is not in your .env file`);
-      anyKeyMissing = true;
-    }
-  });
-  if (anyKeyMissing) {
-    throw "MISSING ENVs, CAN'T START THE SERVER";
-  }
-}
+import { config } from "dotenv";
+config({ path: ".env" }); // Load .env into process.env
 
 // Constants
-const isProduction = ENV_VARS.NODE_ENV === "production";
+const isProduction = process.env.NODE_ENV === "production";
+const port = process.env.PORT;
 const base = "/";
 
 // Cached production assets
@@ -54,7 +41,7 @@ app.use("*all", async (req, res) => {
 
     /** @type {string} */
     let template;
-    /** @type {import('./src/app/entry-server.tsx').render} */
+    /** @type {import('./src/entry-server.ts').render} */
     let render;
     if (!isProduction) {
       // Always read fresh template in development
@@ -80,17 +67,7 @@ app.use("*all", async (req, res) => {
   }
 });
 
-async function bootstrap() {
-  validateENVVariables();
-  await app.listen(ENV_VARS.PORT || 5173);
-}
-
-bootstrap()
-  .then(() => {
-    console.log(
-      `SUCCESSFULLY STARTED THE SERVER at http://localhost:${ENV_VARS.PORT}`,
-    );
-  })
-  .catch((err) => {
-    console.error(err);
-  });
+// Start http server
+app.listen(port, () => {
+  console.log(`Server started at http://localhost:${port}`);
+});

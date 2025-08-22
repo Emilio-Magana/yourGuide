@@ -1,29 +1,20 @@
 import crypto from "crypto";
-import { promisify } from "util";
-import type { StringValue } from "ms";
-import jwt, { SignOptions } from "jsonwebtoken";
+import jwt, { JwtPayload, SignOptions } from "jsonwebtoken";
 import Email from "@/utils/email";
 import AppError from "@/utils/appError";
 import User, { IUser } from "@/models/userModel";
 import { catchAsync } from "@/utils/catchAsync";
-import { ENV_VARS } from "@/common/constants/envs";
 import {
   AuthenticatedRequest,
   ExpressMiddleware,
 } from "@/common/interfaces/mainInterfaces";
 import { Request, RequestHandler, Response } from "express";
 
-const { JWT_SECRET, JWT_EXPIRES_IN, JWT_COOKIE_EXPIRES_IN } = ENV_VARS;
-
-// interface AuthenticatedRequest extends Request {
-//   user: TUser;
-// }
-
 const signToken = (id: string) => {
   const options: SignOptions = {
-    expiresIn: JWT_EXPIRES_IN as StringValue, // ✅ string is allowed here
+    expiresIn: process.env.JWT_EXPIRES_IN, // ✅ string is allowed here
   };
-  return jwt.sign({ id }, JWT_SECRET as string, options);
+  return jwt.sign({ id }, process.env.JWT_SECRET, options);
 };
 
 const createSendToken = (
@@ -36,13 +27,13 @@ const createSendToken = (
 
   res.cookie("jwt", token, {
     expires: new Date(
-      Date.now() + Number(JWT_COOKIE_EXPIRES_IN) * 24 * 60 * 60 * 1000,
+      Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000,
     ),
     httpOnly: true,
     secure: req.secure || req.headers["x-forwarded-proto"] === "https",
   });
 
-  // // Remove password from output
+  // Remove password from output, this was the previous method used in js, doesnt work in ts
   // user.password = undefined;
 
   // Convert to plain object and remove password
@@ -57,6 +48,16 @@ const createSendToken = (
     },
   });
 };
+
+function verifyToken(token: string, secret: string): Promise<JwtPayload> {
+  return new Promise((resolve, reject) => {
+    jwt.verify(token, secret, (err, decoded) => {
+      if (err || !decoded)
+        return reject(new AppError("Invalid or expired token", 401));
+      resolve(decoded as JwtPayload);
+    });
+  });
+}
 
 const signup = catchAsync(async ({ req, res, next }: ExpressMiddleware) => {
   const newUser: IUser = await User.create({
@@ -118,10 +119,10 @@ const protect = catchAsync(async ({ req, res, next }: ExpressMiddleware) => {
   }
 
   // 2) Verification token
-  const decoded = await promisify(jwt.verify)(token, ENV_VARS.JWT_SECRET);
+  const decoded = await verifyToken(token, process.env.JWT_SECRET);
 
   // 3) Check if user still exists
-  const currentUser: IUser | null = await User.findById(decoded.id);
+  const currentUser = await User.findById(decoded.id);
   if (!currentUser) {
     return next(
       new AppError(
@@ -132,7 +133,7 @@ const protect = catchAsync(async ({ req, res, next }: ExpressMiddleware) => {
   }
 
   // 4) Check if user changed password after the token was issued
-  if (currentUser.changedPasswordAfter(decoded.iat)) {
+  if (currentUser.changedPasswordAfter(decoded.iat as number)) {
     return next(
       new AppError("User recently changed password! Please log in again.", 401),
     );
@@ -149,19 +150,20 @@ const isLoggedIn = async ({ req, res, next }: ExpressMiddleware) => {
   if (req.cookies.jwt) {
     try {
       // 1) verify token
-      const decoded = await promisify(jwt.verify)(
+      const decoded = await verifyToken(
         req.cookies.jwt,
-        ENV_VARS.JWT_SECRET,
+        process.env.JWT_SECRET,
       );
 
       // 2) Check if user still exists
-      const currentUser: IUser | null = await User.findById(decoded.id);
+      const currentUser = await User.findById(decoded.id);
+
       if (!currentUser) {
-        return next();
+        return next(new AppError("There is no user with email address.", 404));
       }
 
       // 3) Check if user changed password after the token was issued
-      if (currentUser.changedPasswordAfter(decoded.iat)) {
+      if (currentUser.changedPasswordAfter(decoded.iat as number)) {
         return next();
       }
 
@@ -192,7 +194,7 @@ const restrictTo = (...roles: string[]): RequestHandler => {
 const forgotPassword = catchAsync(
   async ({ req, res, next }: ExpressMiddleware) => {
     // 1) Get user based on POSTed email
-    const user: IUser | null = await User.findOne({ email: req.body.email });
+    const user = await User.findOne({ email: req.body.email });
     if (!user) {
       return next(new AppError("There is no user with email address.", 404));
     }
@@ -235,7 +237,7 @@ const resetPassword = catchAsync(
       .update(req.params.token)
       .digest("hex");
 
-    const user: IUser | null = await User.findOne({
+    const user = await User.findOne({
       passwordResetToken: hashedToken,
       passwordResetExpires: { $gt: Date.now() },
     });

@@ -1,5 +1,4 @@
 import nodemailer from "nodemailer";
-import { ENV_VARS } from "@/common/constants/envs";
 
 const pug = require("pug");
 const htmlToText = require("htmlToText");
@@ -9,27 +8,27 @@ export default class Email {
     this.to = user.email;
     this.firstName = user.name.split(" ")[0];
     this.url = url;
-    this.from = `Jonas Schmedtmann <${ENV_VARS.EMAIL_FROM}>`;
+    this.from = `Jonas Schmedtmann <${process.env.EMAIL_FROM}>`;
   }
 
   newTransport() {
-    if (ENV_VARS.NODE_ENV === "production") {
+    if (process.env.NODE_ENV === "production") {
       // Sendgrid
       return nodemailer.createTransport({
         service: "SendGrid",
         auth: {
-          user: ENV_VARS.SENDGRID_USERNAME,
-          pass: ENV_VARS.SENDGRID_PASSWORD,
+          user: process.env.SENDGRID_USERNAME,
+          pass: process.env.SENDGRID_PASSWORD,
         },
       });
     }
 
     return nodemailer.createTransport({
-      host: ENV_VARS.EMAIL_HOST,
-      port: ENV_VARS.EMAIL_PORT,
+      host: process.env.EMAIL_HOST,
+      port: process.env.EMAIL_PORT,
       auth: {
-        user: ENV_VARS.EMAIL_USERNAME,
-        pass: ENV_VARS.EMAIL_PASSWORD,
+        user: process.env.EMAIL_USERNAME,
+        pass: process.env.EMAIL_PASSWORD,
       },
     });
   }
