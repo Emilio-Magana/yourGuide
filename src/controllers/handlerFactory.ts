@@ -2,7 +2,7 @@ import { catchAsync } from "@/utils/catchAsync";
 import AppError from "@/utils/appError";
 import APIFeatures from "@/utils/apiFeatures";
 import { ExpressMiddleware } from "@/common/interfaces/mainInterfaces";
-import { Model, Document } from "mongoose";
+import { Model, Document, PopulateOptions } from "mongoose";
 
 const deleteOne = <T extends Document>(Model: Model<T>) =>
   catchAsync(async ({ req, res, next }: ExpressMiddleware) => {
@@ -51,7 +51,7 @@ const createOne = <T extends Document>(Model: Model<T>) =>
 
 const getOne = <T extends Document>(
   Model: Model<T>,
-  popOptions?: string | string[],
+  popOptions?: PopulateOptions,
 ) =>
   catchAsync(async ({ req, res, next }: ExpressMiddleware) => {
     let query = Model.findById(req.params.id);
