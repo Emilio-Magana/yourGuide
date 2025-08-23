@@ -1,10 +1,10 @@
-import sharp from "sharp";
 import multer, { FileFilterCallback } from "multer";
 import { Request, Response } from "express";
-import User from "@/models/userModel";
-import AppError from "@/utils/appError";
-import { catchAsync } from "@/utils/catchAsync";
-import { ExpressMiddleware } from "@/common/interfaces/mainInterfaces";
+import sharp from "sharp";
+import User from "@/backend/models/userModel";
+import AppError from "@/backend/utils/appError";
+import { catchAsync } from "@/backend/utils/catchAsync";
+import { ExpressMiddleware } from "@/backend/common/interfaces/mainInterfaces";
 import { deleteOne, updateOne, getOne, getAll } from "./handlerFactory";
 
 const multerStorage = multer.memoryStorage();

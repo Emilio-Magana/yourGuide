@@ -1,10 +1,10 @@
-import sharp from "sharp";
-import { Request } from "express";
 import multer, { FileFilterCallback } from "multer";
-import Tour from "@/models/tourModel";
-import AppError from "@/utils/appError";
-import { catchAsync } from "@/utils/catchAsync";
-import { ExpressMiddleware } from "@/common/interfaces/mainInterfaces";
+import { Request } from "express";
+import sharp from "sharp";
+import Tour from "@/backend/models/tourModel";
+import AppError from "@/backend/utils/appError";
+import { catchAsync } from "@/backend/utils/catchAsync";
+import { ExpressMiddleware } from "@/backend/common/interfaces/mainInterfaces";
 import {
   deleteOne,
   updateOne,

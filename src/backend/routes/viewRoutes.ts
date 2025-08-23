@@ -7,8 +7,8 @@ import {
   getAccount,
   getMyTours,
   updateUserData,
-} from "@/controllers/viewsController";
-import { isLoggedIn, protect } from "@/controllers/authController";
+} from "@/backend/controllers/viewsController";
+import { isLoggedIn, protect } from "@/backend/controllers/authController";
 
 const router = express.Router();
 

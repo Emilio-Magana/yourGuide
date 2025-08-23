@@ -1,5 +1,5 @@
-import { IUser } from "@/models/userModel";
 import { Request, Response, NextFunction } from "express";
+import { IUser } from "@/backend/models/userModel";
 
 interface AuthenticatedRequest extends Request {
   user: IUser;

@@ -1,11 +1,12 @@
-const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 import Stripe from "stripe";
 import { Response, NextFunction } from "express";
-import User from "@/models/userModel";
-import Tour from "@/models/tourModel";
-import AppError from "@/utils/appError";
-import Booking from "@/models/bookingModel";
-import { catchAsync } from "@/utils/catchAsync";
+const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
+
+import User from "@/backend/models/userModel";
+import Tour from "@/backend/models/tourModel";
+import AppError from "@/backend/utils/appError";
+import Booking from "@/backend/models/bookingModel";
+import { catchAsync } from "@/backend/utils/catchAsync";
 import {
   deleteOne,
   updateOne,
@@ -16,7 +17,7 @@ import {
 import {
   AuthenticatedRequest,
   ExpressMiddleware,
-} from "@/common/interfaces/mainInterfaces";
+} from "@/backend/common/interfaces/mainInterfaces";
 
 const getCheckoutSession = catchAsync(
   async (req: AuthenticatedRequest, res: Response, next: NextFunction) => {

@@ -1,6 +1,6 @@
 import { Schema, model, Document, Query } from "mongoose";
-import crypto from "crypto";
 import validator from "validator";
+import crypto from "crypto";
 import bcrypt from "bcrypt";
 
 /**

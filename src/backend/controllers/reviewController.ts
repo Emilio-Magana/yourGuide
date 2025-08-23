@@ -1,4 +1,5 @@
-import Review from "@/models/reviewModel";
+import { ExpressMiddleware } from "@/backend/common/interfaces/mainInterfaces";
+import Review from "@/backend/models/reviewModel";
 import {
   deleteOne,
   updateOne,
@@ -6,7 +7,6 @@ import {
   getOne,
   getAll,
 } from "./handlerFactory";
-import { ExpressMiddleware } from "@/common/interfaces/mainInterfaces";
 
 const setTourUserIds = ({ req, res, next }: ExpressMiddleware) => {
   // Allow nested routes

@@ -1,14 +1,14 @@
-import crypto from "crypto";
+import { Request, RequestHandler, Response } from "express";
 import jwt, { JwtPayload, SignOptions } from "jsonwebtoken";
-import Email from "@/utils/email";
-import AppError from "@/utils/appError";
-import User, { IUser } from "@/models/userModel";
-import { catchAsync } from "@/utils/catchAsync";
+import crypto from "crypto";
+import Email from "@/backend/utils/email";
+import AppError from "@/backend/utils/appError";
+import { catchAsync } from "@/backend/utils/catchAsync";
+import User, { IUser } from "@/backend/models/userModel";
 import {
   AuthenticatedRequest,
   ExpressMiddleware,
-} from "@/common/interfaces/mainInterfaces";
-import { Request, RequestHandler, Response } from "express";
+} from "@/backend/common/interfaces/mainInterfaces";
 
 const signToken = (id: string) => {
   const options: SignOptions = {

@@ -6,8 +6,8 @@ import {
   updateReview,
   setTourUserIds,
   getReview,
-} from "@/controllers/reviewController";
-import { protect, restrictTo } from "@/controllers/authController";
+} from "@/backend/controllers/reviewController";
+import { protect, restrictTo } from "@/backend/controllers/authController";
 
 const router = express.Router({ mergeParams: true });
 

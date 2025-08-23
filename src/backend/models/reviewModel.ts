@@ -1,7 +1,6 @@
 import { Schema, Document, model, Query, Model } from "mongoose";
+import Tour, { ITour } from "./tourModel";
 import { IUser } from "./userModel";
-import { ITour } from "./tourModel";
-import Tour from "@/models/tourModel";
 
 /**
  * Type to model the Booking Schema for Typescript

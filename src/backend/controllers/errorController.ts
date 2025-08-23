@@ -1,6 +1,6 @@
-import AppError from "@/utils/appError";
 import { NextFunction, Request, Response } from "express";
 import { Error } from "mongoose";
+import AppError from "@/backend/utils/appError";
 
 const handleCastErrorDB = (err: Error.CastError) => {
   const message = `Invalid ${err.path}: ${err.value}.`;

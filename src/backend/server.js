@@ -1,11 +1,27 @@
-import fs from "node:fs/promises";
 import express from "express";
+import fs from "node:fs/promises";
 import { config } from "dotenv";
 config({ path: ".env" }); // Load .env into process.env
+import mongoose from "mongoose";
+
+// import app from "./app.js";
+
+const app = express();
+
+// connect to MongoDB
+const DB = process.env.DATABASE.replace(
+  "<PASSWORD>",
+  process.env.DATABASE_PASSWORD,
+);
+
+mongoose.connect(DB).then(() => {
+  // console.log(con.connections);
+  console.log("DB connection successful");
+});
 
 // Constants
 const isProduction = process.env.NODE_ENV === "production";
-const port = process.env.PORT;
+const PORT = process.env.PORT;
 const base = "/";
 
 // Cached production assets
@@ -14,7 +30,8 @@ const templateHtml = isProduction
   : "";
 
 // Create http server
-const app = express();
+// TODO
+// const app = express();
 
 // Add Vite or respective production middlewares
 /** @type {import('vite').ViteDevServer | undefined} */
@@ -68,6 +85,21 @@ app.use("*all", async (req, res) => {
 });
 
 // Start http server
-app.listen(port, () => {
-  console.log(`Server started at http://localhost:${port}`);
+app.listen(PORT, () => {
+  console.log(`Server started at http://localhost:${PORT}`);
+});
+
+process.on("unhandledRejection", (err) => {
+  console.log("UNHANDLED REJECTION! 💥 Shutting down...");
+  console.log(err.name, err.message);
+  server.close(() => {
+    process.exit(1);
+  });
+});
+
+process.on("SIGTERM", () => {
+  console.log("👋 SIGTERM RECEIVED. Shutting down gracefully");
+  server.close(() => {
+    console.log("💥 Process terminated!");
+  });
 });

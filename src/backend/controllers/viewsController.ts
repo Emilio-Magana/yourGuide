@@ -1,9 +1,9 @@
-import AppError from "../utils/appError";
-import Tour from "../models/tourModel";
-import User from "../models/userModel";
-import Booking from "../models/bookingModel";
-import { catchAsync } from "../utils/catchAsync";
-import { ExpressMiddleware } from "@/common/interfaces/mainInterfaces";
+import Tour from "@/backend/models/tourModel";
+import User from "@/backend/models/userModel";
+import AppError from "@/backend/utils/appError";
+import Booking from "@/backend/models/bookingModel";
+import { catchAsync } from "@/backend/utils/catchAsync";
+import { ExpressMiddleware } from "@/backend/common/interfaces/mainInterfaces";
 
 const alerts = ({ req, res, next }: ExpressMiddleware) => {
   const { alert } = req.query;

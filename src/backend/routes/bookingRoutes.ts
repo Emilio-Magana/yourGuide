@@ -6,8 +6,8 @@ import {
   getBooking,
   updateBooking,
   deleteBooking,
-} from "@/controllers/bookingController";
-import { protect, restrictTo } from "@/controllers/authController";
+} from "@/backend/controllers/bookingController";
+import { protect, restrictTo } from "@/backend/controllers/authController";
 
 const router = express.Router();
 

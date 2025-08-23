@@ -1,8 +1,8 @@
-import { catchAsync } from "@/utils/catchAsync";
-import AppError from "@/utils/appError";
-import APIFeatures from "@/utils/apiFeatures";
-import { ExpressMiddleware } from "@/common/interfaces/mainInterfaces";
 import { Model, Document, PopulateOptions } from "mongoose";
+import AppError from "@/backend/utils/appError";
+import APIFeatures from "@/backend/utils/apiFeatures";
+import { catchAsync } from "@/backend/utils/catchAsync";
+import { ExpressMiddleware } from "@/backend/common/interfaces/mainInterfaces";
 
 const deleteOne = <T extends Document>(Model: Model<T>) =>
   catchAsync(async ({ req, res, next }: ExpressMiddleware) => {
