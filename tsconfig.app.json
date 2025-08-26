@@ -23,8 +23,9 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true,
     "paths": {
-      "@/*": ["./src/*"]
+      "@server/*": ["./server/src/*"],
+      "@client/*": ["./client/src/*"]
     }
   },
-  "include": ["src"]
+  "include": ["src", "common", "client", "server"]
 }
