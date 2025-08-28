@@ -1,3 +1,4 @@
+import { type IUser } from "@server/models/userModel";
 declare global {
   namespace NodeJS {
     interface ProcessEnv {
@@ -16,6 +17,7 @@ declare global {
       SENDGRID_USERNAME: string;
       SENDGRID_PASSWORD: string;
       STRIPE_SECRET_KEY: string;
+      STRIPE_PUBLISHABLE_KEY: string;
       STRIPE_WEBHOOK_SECRET: string;
     }
   }

@@ -1,8 +1,8 @@
 import hpp from "hpp";
-// import path from "path";
+
 // import cors from "cors";
 import express from "express";
-// import bodyParser from "body-parser";
+import bodyParser from "body-parser";
 import helmet from "helmet";
 import morgan from "morgan";
 import compression from "compression";
@@ -15,9 +15,9 @@ import AppError from "./utils/appError";
 import userRouter from "./routes/userRoutes";
 import tourRouter from "./routes/tourRoutes";
 import reviewRouter from "./routes/reviewRoutes";
-// import bookingRouter from "./routes/bookingRoutes";
+import bookingRouter from "./routes/bookingRoutes";
 import errorHandler from "./controllers/errorController";
-// import bookingController from "@/backend/controllers/bookingController";
+import { webhookCheckout } from "./controllers/bookingController";
 
 // Start express app
 const app = express();
@@ -34,7 +34,7 @@ if (process.env.NODE_ENV === "development") {
 // app.options("*all", cors());
 
 // // // Body parser, reading data from body into req.body
-// app.use(express.json({ limit: "10kb" }));
+app.use(express.json({ limit: "10kb" }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true, limit: "10kb" }));
 app.use(cookieParser());
@@ -81,11 +81,11 @@ app.use(express.json({ limit: "10kb" }));
 // Cached production assets
 
 // Stripe webhook, BEFORE body-parser, because stripe needs the body as stream
-// app.post(
-//   "/webhook-checkout",
-//   bodyParser.raw({ type: "application/json" }),
-//   bookingController.webhookCheckout,
-// );
+app.post(
+  "/webhook-checkout",
+  bodyParser.raw({ type: "application/json" }),
+  webhookCheckout
+);
 
 // Data sanitization against XSS
 // app.use(xss());
@@ -95,7 +95,7 @@ app.get("/", (req, res) => res.send("Server working!"));
 app.use("/api/v1/tours", tourRouter);
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/reviews", reviewRouter);
-// app.use("/api/v1/bookings", bookingRouter);
+app.use("/api/v1/bookings", bookingRouter);
 
 app.all("*all", (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));

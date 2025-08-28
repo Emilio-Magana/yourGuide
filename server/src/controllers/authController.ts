@@ -192,7 +192,8 @@ const restrictTo = (...roles: string[]): RequestHandler => {
   return (req, res, next) => {
     // roles ['admin', 'lead-guide']. role='user'
     const authReq = req as UserRequest;
-    if (!roles.includes(authReq.user.role)) {
+
+    if (!roles.includes(authReq.user!.role)) {
       return next(
         new AppError("You do not have permission to perform this action", 403)
       );
@@ -276,7 +277,7 @@ const resetPassword = catchAsync(
 const updatePassword = catchAsync(
   async (req: UserRequest, res: Response, next: NextFunction) => {
     // 1) Get user from collection
-    const user: IUser = await User.findById(req.user.id).select("+password");
+    const user: IUser = await User.findById(req.user!.id).select("+password");
 
     // 2) Check if POSTed current password is correct
     if (
