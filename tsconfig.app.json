@@ -27,5 +27,5 @@
       "@client/*": ["./client/src/*"]
     }
   },
-  "include": ["src", "common", "client", "server"]
+  "include": ["common", "client", "server"]
 }

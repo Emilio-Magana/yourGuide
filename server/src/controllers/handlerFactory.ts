@@ -1,11 +1,11 @@
 import { Model, Document, type PopulateOptions } from "mongoose";
-import AppError from "@server/utils/appError";
-import APIFeatures from "@server/utils/apiFeatures";
-import { catchAsync } from "@server/utils/catchAsync";
-import { type ExpressMiddleware } from "@server/common/interfaces/mainInterfaces";
+import AppError from "./../utils/appError";
+import APIFeatures from "./../utils/apiFeatures";
+import { catchAsync } from "./../utils/catchAsync";
+import type { Response, Request, NextFunction } from "express";
 
 const deleteOne = <T extends Document>(Model: Model<T>) =>
-  catchAsync(async ({ req, res, next }: ExpressMiddleware) => {
+  catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     const doc = await Model.findByIdAndDelete(req.params.id);
 
     if (!doc) {
@@ -19,7 +19,7 @@ const deleteOne = <T extends Document>(Model: Model<T>) =>
   });
 
 const updateOne = <T extends Document>(Model: Model<T>) =>
-  catchAsync(async ({ req, res, next }: ExpressMiddleware) => {
+  catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     const doc = await Model.findByIdAndUpdate(req.params.id, req.body, {
       new: true,
       runValidators: true,
@@ -38,7 +38,7 @@ const updateOne = <T extends Document>(Model: Model<T>) =>
   });
 
 const createOne = <T extends Document>(Model: Model<T>) =>
-  catchAsync(async ({ req, res, next }: ExpressMiddleware) => {
+  catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     const doc = await Model.create(req.body);
 
     res.status(201).json({
@@ -53,7 +53,7 @@ const getOne = <T extends Document>(
   Model: Model<T>,
   popOptions?: PopulateOptions
 ) =>
-  catchAsync(async ({ req, res, next }: ExpressMiddleware) => {
+  catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     let query = Model.findById(req.params.id);
     if (popOptions) query = query.populate(popOptions);
     const doc = await query;
@@ -71,7 +71,7 @@ const getOne = <T extends Document>(
   });
 
 const getAll = <T extends Document>(Model: Model<T>) =>
-  catchAsync(async ({ req, res, next }: ExpressMiddleware) => {
+  catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     // To allow for nested GET reviews on tour (hack)
     let filter = {};
     if (req.params.tourId) filter = { tour: req.params.tourId };

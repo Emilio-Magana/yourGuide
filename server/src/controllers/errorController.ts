@@ -1,6 +1,6 @@
-import { type NextFunction, type Request, type Response } from "express";
+import type { NextFunction, Request, Response } from "express";
 import { Error } from "mongoose";
-import AppError from "@server/utils/appError";
+import AppError from "./../utils/appError";
 
 const handleCastErrorDB = (err: Error.CastError) => {
   const message = `Invalid ${err.path}: ${err.value}.`;
@@ -31,6 +31,7 @@ const handleJWTExpiredError = () =>
 const sendErrorDev = (err: any, req: Request, res: Response) => {
   // A) API
   if (req.originalUrl.startsWith("/api")) {
+    // console.log(err);
     return res.status(err.statusCode).json({
       status: err.status,
       error: err,

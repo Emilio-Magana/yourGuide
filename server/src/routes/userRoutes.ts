@@ -10,7 +10,7 @@ import {
   getMe,
   uploadUserPhoto,
   resizeUserPhoto,
-} from "@server/controllers/userController";
+} from "./../controllers/userController";
 import {
   signup,
   login,
@@ -20,7 +20,7 @@ import {
   protect,
   restrictTo,
   logout,
-} from "@server/controllers/authController";
+} from "./../controllers/authController";
 
 const router = express.Router();
 

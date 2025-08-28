@@ -87,7 +87,7 @@
 //   await Booking.create({ tour, user: userId, price });
 // };
 
-// const webhookCheckout = catchAsync(({ req, res, next }: ExpressMiddleware) => {
+// const webhookCheckout = catchAsync((req: Request, res: Response, next: NextFunction) => {
 //   const signature = req.headers["stripe-signature"];
 //   const stripe = await getStripe();
 

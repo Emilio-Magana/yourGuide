@@ -1,10 +1,10 @@
 import multer, { type FileFilterCallback } from "multer";
-import { type Request } from "express";
+import type { NextFunction, Request, Response } from "express";
 import sharp from "sharp";
-import Tour from "@server/models/tourModel";
-import AppError from "@server/utils/appError";
-import { catchAsync } from "@server/utils/catchAsync";
-import { type ExpressMiddleware } from "@server/common/interfaces/mainInterfaces";
+import Tour from "./../models/tourModel";
+import AppError from "./../utils/appError";
+import { catchAsync } from "./../utils/catchAsync";
+import {} from "./../common/interfaces/mainInterfaces";
 import {
   deleteOne,
   updateOne,
@@ -45,7 +45,7 @@ const uploadTourImages = upload.fields([
 ]);
 
 const resizeTourImages = catchAsync(
-  async ({ req, res, next }: ExpressMiddleware) => {
+  async (req: Request, res: Response, next: NextFunction) => {
     const { imageCover, images } = (req as MulterRequest).files;
     if (!imageCover || !images) return next();
     // if (!req.files.imageCover || !req.files.images) return next();
@@ -78,7 +78,7 @@ const resizeTourImages = catchAsync(
   }
 );
 
-const aliasTopTours = ({ req, res, next }: ExpressMiddleware) => {
+const aliasTopTours = (req: Request, res: Response, next: NextFunction) => {
   req.query.limit = "5";
   req.query.sort = "-ratingsAverage,price";
   req.query.fields = "name,price,ratingsAverage,summary,difficulty";
@@ -86,7 +86,7 @@ const aliasTopTours = ({ req, res, next }: ExpressMiddleware) => {
 };
 
 const getTourStats = catchAsync(
-  async ({ req, res, next }: ExpressMiddleware) => {
+  async (req: Request, res: Response, next: NextFunction) => {
     const stats = await Tour.aggregate([
       {
         $match: { ratingsAverage: { $gte: 4.5 } },
@@ -120,7 +120,7 @@ const getTourStats = catchAsync(
 );
 
 const getMonthlyPlan = catchAsync(
-  async ({ req, res, next }: ExpressMiddleware) => {
+  async (req: Request, res: Response, next: NextFunction) => {
     const year = Number(req.params.year); // 2021
 
     const plan = await Tour.aggregate([
@@ -170,7 +170,7 @@ const getMonthlyPlan = catchAsync(
 // /tours-within/:distance/center/:latlng/unit/:unit
 // /tours-within/233/center/34.111745,-118.113491/unit/mi
 const getToursWithin = catchAsync(
-  async ({ req, res, next }: ExpressMiddleware) => {
+  async (req: Request, res: Response, next: NextFunction) => {
     const { distance, latlng, unit } = req.params;
     const [lat, lng] = latlng.split(",");
 
@@ -201,7 +201,7 @@ const getToursWithin = catchAsync(
 );
 
 const getDistances = catchAsync(
-  async ({ req, res, next }: ExpressMiddleware) => {
+  async (req: Request, res: Response, next: NextFunction) => {
     const { latlng, unit } = req.params;
     const [lat, lng] = latlng.split(",");
 

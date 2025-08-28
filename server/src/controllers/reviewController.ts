@@ -1,5 +1,6 @@
-import { type ExpressMiddleware } from "@server/common/interfaces/mainInterfaces";
-import Review from "@server/models/reviewModel";
+import type { NextFunction } from "express";
+import type { UserRequest } from "./../common/interfaces/mainInterfaces";
+import Review from "./../models/reviewModel";
 import {
   deleteOne,
   updateOne,
@@ -8,7 +9,11 @@ import {
   getAll,
 } from "./handlerFactory";
 
-const setTourUserIds = ({ req, res, next }: ExpressMiddleware) => {
+const setTourUserIds = (
+  req: UserRequest,
+  res: Response,
+  next: NextFunction
+) => {
   // Allow nested routes
   if (!req.body.tour) req.body.tour = req.params.tourId;
   if (!req.body.user) req.body.user = req.user.id;

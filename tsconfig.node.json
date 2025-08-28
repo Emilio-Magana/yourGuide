@@ -19,7 +19,11 @@
     "noUnusedParameters": true,
     "erasableSyntaxOnly": true,
     "noFallthroughCasesInSwitch": true,
-    "noUncheckedSideEffectImports": true
+    "noUncheckedSideEffectImports": true,
+    "paths": {
+      "@server/*": ["./server/src/*"],
+      "@client/*": ["./client/src/*"]
+    }
   },
   "include": ["client/vite.config.ts"]
 }

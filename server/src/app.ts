@@ -10,25 +10,44 @@ import cookieParser from "cookie-parser";
 import rateLimit from "express-rate-limit";
 import mongoSanitize from "express-mongo-sanitize";
 
-import AppError from "@server/utils/appError.js";
-import userRouter from "@server/routes/userRoutes";
-import tourRouter from "@server/routes/tourRoutes";
-import reviewRouter from "@server/routes/reviewRoutes";
+// import AppError from "./utils/appError";
+import AppError from "./utils/appError";
+import userRouter from "./routes/userRoutes";
+import tourRouter from "./routes/tourRoutes";
+import reviewRouter from "./routes/reviewRoutes";
 // import bookingRouter from "./routes/bookingRoutes";
-import errorHandler from "@server/controllers/errorController";
+import errorHandler from "./controllers/errorController";
 // import bookingController from "@/backend/controllers/bookingController";
 
 // Start express app
 const app = express();
+// Set security HTTP headers
+app.use(helmet());
+
+// Development logging
+if (process.env.NODE_ENV === "development") {
+  app.use(morgan("dev"));
+}
 
 // // Implement CORS, can not be used wiht localhost
 // app.use(cors());
 // app.options("*all", cors());
 
 // // // Body parser, reading data from body into req.body
-app.use(express.json({ limit: "10kb" }));
+// app.use(express.json({ limit: "10kb" }));
+app.use(express.json());
 app.use(express.urlencoded({ extended: true, limit: "10kb" }));
 app.use(cookieParser());
+
+//TypeError: Cannot set property query of #<IncomingMessage> which has only a getter in place because of mangosanitize
+app.use((req, res, next) => {
+  Object.defineProperty(req, "query", {
+    ...Object.getOwnPropertyDescriptor(req, "query"),
+    value: req.query,
+    writable: true,
+  });
+  next();
+});
 
 // // // Data sanitization against NoSQL query injection
 app.use(mongoSanitize());
@@ -56,13 +75,8 @@ const limiter = rateLimit({
 });
 app.use("/api", limiter);
 
-// Set security HTTP headers
-app.use(helmet());
-
-// Development logging
-if (process.env.NODE_ENV === "development") {
-  app.use(morgan("dev"));
-}
+// Body parser
+app.use(express.json({ limit: "10kb" }));
 
 // Cached production assets
 

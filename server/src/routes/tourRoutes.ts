@@ -1,6 +1,6 @@
 import express from "express";
-import reviewRouter from "@server/routes/reviewRoutes";
-import { protect, restrictTo } from "@server/controllers/authController";
+import reviewRouter from "./../routes/reviewRoutes";
+import { protect, restrictTo } from "./../controllers/authController";
 import {
   getAllTours,
   createTour,
@@ -14,7 +14,7 @@ import {
   getDistances,
   uploadTourImages,
   resizeTourImages,
-} from "@server/controllers/tourController";
+} from "./../controllers/tourController";
 
 const router = express.Router();
 
