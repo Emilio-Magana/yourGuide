@@ -9,36 +9,36 @@
   --breakpoint-monitor: 1200px;
 
   /* Custom colors */
-  --color-background-fade-b: var(--backgroundFadeB);
-  --color-background-fade-m: var(--backgroundFadeM);
-  --color-background-fade-e: var(--backgroundFadeE);
+  --color-backgroundFadeB: var(--backgroundFadeB);
+  --color-backgroundFadeM: var(--backgroundFadeM);
+  --color-backgroundFadeE: var(--backgroundFadeE);
 
-  --color-active-tab: var(--activeTab);
-  --color-component-bg: var(--componentBg);
-  --color-skill-tile-bg: var(--skillTileBg);
-  --color-logo-bg: var(--logoBg);
-  --color-resume-bg: var(--resumeBg);
+  --color-activeTab: var(--activeTab);
+  --color-componentBg: var(--componentBg);
+  --color-skillTileBg: var(--skillTileBg);
+  --color-logoBg: var(--logoBg);
+  --color-resumeBg: var(--resumeBg);
 
   --color-opposite: var(--opposite);
   --color-secondary: var(--secondary);
   --color-tertiary: var(--tertiary);
   --color-primary: var(--primary);
-  --color-non-active: var(--nonActive);
+  --color-nonActive: var(--nonActive);
 
-  --color-particle-c: var(--particleC);
+  --color-particleC: var(--particleC);
 
   --color-border: var(--border);
 
-  --color-skill-br: var(--skillBr);
-  --color-card-br: var(--cardBr);
-  --color-bot-br: var(--botBr);
+  --color-skillBr: var(--skillBr);
+  --color-cardBr: var(--cardBr);
+  --color-botBr: var(--botBr);
 
-  --color-resume-hov: var(--resumeHov);
-  --color-social-hov: var(--socialHov);
+  --color-resumeHov: var(--resumeHov);
+  --color-socialHov: var(--socialHov);
   --color-hover: var(--hover);
 
   /* Custom animations */
-  --animate-fade-in-up: fadeInUp 0.6s ease-out forwards;
+  --animate-fadeInUp: fadeInUp 0.6s ease-out forwards;
   /* Custom keyframes */
   @keyframes fadeInUp {
     0% {

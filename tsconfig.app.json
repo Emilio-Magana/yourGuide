@@ -22,10 +22,11 @@
     "erasableSyntaxOnly": true,
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true,
+    "baseUrl": ".",
     "paths": {
       "@server/*": ["./server/src/*"],
-      "@client/*": ["./client/src/*"]
+      "./../*": ["./client/src/*"]
     }
   },
-  "include": ["common", "client", "server"]
+  "include": ["common", "client", "server", "vite.config.ts"]
 }
