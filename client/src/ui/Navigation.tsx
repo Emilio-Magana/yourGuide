@@ -17,7 +17,7 @@ const navLinks = [
 
 export default function Navigation() {
   return (
-    <ul className="flex items-baseline transition-all duration-300 ease-in-out phone:gap-2 ipad_mini:gap-4">
+    <ul className="flex items-baseline transition-all duration-300 ease-in-out phone:gap-2 ipad_mini:gap-4 ">
       {navLinks.map((nav, id) => (
         <li
           key={id}

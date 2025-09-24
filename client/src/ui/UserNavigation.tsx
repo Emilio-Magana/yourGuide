@@ -1,5 +1,5 @@
 import React from "react";
 
 export default function UserNavigation() {
-  return <div>UserNavigation</div>;
+  return <button className="hover:cursor-pointer">UserNavigation</button>;
 }

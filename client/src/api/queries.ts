@@ -7,7 +7,7 @@ export function useBookings() {
     queryKey: ["bookings"],
     queryFn: async () => {
       const { data } = await api.get("/bookings");
-      return data.data;
+      return data.data.data;
     },
   });
 }
@@ -17,7 +17,7 @@ export function useCreateBooking() {
   return useMutation({
     mutationFn: async (newBooking: any) => {
       const { data } = await api.post("/bookings", newBooking);
-      return data.data;
+      return data.data.data;
     },
   });
 }
@@ -28,19 +28,32 @@ export function useBooking(id: string) {
     queryKey: ["booking", id],
     queryFn: async () => {
       const { data } = await api.get(`/bookings/${id}`);
-      return data.data;
+      return data.data.data;
     },
   });
 }
 
 // Tours (public)
-export function useTours() {
+export function getTours() {
   return useQuery({
     queryKey: ["tours"],
     queryFn: async () => {
       const { data } = await api.get("/tours");
-      return data.data;
+      // Unwrap nested shape → return pure array
+      return data.data.data;
     },
+  });
+}
+
+export function getTour(tourId: string) {
+  return useQuery({
+    queryKey: ["tour", tourId],
+    queryFn: async () => {
+      const { data } = await api.get(`/tours/${tourId}`);
+      // Unwrap nested shape → return pure object
+      return data.data.data;
+    },
+    enabled: !!tourId,
   });
 }
 
@@ -60,7 +73,7 @@ export function useCreateReview() {
         review,
         rating,
       });
-      return data.data;
+      return data.data.data;
     },
   });
 }
@@ -71,7 +84,7 @@ export function useCurrentUser() {
     queryKey: ["currentUser"],
     queryFn: async () => {
       const { data } = await api.get("/users/me");
-      return data.data;
+      return data.data.data;
     },
     retry: false,
   });
@@ -103,7 +116,7 @@ export function useCreateTour() {
   return useMutation({
     mutationFn: async (newTour: any) => {
       const { data } = await api.post("/tours", newTour);
-      return data.data;
+      return data.data.data;
     },
   });
 }

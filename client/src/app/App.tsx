@@ -7,18 +7,20 @@ import Tours from "./../pages/Tours";
 import Bookings from "./../pages/Bookings";
 import NotFound from "./../pages/NotFound";
 import Overview from "./../pages/Overview";
-import TourDetails from "./../pages/TourDetails";
-import ProtectedRoutes from "./../authentication/ProtectedRoutes";
 import Checkout from "./../pages/Checkout";
 import Dashboard from "./../pages/Dashboard";
+import TourDetails from "./../pages/TourDetails";
+import PrivacyPage from "./../pages/PrivacyPage";
 import UserProfile from "./../pages/UserProfile";
-import UserBookings from "./../pages/UserBookings";
 import UserReviews from "./../pages/UserReviews";
 import NewTourForm from "./../pages/NewTourForm";
-import TourForm from "./../components/TourForm";
+import UserBookings from "./../pages/UserBookings";
 import BookingDetails from "./../pages/BookingDetails";
+
 import AppLayout from "./../ui/AppLayout";
+import TourForm from "./../components/TourForm";
 import { DarkModeProvider } from "./../context/DarkModeContext";
+import ProtectedRoutes from "./../authentication/ProtectedRoutes";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -41,6 +43,7 @@ function App() {
               <Route path="/login" element={<Login />} />
               <Route path="/tours" element={<Tours />} />
               <Route path="/tours/:tourId" element={<TourDetails />} />
+              <Route path="/privacy" element={<PrivacyPage />} />
 
               {/* Protected (any authenticated user) */}
               <Route element={<ProtectedRoutes />}>

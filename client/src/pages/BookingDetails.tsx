@@ -1,3 +1,3 @@
 export default function BookingDetails() {
-  return <div>BookingDetails</div>;
+  return <article>BookingDetails</article>;
 }

@@ -1,4 +1,4 @@
-function Spinner() {
+export default function Spinner() {
   return (
     <div
       className="mx-auto my-20 w-16 aspect-square rounded-full animate-spin"
@@ -13,5 +13,3 @@ function Spinner() {
     />
   );
 }
-
-export default Spinner;

@@ -1,5 +1,5 @@
-import React from "react";
+// import React from "react";
 
 export default function NewTourForm() {
-  return <div>NewTourForm</div>;
+  return <form>NewTourForm</form>;
 }

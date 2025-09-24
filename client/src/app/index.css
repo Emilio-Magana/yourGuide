@@ -1,110 +1,63 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-@theme {
-  /* Custom breakpoints */
-  --breakpoint-phone: 300px;
-  --breakpoint-ipad-mini: 505px;
-  --breakpoint-ipad: 720px;
-  --breakpoint-half-screen: 850px;
-  --breakpoint-monitor: 1200px;
+@layer base {
+  .light-mode {
+    background-color: #ddd9cd;
 
-  /* Custom colors */
-  --color-backgroundFadeB: var(--backgroundFadeB);
-  --color-backgroundFadeM: var(--backgroundFadeM);
-  --color-backgroundFadeE: var(--backgroundFadeE);
+    --backgroundFadeB: #9c9990;
+    --backgroundFadeE: #fef9eb;
 
-  --color-activeTab: var(--activeTab);
-  --color-componentBg: var(--componentBg);
-  --color-skillTileBg: var(--skillTileBg);
-  --color-logoBg: var(--logoBg);
-  --color-resumeBg: var(--resumeBg);
+    --activeTab: #fef9eb;
+    --componentBg: #11121a;
+    --skillTileBg: #f6edd6;
+    --logoBg: #fef9eb;
+    --resumeBg: #11121a;
 
-  --color-opposite: var(--opposite);
-  --color-secondary: var(--secondary);
-  --color-tertiary: var(--tertiary);
-  --color-primary: var(--primary);
-  --color-nonActive: var(--nonActive);
+    --opposite: #eeeeee;
+    --primary: #11121a;
+    --secondary: #454f8a;
+    --tertiary: #17244f;
+    --nonActive: #eab308;
 
-  --color-particleC: var(--particleC);
+    --skillBr: #9b8b74;
+    --cardBr: #0284c7;
+    --botBr: #0284c7;
 
-  --color-border: var(--border);
+    --resumeHov: #eeeeee;
+    --socialHov: #0284c7;
+    --hover: #111111;
 
-  --color-skillBr: var(--skillBr);
-  --color-cardBr: var(--cardBr);
-  --color-botBr: var(--botBr);
-
-  --color-resumeHov: var(--resumeHov);
-  --color-socialHov: var(--socialHov);
-  --color-hover: var(--hover);
-
-  /* Custom animations */
-  --animate-fadeInUp: fadeInUp 0.6s ease-out forwards;
-  /* Custom keyframes */
-  @keyframes fadeInUp {
-    0% {
-      opacity: 0;
-      transform: translateY(20px);
-    }
-    100% {
-      opacity: 1;
-      transform: translateY(0);
-    }
+    --particleC: #7393b3;
   }
-}
-:root {
-  background-color: #ddd9cd;
 
-  --backgroundFadeB: #9c9990;
-  --backgroundFadeE: #fef9eb;
+  .dark-mode {
+    background-color: #090f20;
 
-  --activeTab: #fef9eb;
-  --componentBg: #11121a;
-  --skillTileBg: #f6edd6;
-  --logoBg: #fef9eb;
-  --resumeBg: #11121a;
+    --backgroundFadeB: #192238;
+    --backgroundFadeE: #010614;
 
-  --opposite: #eeeeee;
-  --primary: #11121a;
-  --secondary: #454f8a;
-  --tertiary: #17244f;
-  --nonActive: #eab308;
+    --activeTab: #010614;
+    --componentBg: #111827;
+    --skillTileBg: #111827;
+    --logoBg: #ca8a04;
+    --resumeBg: #010614;
 
-  --skillBr: #9b8b74;
-  --cardBr: #0284c7;
-  --botBr: #0284c7;
+    --opposite: #111111;
+    --primary: #e5e8ee;
+    --secondary: #64748b;
+    --tertiary: #b3c2da;
+    --nonActive: #eab308;
 
-  --resumeHov: #eeeeee;
-  --socialHov: #0284c7;
-  --hover: #111111;
+    --skillBr: #64748b;
+    --cardBr: #0284c7;
+    --botBr: #0284c7;
 
-  --particleC: #7393b3;
-}
+    --resumeHov: #eeeeee;
+    --socialHov: #eeeeee;
+    --hover: #eeeeee;
 
-.dark {
-  background-color: #090f20;
-
-  --backgroundFadeB: #192238;
-  --backgroundFadeE: #010614;
-
-  --activeTab: #010614;
-  --componentBg: #111827;
-  --skillTileBg: #111827;
-  --logoBg: #ca8a04;
-  --resumeBg: #010614;
-
-  --opposite: #111111;
-  --primary: #e5e8ee;
-  --secondary: #64748b;
-  --tertiary: #b3c2da;
-  --nonActive: #eab308;
-
-  --skillBr: #64748b;
-  --cardBr: #0284c7;
-  --botBr: #0284c7;
-
-  --resumeHov: #eeeeee;
-  --socialHov: #eeeeee;
-  --hover: #eeeeee;
-
-  --particleC: #7393b3;
+    --particleC: #7393b3;
+  }
 }

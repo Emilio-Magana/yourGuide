@@ -1,3 +1,3 @@
 export default function Bookings() {
-  return <div>Booking</div>;
+  return <article>Booking</article>;
 }
