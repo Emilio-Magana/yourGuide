@@ -4,7 +4,8 @@
 
 @layer base {
   .light-mode {
-    background-color: #ddd9cd;
+    /* background-color: #898997; */
+    background-color: #94a3b8;
 
     --backgroundFadeB: #9c9990;
     --backgroundFadeE: #fef9eb;
@@ -33,7 +34,8 @@
   }
 
   .dark-mode {
-    background-color: #090f20;
+    /* background-color: #232f4b; */
+    background-color: #1e293b;
 
     --backgroundFadeB: #192238;
     --backgroundFadeE: #010614;

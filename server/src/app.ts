@@ -1,16 +1,17 @@
 import hpp from "hpp";
 
 import cors from "cors";
+import path from "path";
 import express from "express";
 import bodyParser from "body-parser";
 import helmet from "helmet";
 import morgan from "morgan";
+import { fileURLToPath } from "url";
 import compression from "compression";
 import cookieParser from "cookie-parser";
 import rateLimit from "express-rate-limit";
 import mongoSanitize from "express-mongo-sanitize";
 
-// import AppError from "./utils/appError";
 import AppError from "./utils/appError";
 import userRouter from "./routes/userRoutes";
 import tourRouter from "./routes/tourRoutes";
@@ -19,10 +20,13 @@ import bookingRouter from "./routes/bookingRoutes";
 import errorHandler from "./controllers/errorController";
 import { webhookCheckout } from "./controllers/bookingController";
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 // Start express app
 const app = express();
 // Set security HTTP headers
-app.use(helmet());
+app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));
 
 // Development logging
 if (process.env.NODE_ENV === "development") {
@@ -93,6 +97,9 @@ app.post(
 // Data sanitization against XSS
 // app.use(xss());
 
+// // ✅ Serve public folder
+app.use(express.static(path.join(__dirname, "./../../public")));
+// app.use("/static-test", express.static(path.resolve("public")));
 // ROUTES
 app.get("/", (req, res) => res.send("Server working!"));
 app.use("/api/v1/tours", tourRouter);

@@ -1,12 +1,15 @@
-// import NavigationBar from "../ui/Navigation"
-// import imageCover from "/img/tours/tour-1-1.jpg";
-
+import img from "./../../../public/img/tours/tour-1-3.jpg";
 export default function Overview() {
-  // const img = "/public/img/tours/tour-1-1.jpg";
-  const imageCover = "tour-1-cover.jpg";
+  // const imageCover = "tour-1-1.jpg";
   return (
     <div>
-      <img src={`/img/tours/${imageCover}`} alt="Tour" />
+      {/* ✅ Note: no ./ at the beginning */}
+      <img src={img} alt="Tour" />
+      <img src={img} alt="Tour" />
+      <img src={img} alt="Tour" />
+      <img src={img} alt="Tour" />
+      <img src={img} alt="Tour" />
+      <img src={img} alt="Tour" />
     </div>
   );
 }

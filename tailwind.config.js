@@ -8,6 +8,7 @@ export default {
       ipad_mini: "505px",
       ipad: "720px",
       half_screen: "850px",
+      half_monitor: "1000px",
       monitor: "1200px",
     },
     extend: {

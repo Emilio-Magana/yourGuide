@@ -11,7 +11,6 @@ export function useBookings() {
     },
   });
 }
-
 // create booking
 export function useCreateBooking() {
   return useMutation({
@@ -21,7 +20,6 @@ export function useCreateBooking() {
     },
   });
 }
-
 // get booking by id
 export function useBooking(id: string) {
   return useQuery({
@@ -32,7 +30,6 @@ export function useBooking(id: string) {
     },
   });
 }
-
 // Tours (public)
 export function getTours() {
   return useQuery({
@@ -44,7 +41,6 @@ export function getTours() {
     },
   });
 }
-
 export function getTour(tourId: string) {
   return useQuery({
     queryKey: ["tour", tourId],
@@ -56,7 +52,6 @@ export function getTour(tourId: string) {
     enabled: !!tourId,
   });
 }
-
 // Create Review (protected, role=user)
 export function useCreateReview() {
   return useMutation({
@@ -77,7 +72,6 @@ export function useCreateReview() {
     },
   });
 }
-
 // Get Current User (protected)
 export function useCurrentUser() {
   return useQuery({
@@ -87,6 +81,18 @@ export function useCurrentUser() {
       return data.data.data;
     },
     retry: false,
+  });
+}
+// export async function getCurrentUser() {
+//   const { data } = await api.get("/users/me"); // protected route
+//   return data.data.user; // adjust to your backend response
+// }
+export function useAuth() {
+  return useQuery({
+    queryKey: ["authUser"],
+    queryFn: useCurrentUser,
+    retry: false, // don’t retry if unauthorized
+    staleTime: 1000 * 60, // 1 min
   });
 }
 // login
@@ -110,7 +116,6 @@ export function useLogin() {
     },
   });
 }
-
 // create tour (restricted to admin/lead-guide)
 export function useCreateTour() {
   return useMutation({

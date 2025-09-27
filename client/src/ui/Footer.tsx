@@ -2,23 +2,24 @@ import { Link } from "react-router-dom";
 
 export default function Footer() {
   return (
-    <footer className="my-8 flex flex-col justify-center place-self-center ipad_mini:flex-row-reverse ipad_mini:justify-between">
-      <p className="text-muted-foreground text-xs">
-        &copy;{new Date().getFullYear()} Emilio Maga&ntilde;a
-        {" | "}
-        <Link className="link font-bold" to="/privacy">
-          privacy
+    <footer className="my-8 flex flex-row gap-2 place-self-center text-xs text-white ipad_mini:justify-between">
+      <div>
+        <span className="mr-1">&copy; {new Date().getFullYear()},</span>
+        <Link className="" to="/">
+          yourGuide
         </Link>
-        {/* {" | "}
-        <a
-          className="link font-bold"
-          href="https://www.icons8.com"
-          target="_blank"
-        >
-          <img src="/icons8-mountain-96.png" className="inline w-5 pr-1"></img>
-          from icons8.com
-        </a> */}
-      </p>
+      </div>
+      <span>|</span>
+      <a href="http:\\magemi.dev">Emilio Maga&ntilde;a</a>
+      <span>|</span>
+      <Link to="/privacy">Privacy</Link>
+      <span>|</span>
+      <Link to="/aboutUs">About Us</Link>
+      <span>|</span>
+      <Link to="/Careers">Careers</Link>
+      <span>|</span>
+      <Link to="/Contact">Contact</Link>
+      {/* </h4> */}
     </footer>
   );
 }

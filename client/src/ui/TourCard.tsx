@@ -1,7 +1,9 @@
 import { Link } from "react-router-dom";
 
+import { tourSchema, type Tour } from "./../config/schema";
 import { convertDate } from "../utils/convertDate";
-import type { Tour } from "./../config/schema";
+// const API_URL = import.meta.env.VITE_API_URL || "";
+const API_URL = "http://localhost:3000";
 
 export default function TourCard({
   name,
@@ -18,69 +20,41 @@ export default function TourCard({
   maxGroupSize,
   ratingsQuantity,
 }: Tour) {
-  console.log(imageCover);
   return (
-    <div className="card">
-      <div className="card__header">
-        <div className="card__picture">
-          <div className="card__picture-overlay">&nbsp;</div>
-          <img
-            src={`/img/tours/${imageCover}`}
-            alt={name}
-            className="card__picture-img"
-          />
+    <div className="mt-4 flex w-full flex-col rounded-2xl border border-zinc-100 text-primary">
+      <img
+        src={`${API_URL}/img/tours/${imageCover}`}
+        alt={name}
+        className="h-fit rounded-2xl"
+      />
+      <Link to={`/tours/${_id}`}>
+        <h1 className="bg-gradient-to-br from-green-600 to-green-200 px-4 py-2 font-light uppercase leading-none text-white">
+          <span>{name}</span>
+        </h1>
+      </Link>
+      <article className="px-2">
+        <div className="bg-slate-50">
+          <h2 className="uppercase">
+            {difficulty} {duration}-day tour
+          </h2>
+          <p className="">{summary}</p>
+          <ul className="grid grid-cols-2">
+            <li>{startLocation.description}</li>
+            <li>{convertDate(startDates[0])}</li>
+            <li>{locations.length} stops</li>
+            <li>{maxGroupSize} people</li>
+          </ul>
         </div>
-        <Link to={`/tours/${_id}`}>
-          <h3 className="heading-tertirary">
-            <span>{name}</span>
+        <div className="">
+          <h3>${price} per person</h3>
+          <h3>
+            ${ratingsAverage} rating ({ratingsQuantity})
           </h3>
-        </Link>
-      </div>
-      <div className="card__details">
-        <h4 className="card__sub-heading">
-          {difficulty + " "}
-          {duration}-day tour
-        </h4>
-        <p className="card__text">{summary}</p>
-        <div className="card__data">
-          <svg className="card__icon">
-            <use xlinkHref="img/icons.svg#icon-map-pin"></use>
-          </svg>
-          <span>{startLocation.description}</span>
+          <Link to={`/tours/${_id}`} className="btn btn--green btn--small">
+            Details
+          </Link>
         </div>
-        <div className="card__data">
-          <svg className="card__icon">
-            <use xlinkHref="img/icons.svg#icon-calendar"></use>
-          </svg>
-          <span>{convertDate(startDates[0])}</span>
-        </div>
-        <div className="card__data">
-          <svg className="card__icon">
-            <use xlinkHref="img/icons.svg#icon-flag"></use>
-          </svg>
-          <span>{locations.length} stops</span>
-        </div>
-        <div className="card__data">
-          <svg className="card__icon">
-            <use xlinkHref="img/icons.svg#icon-user"></use>
-          </svg>
-          <span>{maxGroupSize} people</span>
-        </div>
-      </div>
-
-      <div className="card__footer">
-        <p>
-          <span className="card__footer-value">${price}</span>
-          <span className="card__footer-text"> per person</span>
-        </p>
-        <p className="card__ratings">
-          <span className="card__footer-value">{ratingsAverage}</span>
-          <span className="card__footer-text"> rating ({ratingsQuantity})</span>
-        </p>
-        <Link to={`/tours/${_id}`} className="btn btn--green btn--small">
-          Details
-        </Link>
-      </div>
+      </article>
     </div>
   );
 }

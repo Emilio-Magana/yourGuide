@@ -10,10 +10,12 @@ export default function Tours() {
   if (!tours) return <div>No tours available</div>;
 
   return (
-    <ul className="text-primary">
-      {tours.map((tour: Tour, key: string) => (
-        <TourCard {...tour} key={key} />
-      ))}
-    </ul>
+    <section className="m-4">
+      <ul className="grid grid-cols-1 gap-2 text-primary ipad_mini:grid-cols-2 half_screen:grid-cols-3 monitor:grid-cols-4">
+        {tours.map((tour: Tour, key: string) => (
+          <TourCard {...tour} key={key} />
+        ))}
+      </ul>
+    </section>
   );
 }
