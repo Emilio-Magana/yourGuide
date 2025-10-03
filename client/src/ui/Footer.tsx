@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 export default function Footer() {
   return (
-    <footer className="my-8 flex flex-row gap-2 place-self-center text-xs text-white ipad_mini:justify-between">
+    <footer className="my-8 flex gap-2 place-self-center text-xs text-white ipad_mini:justify-between">
       <div>
         <span className="mr-1">&copy; {new Date().getFullYear()},</span>
         <Link className="" to="/">

@@ -23,7 +23,7 @@ export default function LoginForm() {
   return (
     <form
       onSubmit={handleSubmit}
-      className="mx-auto mt-5 max-w-md space-y-4 rounded-3xl border p-7 shadow-lg"
+      className="mx-auto mb-28 mt-52 max-w-md space-y-4 rounded-2xl border p-7 shadow-lg"
     >
       <div>
         <label

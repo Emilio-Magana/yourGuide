@@ -4,62 +4,44 @@
 
 @layer base {
   .light-mode {
-    /* background-color: #898997; */
-    background-color: #94a3b8;
+    background-color: #ececec;
 
-    --backgroundFadeB: #9c9990;
-    --backgroundFadeE: #fef9eb;
+    --mainBg: #ececec;
+    --simBg: #50b772;
+    --headerBegBg: #1e293b;
+    --headerEndBg: #94a3b8;
 
-    --activeTab: #fef9eb;
-    --componentBg: #11121a;
-    --skillTileBg: #f6edd6;
-    --logoBg: #fef9eb;
-    --resumeBg: #11121a;
-
-    --opposite: #eeeeee;
+    --opposite: #ececec;
     --primary: #11121a;
     --secondary: #454f8a;
     --tertiary: #17244f;
-    --nonActive: #eab308;
-
-    --skillBr: #9b8b74;
-    --cardBr: #0284c7;
-    --botBr: #0284c7;
-
-    --resumeHov: #eeeeee;
-    --socialHov: #0284c7;
-    --hover: #111111;
-
-    --particleC: #7393b3;
   }
 
   .dark-mode {
-    /* background-color: #232f4b; */
-    background-color: #1e293b;
+    background-color: #232f4b;
 
-    --backgroundFadeB: #192238;
-    --backgroundFadeE: #010614;
-
-    --activeTab: #010614;
-    --componentBg: #111827;
-    --skillTileBg: #111827;
-    --logoBg: #ca8a04;
-    --resumeBg: #010614;
+    --mainBg: #232f4b;
+    --simBg: #50b772;
+    --headerBegBg: #94a3b8;
+    --headerEndBg: #1e293b;
 
     --opposite: #111111;
     --primary: #e5e8ee;
     --secondary: #64748b;
     --tertiary: #b3c2da;
-    --nonActive: #eab308;
-
-    --skillBr: #64748b;
-    --cardBr: #0284c7;
-    --botBr: #0284c7;
-
-    --resumeHov: #eeeeee;
-    --socialHov: #eeeeee;
-    --hover: #eeeeee;
-
-    --particleC: #7393b3;
   }
+}
+
+.li {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  /* vertical-align: middle; */
+  /* place-items: center; */
+  align-items: center;
+}
+
+.li_card {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
 }

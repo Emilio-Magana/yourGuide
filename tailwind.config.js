@@ -4,42 +4,24 @@ export default {
   darkMode: ["class"],
   theme: {
     screens: {
-      phone: "300px",
-      ipad_mini: "505px",
-      ipad: "720px",
-      half_screen: "850px",
-      half_monitor: "1000px",
-      monitor: "1200px",
+      xs_window: "300px",
+      s_window: "510px",
+      m_window: "720px",
+      l_window: "930px",
+      xl_window: "1140px",
+      xxl_window: "1350px",
     },
     extend: {
       colors: {
-        backgroundFadeB: "var(--backgroundFadeB)",
-        backgroundFadeM: "var(--backgroundFadeM)",
-        backgroundFadeE: "var(--backgroundFadeE)",
-
-        activeTab: "var(--activeTab)",
-        componentBg: "var(--componentBg)",
-        skillTileBg: "var(--skillTileBg)",
-        logoBg: "var(--logoBg)",
-        resumeBg: "var(--resumeBg)",
+        mainBg: "var(--mainBg)",
+        simBg: "var(--simBg)",
+        headerBegBg: "var(--headerBegBg)",
+        headerEndBg: "var(--headerEndBg)",
 
         opposite: "var(--opposite)",
         secondary: "var(--secondary)",
         tertiary: "var(--tertiary)",
         primary: "var(--primary)",
-        nonActive: "var(--nonActive)",
-
-        particleC: "var(--particleC)",
-
-        border: "var(--border)",
-
-        skillBr: "var(--skillBr)",
-        cardBr: "var(--cardBr)",
-        botBr: "var(--botBr)",
-
-        resumeHov: "var(--resumeHov)",
-        socialHov: "var(--socialHov)",
-        hover: "var(--hover)",
       },
       animation: {
         "fade-in-up": "fadeInUp 0.6s ease-out forwards",

@@ -34,7 +34,7 @@ const startLocation = z.object({
 });
 
 const tour = z.object({
-  _id: z.string(),
+  _id: z.object({ $oid: z.string() }),
   name: z.string(),
   imageCover: z.string(),
   maxGroupSize: z.number(),

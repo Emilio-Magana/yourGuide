@@ -27,19 +27,19 @@ export default function Navigation() {
     }
   };
   return (
-    <ul className="half_monitor:gap-60 z-50 flex items-baseline transition-all duration-300 ease-in-out phone:gap-16 ipad_mini:gap-20 ipad:gap-40 half_screen:gap-56 monitor:gap-96">
+    <ul className="xs_window:gap-14 s_window:gap-16 m_window:gap-32 l_window:gap-56 xl_window:gap-60 flex items-baseline transition-all duration-300 ease-in-out">
       {navLinks.map((nav, id) => (
         <li
           key={id}
           className={
             id === 0
-              ? "text-xl font-bold transition-all duration-300 ease-in-out hover:text-hover"
-              : "transition-all duration-300 ease-in-out hover:text-hover"
+              ? "text-xl font-bold transition-all duration-300 ease-in-out hover:drop-shadow-[-1px_2px_3px_rgba(30,41,59,1)]"
+              : "transition-all duration-300 ease-in-out hover:drop-shadow-[-1px_1.2px_3px_rgba(30,41,59,1)]"
           }
         >
           {id === 1 ? (
             <Link to={nav.href} onClick={(e) => handleClick(e, nav.href)}>
-              <img src={logo} className="w-16 pt-4" />
+              <img src={logo} className="ml-7 w-16 pt-4" />
             </Link>
           ) : (
             <Link to={nav.href} onClick={(e) => handleClick(e, nav.href)}>
