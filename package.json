@@ -4,8 +4,8 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite ./client/src/app/",
-    "server": "tsx ./server/src/server.ts",
+    "dev": "vite",
+    "server": "tsx ./src/server/server.ts",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview"

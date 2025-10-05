@@ -5,6 +5,7 @@
     "useDefineForClassFields": true,
     "lib": ["ES2022", "DOM", "DOM.Iterable"],
     "module": "ESNext",
+    "types": ["vite/client"],
     "skipLibCheck": true,
 
     /* Bundler mode */
@@ -21,12 +22,7 @@
     "noUnusedParameters": false,
     "erasableSyntaxOnly": true,
     "noFallthroughCasesInSwitch": true,
-    "noUncheckedSideEffectImports": true,
-    "baseUrl": ".",
-    "paths": {
-      "@server/*": ["./server/src/*"],
-      "./../*": ["./client/src/*"]
-    }
+    "noUncheckedSideEffectImports": true
   },
-  "include": ["common", "client", "server", "vite.config.ts"]
+  "include": ["src"]
 }
