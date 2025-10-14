@@ -1,8 +1,11 @@
 import { Link } from "react-router-dom";
+import DarkModeToggle from "./DarkModeToggle";
 
 export default function Footer() {
   return (
-    <footer className="my-8 flex gap-2 place-self-center text-xs text-white ipad_mini:justify-between">
+    // <div className="relative flex items-baseline justify-center gap-1">
+
+    <footer className="my-8 flex items-center justify-center gap-2 text-xs text-primary">
       <div>
         <span className="mr-1">&copy; {new Date().getFullYear()},</span>
         <Link className="" to="/">
@@ -19,7 +22,7 @@ export default function Footer() {
       <Link to="/Careers">Careers</Link>
       <span>|</span>
       <Link to="/Contact">Contact</Link>
-      {/* </h4> */}
+      <DarkModeToggle />
     </footer>
   );
 }

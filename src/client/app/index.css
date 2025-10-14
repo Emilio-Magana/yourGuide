@@ -7,7 +7,7 @@
     background-color: #ececec;
 
     --mainBg: #ececec;
-    --simBg: #50b772;
+    --simBg: #1c9f47;
     --headerBegBg: #1e293b;
     --headerEndBg: #94a3b8;
 
@@ -21,12 +21,12 @@
     background-color: #232f4b;
 
     --mainBg: #232f4b;
-    --simBg: #50b772;
+    --simBg: #003712;
     --headerBegBg: #94a3b8;
     --headerEndBg: #1e293b;
 
     --opposite: #111111;
-    --primary: #e5e8ee;
+    --primary: #ffffff;
     --secondary: #64748b;
     --tertiary: #b3c2da;
   }

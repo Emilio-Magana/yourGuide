@@ -1,5 +1,4 @@
-// import ReviewCard from "./ReviewCard";
-import { useState } from "react";
+import { useState, type RefObject } from "react";
 import { motion } from "framer-motion";
 
 const testimonials = [
@@ -44,7 +43,17 @@ const testimonials = [
   },
 ];
 
-export default function StaggerTestimonials({ length }: { length: number }) {
+interface StaggeredTestProps {
+  className: string;
+  length: number;
+  sectionRef: RefObject<HTMLDivElement | null>;
+}
+
+export default function StaggeredTestimonials({
+  className,
+  length,
+  sectionRef,
+}: StaggeredTestProps) {
   const middlePoint: number = Math.ceil(length / 2);
   const [activeIndex, setActiveIndex] = useState(middlePoint);
 
@@ -53,63 +62,45 @@ export default function StaggerTestimonials({ length }: { length: number }) {
   };
 
   return (
-    <div className="relative flex h-[300px] items-center justify-center">
+    <div className={className} ref={sectionRef}>
       {testimonials.map((t, i) => {
-        let offset = i - activeIndex; // position relative to active
+        let offset = i - activeIndex;
         if (offset > testimonials.length / 2) {
           offset -= testimonials.length;
         } else if (offset < -testimonials.length / 2) {
           offset += testimonials.length;
         }
-        // const isActive = i === activeIndex;
-        // const offset =
-        //   (i - activeIndex + testimonials.length) % testimonials.length;
-
-        // // Only show cards that are within 3 positions
-        if (offset > 3 && offset < testimonials.length - 3) return null;
-
-        // // Calculate position for wrapping
-        // let position = offset;
-        // if (offset > testimonials.length / 2) {
-        //   position = offset - testimonials.length;
-        // }
-
         return (
           <motion.div
             key={i}
             onClick={() => handleClick(i)}
-            initial={false}
-            // onClick={() => setActiveIndex(i)}
-            // initial={{ scale: 0.8, opacity: 0 }}
+            layout
+            initial={{
+              scale: 0.8,
+              opacity: 0,
+            }}
             animate={{
               scale: 1,
-              rotate: i === activeIndex ? 0 : offset % 2 === 0 ? -2 : 2, // tilt based on position
-              x: offset * 170, // horizontal spread
-              y: i === activeIndex ? -20 : offset % 2 === 0 ? -5 : 20,
-              zIndex: i === activeIndex ? 3 : offset % 2 === 2 ? 1 : 2,
-              opacity: Math.abs(offset) > 3 ? 0 : 1, // fade out side cards
-              // scale: isActive ? 1 : 0.85,
-              // x: position * 140,
-              // y: Math.abs(position) * 15,
-              // rotate: isActive ? 0 : position * 3,
-              // opacity: Math.abs(position) > 3 ? 0 : 1,
-              // zIndex: isActive ? 10 : 10 - Math.abs(position),
+              rotate: offset === 0 ? 0 : offset % 2 === 0 ? -2 : 2,
+              x: offset * 185,
+              y: offset === 0 ? -20 : offset % 2 === 0 ? -5 : 20,
+              zIndex: offset === 0 ? 3 : offset % 2 === 0 ? 2 : 1,
+              opacity: Math.abs(offset) >= 3 ? 0 : 1,
             }}
-            // transition={{
-            //   type: "spring",
-            //   stiffness: 200,
-            //   damping: 20,
-            //   duration: 0.8,
-            exit={{ scale: 0.8, opacity: 0 }}
+            exit={{
+              scale: 0.8,
+              opacity: 0,
+              x: offset > 0 ? 400 : -400,
+            }}
             transition={{
               type: "spring",
-              stiffness: 300,
-              damping: 30,
+              stiffness: 400,
+              damping: 100,
             }}
             className={`absolute flex h-60 max-w-64 cursor-pointer flex-col gap-3 place-self-center border p-4 shadow-xl ${
-              i === activeIndex
-                ? "bg-indigo-600 text-white duration-100"
-                : "bg-white text-black duration-100"
+              offset === 0
+                ? "bg-indigo-600 text-white transition-colors duration-200"
+                : "bg-white text-black transition-colors duration-100"
             }`}
             style={{
               clipPath:
