@@ -3,10 +3,9 @@ import { FaFlag, FaLocationDot } from "react-icons/fa6";
 import { FaCalendar } from "react-icons/fa";
 import { BsFillPeopleFill } from "react-icons/bs";
 
-import { tourSchema, type Tour } from "../config/schema";
+import type { Tour } from "../config/schema";
 import { convertDate } from "../utils/convertDate";
-// const API_URL = import.meta.env.VITE_API_URL || "";
-const API_URL = "http://localhost:3000";
+const api_url = import.meta.env.VITE_API_URL || "";
 
 export default function TourCard({
   name,
@@ -28,7 +27,7 @@ export default function TourCard({
       {/* <section className="relative overflow-hidden"> */}
       <Link to={`/tours/${_id}`} className="relative">
         <img
-          src={`${API_URL}/img/tours/${imageCover}`}
+          src={`${api_url}/img/tours/${imageCover}`}
           alt={name}
           className="h-60 w-full rounded-t-2xl duration-300 ease-in-out hover:scale-105"
         />

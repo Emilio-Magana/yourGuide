@@ -5,7 +5,7 @@ export default function Footer() {
   return (
     // <div className="relative flex items-baseline justify-center gap-1">
 
-    <footer className="my-8 flex items-center justify-center gap-2 text-xs text-primary">
+    <footer className="my-8 flex place-items-center items-center justify-center gap-1 text-xs text-primary duration-300 m_window:gap-2">
       <div>
         <span className="mr-1">&copy; {new Date().getFullYear()},</span>
         <Link className="" to="/">

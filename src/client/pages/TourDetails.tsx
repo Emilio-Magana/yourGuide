@@ -1,9 +1,13 @@
-import { useRef, type RefObject } from "react";
+import { createRef, useMemo } from "react";
+import { useParams } from "react-router-dom";
+
 import ImageGrid from "../ui/ImageGrid";
 import TourHeader from "../ui/TourHeader";
 import TourMap from "../components/TourMap";
+import TourReviews from "../ui/TourReviews";
 import TourOverview from "../ui/TourOverview";
-import StaggeredTestimonials from "../components/StaggeredTestimonials";
+import ViewOtherTours from "../ui/ViewOtherTours";
+import { useGetTour, useGetTours } from "../api/queries";
 import SectionNavigator, { type Section } from "../ui/SectionNavigator";
 
 const api_url = import.meta.env.VITE_API_URL;
@@ -16,139 +20,66 @@ const tourSections: Section[] = [
 ];
 
 export default function TourDetails() {
-  // const { tourId } = useParams();
-  // const { data: tour, isLoading } = getTour(tourId!);
+  const { tourId } = useParams();
+  const { data: tour, isLoading } = useGetTour(tourId!);
+  const { data: tours } = useGetTours();
+  // const {data: reviews} = getReview()
 
-  // if (isLoading) return <div>Loading....</div>;
-  // if (!tour) return <div>No tour found</div>;
-  const sectionRefs: Record<
-    string,
-    RefObject<HTMLDivElement | null>
-  > = tourSections.reduce(
-    (acc, section) => {
-      acc[section.id] = useRef<HTMLDivElement | null>(null);
-      return acc;
-    },
-    {} as Record<string, RefObject<HTMLDivElement | null>>,
-  );
+  const sectionRefs = useMemo(() => {
+    const refs: Record<string, React.RefObject<HTMLDivElement | null>> = {};
+    tourSections.forEach((section) => {
+      refs[section.id] = createRef<HTMLDivElement | null>();
+    });
+    return refs;
+  }, []);
+
+  if (isLoading) return <div>Loading....</div>;
+  if (!tour) return <div>No tour found</div>;
 
   return (
     <div className="flex flex-col">
       <TourHeader
-        path={`${api_url}/img/tours/${tourLocal.imageCover}`}
-        title={tourLocal.name}
-        detailOne={tourLocal.duration.toString()}
-        detailTwo={tourLocal.startLocation.description}
+        path={`${api_url}/img/tours/${tour.imageCover}`}
+        title={tour.name}
+        detailOne={tour.duration.toString()}
+        detailTwo={tour.startLocation.description}
       />
-      <SectionNavigator sections={tourSections} sectionRefs={sectionRefs} />
+      <SectionNavigator
+        className="sticky top-0 z-20 flex place-content-between bg-white px-2 py-[13px] text-sm duration-300 m_window:text-base l_window:px-6"
+        sections={tourSections}
+        sectionRefs={sectionRefs}
+      />
       <TourOverview
         sectionRef={sectionRefs["Overview"]}
         imgPath={`${api_url}/img`}
-        className="mb-2 scroll-mt-16"
-        name={tourLocal.name}
-        startDate={tourLocal.startDates[0]}
-        difficulty={tourLocal.difficulty}
-        maxGroupSize={tourLocal.maxGroupSize}
-        guides={tourLocal.guides}
-        description={tourLocal.description}
+        className="mb-1 mt-5 scroll-mt-[74px]"
+        name={tour.name}
+        startDate={tour.startDates[0]}
+        difficulty={tour.difficulty}
+        maxGroupSize={tour.maxGroupSize}
+        guides={tour.guides}
+        description={tour.description}
       />
       <TourMap
         sectionRef={sectionRefs["Itinerary"]}
-        locations={tourLocal.locations}
+        className="mb-5 ml-9 flex scroll-mt-[74px] flex-col duration-300"
+        locations={tour.locations}
       />
       <ImageGrid
         sectionRef={sectionRefs["Included"]}
         imgPath={`${api_url}/img`}
-        className="mb-5 mr-5 flex scroll-mt-20 flex-col gap-4 s_window:mb-9 s_window:mr-9"
-        imageArray={tourLocal.images}
+        className="mb-5 mr-9 flex scroll-mt-[74px] flex-col duration-300"
+        imageArray={tour.images}
       />
-      <section>
-        <StaggeredTestimonials
-          sectionRef={sectionRefs["Reviews"]}
-          className="relative mx-5 flex h-[350px] justify-center overflow-hidden rounded-2xl border bg-simBg s_window:mx-9"
-          length={6}
-        />
-      </section>
-      <div className="my-32"></div>
+      <TourReviews
+        className="mx-9 mb-5 scroll-mt-[74px]"
+        sectionRef={sectionRefs["Reviews"]}
+      />
+      <ViewOtherTours
+        className="mx-9 mb-5 mt-2 flex flex-col gap-[11px]"
+        imgPath={`${api_url}/img`}
+        tours={tours}
+      />
     </div>
   );
 }
-
-const tourLocal = {
-  _id: "5c88fa8cf4afda39709c2955",
-  name: "The Sea Explorer",
-  duration: 7,
-  maxGroupSize: 15,
-  secretTour: false,
-  difficulty: "medium",
-  ratingsAverage: 4.9,
-  ratingsQuantity: 7,
-  price: 497,
-  summary: "Exploring the jaw-dropping US east coast by foot and by boat",
-  description:
-    "Consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.\nIrure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
-  imageCover: "tour-2-cover.jpg",
-  images: ["tour-2-1.jpg", "tour-2-2.jpg", "tour-2-3.jpg"],
-  createdAt: {
-    $date: "2025-08-05T12:23:26.489Z",
-  },
-  startDates: [
-    "2021-06-19T09:00:00.000Z",
-    "2021-07-20T09:00:00.000Z",
-    "2021-08-18T09:00:00.000Z",
-  ],
-  startLocation: {
-    type: "Point",
-    coordinates: [-80.185942, 25.774772],
-    address: "301 Biscayne Blvd, Miami, FL 33132, USA",
-    description: "Miami, USA",
-  },
-  locations: [
-    {
-      type: "Point",
-      coordinates: [-80.128473, 25.781842],
-      description: "Lummus Park Beach",
-      day: 1,
-      _id: {
-        $oid: "5c88fa8cf4afda39709c2959",
-      },
-    },
-    {
-      type: "Point",
-      coordinates: [-80.647885, 24.909047],
-      description: "Islamorada",
-      day: 2,
-      _id: {
-        $oid: "5c88fa8cf4afda39709c2958",
-      },
-    },
-    {
-      type: "Point",
-      coordinates: [-81.0784, 24.707496],
-      description: "Sombrero Beach",
-      day: 3,
-      _id: {
-        $oid: "5c88fa8cf4afda39709c2957",
-      },
-    },
-    {
-      type: "Point",
-      coordinates: [-81.768719, 24.552242],
-      description: "West Key",
-      day: 5,
-      _id: {
-        $oid: "5c88fa8cf4afda39709c2956",
-      },
-    },
-  ],
-  guides: [
-    {
-      _id: "5c8a22c62f8fb814b56fa18b",
-    },
-    {
-      _id: "5c8a1f4e2f8fb814b56fa185",
-    },
-  ],
-  slug: "the-sea-explorer",
-  __v: 0,
-};

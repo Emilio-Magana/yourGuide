@@ -18,7 +18,7 @@ export default function TourHeader({
     <section className="relative">
       <img
         src={path}
-        className="h-[300px] w-full rounded-br-2xl object-none duration-500 m_window:h-[400px] l_window:h-[500px]"
+        className="h-[320px] w-full rounded-br-2xl object-none duration-300 m_window:h-[400px] l_window:h-[500px]"
       />
       <div className="absolute inset-x-0 bottom-10 flex flex-col items-center justify-center gap-10 font-semibold text-white drop-shadow-[0_1.2px_1.2px_rgba(30,41,59,1)]">
         <h1 className="text-5xl">{title}</h1>

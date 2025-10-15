@@ -21,7 +21,7 @@ export function useCreateBooking() {
   });
 }
 // get booking by id
-export function useBooking(id: string) {
+export function useGetBooking(id: string) {
   return useQuery({
     queryKey: ["booking", id],
     queryFn: async () => {
@@ -31,7 +31,7 @@ export function useBooking(id: string) {
   });
 }
 // Tours (public)
-export function getTours() {
+export function useGetTours() {
   return useQuery({
     queryKey: ["tours"],
     queryFn: async () => {
@@ -41,7 +41,7 @@ export function getTours() {
     },
   });
 }
-export function getTour(tourId: string) {
+export function useGetTour(tourId: string) {
   return useQuery({
     queryKey: ["tour", tourId],
     queryFn: async () => {
@@ -73,7 +73,7 @@ export function useCreateReview() {
   });
 }
 // Get Current User (protected)
-export function useCurrentUser() {
+export function useGetCurrentUser() {
   return useQuery({
     queryKey: ["currentUser"],
     queryFn: async () => {
@@ -90,7 +90,7 @@ export function useCurrentUser() {
 export function useAuth() {
   return useQuery({
     queryKey: ["authUser"],
-    queryFn: useCurrentUser,
+    queryFn: useGetCurrentUser,
     retry: false, // don’t retry if unauthorized
     staleTime: 1000 * 60, // 1 min
   });

@@ -1,4 +1,4 @@
-import { useState, type RefObject } from "react";
+import { useState } from "react";
 import { motion } from "framer-motion";
 
 const testimonials = [
@@ -46,13 +46,11 @@ const testimonials = [
 interface StaggeredTestProps {
   className: string;
   length: number;
-  sectionRef: RefObject<HTMLDivElement | null>;
 }
 
 export default function StaggeredTestimonials({
   className,
   length,
-  sectionRef,
 }: StaggeredTestProps) {
   const middlePoint: number = Math.ceil(length / 2);
   const [activeIndex, setActiveIndex] = useState(middlePoint);
@@ -62,7 +60,7 @@ export default function StaggeredTestimonials({
   };
 
   return (
-    <div className={className} ref={sectionRef}>
+    <div className={className}>
       {testimonials.map((t, i) => {
         let offset = i - activeIndex;
         if (offset > testimonials.length / 2) {
@@ -97,9 +95,9 @@ export default function StaggeredTestimonials({
               stiffness: 400,
               damping: 100,
             }}
-            className={`absolute flex h-60 max-w-64 cursor-pointer flex-col gap-3 place-self-center border p-4 shadow-xl ${
+            className={`absolute flex h-60 max-w-64 cursor-pointer flex-col gap-3 place-self-center p-4 shadow-xl ${
               offset === 0
-                ? "bg-indigo-600 text-white transition-colors duration-200"
+                ? "bg-highLightBg text-white transition-colors duration-200"
                 : "bg-white text-black transition-colors duration-100"
             }`}
             style={{

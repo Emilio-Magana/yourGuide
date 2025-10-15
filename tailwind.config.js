@@ -13,12 +13,12 @@ export default {
     },
     extend: {
       colors: {
-        mainBg: "var(--mainBg)",
+        highLightBg: "var(--highLightBg)",
         simBg: "var(--simBg)",
         headerBegBg: "var(--headerBegBg)",
         headerEndBg: "var(--headerEndBg)",
 
-        opposite: "var(--opposite)",
+        centerLBg: "var(--centerLBg)",
         secondary: "var(--secondary)",
         tertiary: "var(--tertiary)",
         primary: "var(--primary)",
