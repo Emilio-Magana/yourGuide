@@ -1,21 +1,59 @@
-import { useAuth } from "./../api/queries";
+import { useAuth, useLogout } from "./../api/queries";
 
 import { motion } from "framer-motion";
 import type { IconType } from "react-icons";
-import { IoMdPerson } from "react-icons/io";
+import { IoMdPerson, IoMdSettings } from "react-icons/io";
 import { CiLogin, CiLogout } from "react-icons/ci";
 import { FiEdit, FiChevronDown, FiPlusSquare } from "react-icons/fi";
-import { type Dispatch, type SetStateAction, useState } from "react";
-import { Link } from "react-router-dom";
+import { MdReviews } from "react-icons/md";
+
+import {
+  type Dispatch,
+  type SetStateAction,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function StaggeredDropDown() {
-  const [open, setOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+  const navigate = useNavigate();
   const { data: user } = useAuth();
+  const logoutMutation = useLogout();
+
+  const handLoggingOut = async () => {
+    setIsOpen(false);
+    try {
+      await logoutMutation.mutateAsync();
+      navigate("/", { replace: true });
+    } catch (error) {
+      console.error("Logout failed:", error);
+    }
+  };
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (ref.current && !ref.current.contains(event.target as Node)) {
+        setIsOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isOpen]);
+
+  useEffect(() => {
+    setIsOpen(false);
+  }, [user]);
+
   return (
-    <div>
-      <motion.div animate={open ? "open" : "closed"} className="relative">
+    <div ref={ref}>
+      <motion.div animate={isOpen ? "open" : "closed"} className="relative">
         <button
-          onClick={() => setOpen((pv) => !pv)}
+          onClick={() => setIsOpen((isOpen) => !isOpen)}
           className="flex items-center gap-2 rounded-md px-3 py-2 text-white transition-colors duration-300 hover:bg-slate-500"
         >
           <IoMdPerson />
@@ -27,28 +65,47 @@ export default function StaggeredDropDown() {
         <motion.ul
           initial={wrapperVariants.closed}
           variants={wrapperVariants}
+          exit={wrapperVariants.closed}
           style={{ originY: "top", translateX: "-50%" }}
           className="absolute left-[50%] top-[120%] flex w-28 flex-col gap-2 overflow-hidden rounded-lg bg-white p-2 shadow-xl"
         >
           {user ? (
             <>
               <Option
-                setOpen={setOpen}
+                setIsOpen={setIsOpen}
                 Icon={FiEdit}
                 text="Profile"
-                href="/profile/:userId"
+                href="/:userId/profile"
               />
               <Option
-                setOpen={setOpen}
+                setIsOpen={setIsOpen}
                 Icon={FiPlusSquare}
                 text="Bookings"
-                href="/bookings/:userId"
+                href="/:userId/bookings"
               />
-              <Option setOpen={setOpen} Icon={CiLogout} text="Logout" href="" />
+              <Option
+                setIsOpen={setIsOpen}
+                Icon={MdReviews}
+                text="Reviews"
+                href="/:userId/reviews"
+              />
+              <Option
+                setIsOpen={setIsOpen}
+                Icon={IoMdSettings}
+                text="Settings"
+                href="/:userId/settings"
+              />
+              <Option
+                setIsOpen={setIsOpen}
+                Icon={CiLogout}
+                text="Logout"
+                href="#"
+                onClick={handLoggingOut}
+              />
             </>
           ) : (
             <Option
-              setOpen={setOpen}
+              setIsOpen={setIsOpen}
               Icon={CiLogin}
               text="Login"
               href="/login"
@@ -61,18 +118,19 @@ export default function StaggeredDropDown() {
 }
 
 interface OptionProps {
+  onClick?: () => void;
   href: string;
   text: string;
   Icon: IconType;
-  setOpen: Dispatch<SetStateAction<boolean>>;
+  setIsOpen: Dispatch<SetStateAction<boolean>>;
 }
 
-const Option = ({ href, text, Icon, setOpen }: OptionProps) => {
+const Option = ({ href, text, Icon, setIsOpen, onClick }: OptionProps) => {
   return (
     <Link to={href}>
       <motion.li
         variants={itemVariants}
-        onClick={() => setOpen(false)}
+        onClick={text === "Logout" ? onClick : () => setIsOpen(false)}
         className="flex w-full cursor-pointer items-center gap-2 whitespace-nowrap rounded-md p-2 text-xs font-medium text-slate-700 transition-colors hover:bg-slate-100 hover:text-slate-600"
       >
         <motion.span variants={actionIconVariants}>
@@ -95,6 +153,7 @@ const wrapperVariants = {
   closed: {
     scaleY: 0,
     transition: {
+      duration: 0.1,
       when: "afterChildren",
       staggerChildren: 0.1,
     },

@@ -18,7 +18,6 @@ const signToken = (id: string) => {
   };
   return jwt.sign({ id }, process.env.JWT_SECRET, options);
 };
-
 const createSendToken = (
   user: IUser,
   statusCode: number,
@@ -50,7 +49,6 @@ const createSendToken = (
     },
   });
 };
-
 function verifyToken(token: string, secret: string): Promise<JwtPayload> {
   return new Promise((resolve, reject) => {
     jwt.verify(token, secret, (err, decoded) => {
@@ -60,7 +58,6 @@ function verifyToken(token: string, secret: string): Promise<JwtPayload> {
     });
   });
 }
-
 const signup = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const newUser: IUser = await User.create({
@@ -71,7 +68,7 @@ const signup = catchAsync(
     });
 
     // const url = `${req.protocol}://${req.get("host")}/me`;
-    // console.log(url);
+    // // console.log(url);
     // await new Email(newUser, url).sendWelcome();
 
     createSendToken(newUser, 201, req, res);
@@ -98,28 +95,46 @@ const login = catchAsync(
   },
 );
 
+// const logout = (req: Request, res: Response) => {
+//   res.cookie("jwt", "loggedout", {
+//     expires: new Date(Date.now() + 10 * 1000),
+//     httpOnly: true,
+//   });
+//   res.status(200).json({ status: "success" });
+// };
 const logout = (req: Request, res: Response) => {
-  res.cookie("jwt", "loggedout", {
-    expires: new Date(Date.now() + 10 * 1000),
+  res.clearCookie("jwt", {
     httpOnly: true,
+    sameSite: "lax",
+    path: "/",
   });
   res.status(200).json({ status: "success" });
 };
 
-const protect = catchAsync(
-  async (req: UserRequest, res: Response, next: NextFunction) => {
-    // 1) Getting token and check of it's there
+// const protect = catchAsync(
+const protect = async (req: UserRequest, res: Response, next: NextFunction) => {
+  // console.log("🔒 PROTECT MIDDLEWARE - START");
+  // console.log("Cookies:", req.cookies);
+  // console.log("JWT Cookie value:", req.cookies?.jwt);
+
+  try {
+    // 1) Getting token and check if it's there
     let token;
     if (
       req.headers.authorization &&
       req.headers.authorization.startsWith("Bearer")
     ) {
       token = req.headers.authorization.split(" ")[1];
+      // console.log("Token from Authorization header:", token);
     } else if (req.cookies.jwt) {
       token = req.cookies.jwt;
+      // console.log("Token from cookie:", token);
     }
 
-    if (!token) {
+    // console.log("Final token value:", token);
+
+    if (!token || token === "loggedout") {
+      // console.log("❌ No valid token, returning 401");
       return next(
         new AppError(
           "You are not logged in! Please log in to get access.",
@@ -129,10 +144,20 @@ const protect = catchAsync(
     }
 
     // 2) Verification token
-    const decoded = await verifyToken(token, process.env.JWT_SECRET);
-
+    // console.log("Attempting to verify token...");
+    let decoded;
+    try {
+      decoded = await verifyToken(token, process.env.JWT_SECRET!);
+      // console.log("✅ Token verified:", decoded);
+    } catch (error) {
+      // console.log("❌ Token verification failed:", error);
+      return next(
+        new AppError("Invalid or expired token. Please log in again.", 401),
+      );
+    }
     // 3) Check if user still exists
     const currentUser = await User.findById(decoded.id);
+    // console.log("User found:", currentUser ? "Yes" : "No"); // ⬅️ Debug log
     if (!currentUser) {
       return next(
         new AppError(
@@ -141,7 +166,6 @@ const protect = catchAsync(
         ),
       );
     }
-
     // 4) Check if user changed password after the token was issued
     if (currentUser.changedPasswordAfter(decoded.iat as number)) {
       return next(
@@ -151,13 +175,15 @@ const protect = catchAsync(
         ),
       );
     }
-
     // GRANT ACCESS TO PROTECTED ROUTE
     req.user = currentUser;
     res.locals.user = currentUser;
     next();
-  },
-);
+  } catch (error) {
+    // Catch any unexpected errors
+    return next(new AppError("Authentication failed. Please try again.", 401));
+  }
+};
 
 // Only for rendered pages, no errors!
 const isLoggedIn = async (req: Request, res: Response, next: NextFunction) => {

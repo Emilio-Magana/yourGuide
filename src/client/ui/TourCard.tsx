@@ -22,10 +22,12 @@ export default function TourCard({
   maxGroupSize,
   ratingsQuantity,
 }: Tour) {
+  function handleClick() {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
   return (
     <section className="w-full overflow-hidden rounded-2xl">
-      {/* <section className="relative overflow-hidden"> */}
-      <Link to={`/tours/${_id}`} className="relative">
+      <Link to={`/tours/${_id}`} className="relative" onClick={handleClick}>
         <img
           src={`${api_url}/img/tours/${imageCover}`}
           alt={name}

@@ -36,7 +36,6 @@ if (process.env.NODE_ENV === "development") {
 const corsOptions = {
   origin: "http://localhost:5173",
   credentials: true, //access-control-allow-credentials:true
-  optionSuccessStatus: 200,
 };
 app.use(cors(corsOptions));
 
@@ -76,7 +75,7 @@ app.use(compression());
 
 // Limit requests from same API
 const limiter = rateLimit({
-  max: 100,
+  max: 200,
   windowMs: 60 * 60 * 1000,
   message: "Too many requests from this IP, please try again in an hour!",
 });
@@ -96,6 +95,12 @@ app.post(
 
 // Data sanitization against XSS
 // app.use(xss());
+
+app.use((req, res, next) => {
+  console.log(`📨 ${req.method} ${req.url}`);
+  console.log("Cookies:", req.cookies);
+  next();
+});
 
 // // ✅ Serve public folder
 app.use(express.static(path.join(__dirname, "./../../public")));

@@ -1,9 +1,10 @@
 import { Link } from "react-router-dom";
 import type { Tour } from "../config/schema";
 
+const api_url = import.meta.env.VITE_API_URL;
+
 interface TourCardMiniProps {
   name: string;
-  imgPath: string;
   imageCover: string;
   _id: Tour["_id"];
   difficulty: string;
@@ -14,16 +15,19 @@ interface TourCardMiniProps {
 export default function TourCardMini({
   name,
   imageCover,
-  imgPath,
   _id,
   difficulty,
   duration,
   className,
 }: TourCardMiniProps) {
+  function handleClick() {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
   return (
-    <Link className={className} to={`/tours/${_id}`}>
+    <Link className={className} to={`/tours/${_id}`} onClick={handleClick}>
       <img
-        src={`${imgPath}/tours/${imageCover}`}
+        src={`${api_url}/img/tours/${imageCover}`}
         alt={name}
         className="h-60 w-full duration-300 ease-in-out hover:scale-105"
       />

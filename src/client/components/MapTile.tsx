@@ -111,7 +111,7 @@ export default function Maptile({
     });
 
     map.fitBounds(bounds, {
-      padding: { top: 100, bottom: 100, left: 100, right: 100 },
+      padding: { top: 90, bottom: 90, left: 100, right: 100 },
     });
     boundsRef.current = bounds;
   };
@@ -141,9 +141,10 @@ export default function Maptile({
   const resetView = () => {
     const map = mapRef.current;
     if (!map || !boundsRef.current) return;
+    setSelectedLocation(null);
 
     map.fitBounds(boundsRef.current, {
-      padding: { top: 100, bottom: 100, left: 100, right: 100 },
+      padding: { top: 90, bottom: 90, left: 100, right: 100 },
       // duration: 1000,
     });
   };

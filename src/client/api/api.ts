@@ -2,6 +2,7 @@ import axios from "axios";
 
 export const api = axios.create({
   baseURL: "http://localhost:3000/api/v1", // adjust your API URL
+  withCredentials: true,
 });
 
 // attach token if exists

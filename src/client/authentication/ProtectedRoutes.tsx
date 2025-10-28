@@ -1,11 +1,11 @@
 import { useEffect } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
-import Spinner from "./../ui/Spinner";
-import { useCurrentUser } from "./../api/queries";
+import { useAuth } from "./../api/queries";
+import PathFinderLoader from "../components/PathFinderLoader";
 
 function ProtectedRoutes({ roles }: { roles?: string[] }) {
   const navigate = useNavigate();
-  const { data: user, isLoading, error } = useCurrentUser();
+  const { data: user, isLoading, error } = useAuth();
 
   useEffect(() => {
     if (!isLoading) {
@@ -17,7 +17,7 @@ function ProtectedRoutes({ roles }: { roles?: string[] }) {
     }
   }, [isLoading, error, roles, user, navigate]);
 
-  if (isLoading) return <Spinner></Spinner>;
+  if (isLoading) return <PathFinderLoader />;
 
   // If there's an error (like 401), the effect above will redirect
   if (error) return null;

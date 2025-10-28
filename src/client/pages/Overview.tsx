@@ -1,15 +1,8 @@
-import img from "/img/tours/tour-1-3.jpg";
+import TourHeader from "../ui/TourHeader";
 export default function Overview() {
-  // const imageCover = "tour-1-1.jpg";
   return (
-    <div>
-      {/* ✅ Note: no ./ at the beginning */}
-      <img src={img} alt="Tour" />
-      <img src={img} alt="Tour" />
-      <img src={img} alt="Tour" />
-      <img src={img} alt="Tour" />
-      <img src={img} alt="Tour" />
-      <img src={img} alt="Tour" />
-    </div>
+    <section className="mx-auto mb-28 flex flex-col">
+      <TourHeader tourCover="tour-1-3.jpg" title="" detailed={false} />
+    </section>
   );
 }

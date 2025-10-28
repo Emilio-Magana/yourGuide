@@ -3,15 +3,15 @@ import { convertDate } from "../utils/convertDate";
 import { BsFillPeopleFill } from "react-icons/bs";
 import type { RefObject } from "react";
 
+const api_url = import.meta.env.VITE_API_URL;
+
 interface TourOverviewProps {
   sectionRef: RefObject<HTMLDivElement | null>;
   name: string;
   startDate: string;
   difficulty: string;
   maxGroupSize: number;
-  //   guides: Array<string>;
   guides: Array<{ _id: string }>;
-  imgPath: string;
   description: string;
   className: string;
 }
@@ -23,7 +23,6 @@ export default function TourOverview({
   difficulty,
   maxGroupSize,
   guides,
-  imgPath,
   description,
   className,
 }: TourOverviewProps) {
@@ -33,7 +32,7 @@ export default function TourOverview({
         Overview
       </h1>
       <div className="grid grid-cols-2">
-        <article className="border-centerLBg bg-centerLBg flex flex-col gap-20 overflow-hidden rounded-r-3xl border-[11px] p-4 text-white duration-300 m_window:gap-16 m_window:p-6 xl_window:gap-10 xl_window:p-10">
+        <article className="bg-centerLBg border-centerLBg flex flex-col gap-14 overflow-hidden rounded-r-3xl p-4 text-white duration-300 m_window:px-6 l_window:gap-10 xl_window:gap-10 xl_window:px-8">
           <div className="flex flex-col gap-5">
             <h1 className="text-xl font-medium">Quick Facts</h1>
             <ul className="grid gap-2 capitalize" key={name}>
@@ -64,7 +63,7 @@ export default function TourOverview({
                   className="grid grid-cols-3 items-center gap-1 s_window:gap-3 m_window:gap-5"
                 >
                   <img
-                    src={`${imgPath}/users/${guide.photo}`}
+                    src={`${api_url}/img/users/${guide.photo}`}
                     className="h-10 rounded-full"
                   />
                   <span className="uppercase">{guide.role}</span>
@@ -74,7 +73,7 @@ export default function TourOverview({
             </ul>
           </div>
         </article>
-        <article className="flex flex-col gap-10 p-4 text-primary duration-300 m_window:p-6 xl_window:p-10">
+        <article className="flex flex-col gap-10 p-4 text-primary duration-300 m_window:px-6 xl_window:px-8">
           <h1 className="text-xl font-medium">About {name}</h1>
           <p>{description}</p>
         </article>

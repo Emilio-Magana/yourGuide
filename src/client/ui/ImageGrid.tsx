@@ -1,16 +1,18 @@
 import type { RefObject } from "react";
 
-export default function ImageGrid({
-  imageArray,
-  imgPath,
-  className,
-  sectionRef,
-}: {
+const api_url = import.meta.env.VITE_API_URL;
+
+interface ImageGridProps {
   imageArray: Array<string>;
-  imgPath: string;
   className: string;
   sectionRef: RefObject<HTMLDivElement | null>;
-}) {
+}
+
+export default function ImageGrid({
+  imageArray,
+  className,
+  sectionRef,
+}: ImageGridProps) {
   return (
     /* xl_window:-mt-48 l_window:-mt-44 m_window:-mt-40 s_window:-mt-32 -mt-28 */
     <section ref={sectionRef} className={className}>
@@ -23,7 +25,7 @@ export default function ImageGrid({
             <img
               className={i === 2 ? "hidden xl_window:flex" : ""}
               key={i}
-              src={`${imgPath}/tours/${img}`}
+              src={`${api_url}/img/tours/${img}`}
             />
           ))}
         </div>

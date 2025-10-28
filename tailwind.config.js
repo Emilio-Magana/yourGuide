@@ -17,8 +17,11 @@ export default {
         simBg: "var(--simBg)",
         headerBegBg: "var(--headerBegBg)",
         headerEndBg: "var(--headerEndBg)",
-
         centerLBg: "var(--centerLBg)",
+        mainBg: "var(--mainBg)",
+        loaderBg1: "var(--loaderBg1)",
+        loaderBg2: "var(--loaderBg2)",
+
         secondary: "var(--secondary)",
         tertiary: "var(--tertiary)",
         primary: "var(--primary)",

@@ -6,10 +6,10 @@ import { motion, useScroll, useTransform } from "framer-motion";
 
 export default function Header() {
   const { scrollY } = useScroll();
-  const bgOpacity = useTransform(scrollY, [0, 220], [0.0, 1]);
+  const bgOpacity = useTransform(scrollY, [0, 220], [0, 1]);
 
   return (
-    <header className="sticky top-0 z-10 mx-auto h-0 max-w-[700px] font-mono text-white transition-all duration-300 ease-in-out s_window:max-w-[580px] m_window:max-w-[700px] l_window:max-w-[900px]">
+    <header className="sticky top-0 z-10 mx-auto h-0 w-full font-mono text-white transition-all duration-300 ease-in-out">
       <nav className="relative flex h-[70px] w-full items-baseline justify-center">
         {/* Background layer with opacity animation */}
         <motion.div

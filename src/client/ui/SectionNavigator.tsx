@@ -34,7 +34,7 @@ export default function SectionNavigator({
       </ul>
       <Link
         to="/checkout/:tourId"
-        className="bg-highLightBg rounded-3xl px-3 py-3 text-white duration-300 s_window:px-3 m_window:px-5"
+        className="bg-highLightBg rounded-3xl px-3 py-3 text-white duration-300 hover:-translate-y-1 hover:drop-shadow-[0_2px_1.2px_var(--primary)] s_window:px-3 m_window:px-5"
       >
         Start Planning
       </Link>

@@ -43,7 +43,7 @@ export default function MapMenu({
               <div
                 className={`flex h-8 w-8 flex-shrink-0 items-center justify-center self-center rounded-full font-bold ${
                   selectedLocation === loc
-                    ? "text-highLightBg bg-simBg"
+                    ? "text-highLightBg bg-white"
                     : "bg-highLightBg text-white"
                 }`}
               >

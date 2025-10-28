@@ -33,8 +33,8 @@ router.patch("/resetPassword/:token", resetPassword);
 
 // Protect all routes after this middleware
 router.use(protect);
-router.patch("/updateMyPassword", updatePassword);
 router.get("/me", getMe, getUser);
+router.patch("/updateMyPassword", updatePassword);
 router.patch("/updateMe", uploadUserPhoto, resizeUserPhoto, updateMe);
 router.delete("/deleteMe", deleteMe);
 

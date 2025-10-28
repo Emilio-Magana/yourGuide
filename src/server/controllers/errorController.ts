@@ -8,7 +8,7 @@ const handleCastErrorDB = (err: Error.CastError) => {
 };
 
 const handleDuplicateFieldsDB = (
-  err: Error & { code?: number; keyValue?: Record<string, any> }
+  err: Error & { code?: number; keyValue?: Record<string, any> },
 ) => {
   const value = JSON.stringify(err.keyValue);
   const message = `Duplicate field value: ${value}. Please use another value!`;
@@ -66,8 +66,9 @@ const errorHandler = (
   err: any,
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
+  // console.log("ERROR HANDLER:", err.statusCode, err.message);
   err.statusCode = err.statusCode || 500;
   err.status = err.status || "error";
 

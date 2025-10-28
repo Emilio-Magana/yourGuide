@@ -1,26 +1,23 @@
-import { Toaster } from "react-hot-toast";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 import Login from "./../pages/Login";
 import Tours from "./../pages/Tours";
-import Bookings from "./../pages/Bookings";
+import Privacy from "../pages/Privacy";
+import Contact from "../pages/Contact";
+import AboutUs from "../pages/AboutUs";
+import Careers from "../pages/Careers";
 import NotFound from "./../pages/NotFound";
 import Overview from "./../pages/Overview";
 import Checkout from "./../pages/Checkout";
-import Dashboard from "./../pages/Dashboard";
 import TourDetails from "./../pages/TourDetails";
-import PrivacyPage from "./../pages/PrivacyPage";
-import UserProfile from "./../pages/UserProfile";
-import UserReviews from "./../pages/UserReviews";
 import NewTourForm from "./../pages/NewTourForm";
-import UserBookings from "./../pages/UserBookings";
-import BookingDetails from "./../pages/BookingDetails";
 
 import AppLayout from "./../ui/AppLayout";
 import TourForm from "./../components/TourForm";
 import { DarkModeProvider } from "./../context/DarkModeContext";
 import ProtectedRoutes from "./../authentication/ProtectedRoutes";
+import UserOverview from "../pages/UserOverview";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -30,6 +27,8 @@ const queryClient = new QueryClient({
     },
   },
 });
+
+const lastUpdated = "October 2025";
 
 function App() {
   return (
@@ -43,15 +42,29 @@ function App() {
               <Route path="/login" element={<Login />} />
               <Route path="/tours" element={<Tours />} />
               <Route path="/tours/:tourId" element={<TourDetails />} />
-              <Route path="/privacy" element={<PrivacyPage />} />
+              <Route
+                path="/privacy"
+                element={<Privacy lastUpdated={lastUpdated} />}
+              />
+              <Route
+                path="/contact"
+                element={<Contact lastUpdated={lastUpdated} />}
+              />
+              <Route
+                path="/aboutus"
+                element={<AboutUs lastUpdated={lastUpdated} />}
+              />
+              <Route
+                path="/careers"
+                element={<Careers lastUpdated={lastUpdated} />}
+              />
 
               {/* Protected (any authenticated user) */}
               <Route element={<ProtectedRoutes />}>
-                <Route path="/dashboard/:userId" element={<Dashboard />} />
-                <Route path="/profile/:userId" element={<UserProfile />} />
-                <Route path="/bookings/:userId" element={<UserBookings />} />
-                <Route path="/reviews/:userId" element={<UserReviews />} />
-
+                <Route path="/:userId/profile" element={<UserOverview />} />
+                <Route path="/:userId/bookings" element={<UserOverview />} />
+                <Route path="/:userId/reviews" element={<UserOverview />} />
+                <Route path="/:userId/settings" element={<UserOverview />} />
                 <Route path="/checkout/:tourId" element={<Checkout />} />
               </Route>
 
@@ -65,11 +78,11 @@ function App() {
                 />
                 <Route path="/update/tours/:tourId" element={<TourForm />} />
 
-                <Route path="/bookings" element={<Bookings />} />
-                <Route
+                {/* <Route path="/bookings" element={<Bookings />} /> */}
+                {/* <Route
                   path="/bookings/:bookingId"
                   element={<BookingDetails />}
-                />
+                /> */}
               </Route>
 
               <Route path="*" element={<NotFound />} />
@@ -77,7 +90,7 @@ function App() {
           </Routes>
         </BrowserRouter>
 
-        <Toaster
+        {/* <Toaster
           position="top-center"
           gutter={12}
           containerStyle={{ margin: "8px" }}
@@ -96,7 +109,7 @@ function App() {
               // color: "var(--color-grey-700)",
             },
           }}
-        />
+        /> */}
       </QueryClientProvider>
     </DarkModeProvider>
   );
