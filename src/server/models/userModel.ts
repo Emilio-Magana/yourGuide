@@ -53,6 +53,8 @@ const userSchema = new Schema({
     lowercase: true,
     validate: [validator.isEmail, "please provide a valid email"],
   },
+  phone: { type: String },
+  address: { type: String },
   password: {
     type: String,
     required: [true, "user must have a password"],

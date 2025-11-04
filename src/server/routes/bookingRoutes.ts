@@ -9,12 +9,12 @@ import {
 } from "./../controllers/bookingController";
 import { protect, restrictTo } from "./../controllers/authController";
 
-const router = express.Router();
+const router = express.Router({ mergeParams: true });
 
 router.use(protect);
-router.use(restrictTo("admin", "lead-guide"));
 
-router.route("/").get(getAllBookings).post(createBooking);
+router.route("/").get(getAllBookings).post(restrictTo("user"), createBooking);
+router.use(restrictTo("admin", "lead-guide"));
 router.get("/checkout/:tourId", getCheckoutSession);
 router.route("/:id").get(getBooking).patch(updateBooking).delete(deleteBooking);
 

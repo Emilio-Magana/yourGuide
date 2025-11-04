@@ -7,7 +7,7 @@ export default function DarkModeToggle() {
   return (
     <button
       onClick={toggleDarkMode}
-      className="flex rounded p-2 transition-colors duration-300 hover:bg-slate-500"
+      className="flex rounded p-2 drop-shadow-[-1px_1.2px_1.2px_var(--headerOpposite)] transition-colors duration-300 hover:bg-slate-500"
     >
       {isDarkMode ? <HiOutlineSun /> : <HiOutlineMoon />}
     </button>

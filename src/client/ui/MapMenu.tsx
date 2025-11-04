@@ -36,7 +36,7 @@ export default function MapMenu({
             className={`cursor-pointer rounded-xl p-3 transition-all ${
               selectedLocation === loc
                 ? "bg-highLightBg scale-105 text-white shadow-lg duration-300"
-                : "bg-simBg text-primary hover:bg-secondary hover:shadow-md"
+                : "text-header bg-simBg hover:bg-secondary hover:shadow-md"
             }`}
           >
             <div className="flex items-start gap-3">

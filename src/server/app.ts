@@ -96,11 +96,11 @@ app.post(
 // Data sanitization against XSS
 // app.use(xss());
 
-app.use((req, res, next) => {
-  console.log(`📨 ${req.method} ${req.url}`);
-  console.log("Cookies:", req.cookies);
-  next();
-});
+// app.use((req, res, next) => {
+//   console.log(`📨 ${req.method} ${req.url}`);
+//   console.log("Cookies:", req.cookies);
+//   next();
+// });
 
 // // ✅ Serve public folder
 app.use(express.static(path.join(__dirname, "./../../public")));

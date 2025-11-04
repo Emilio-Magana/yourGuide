@@ -55,7 +55,10 @@ const tour = z.object({
 const user = z.object({
   _id: z.object({ $oid: z.string() }),
   name: z.string(),
-  photo: z.string(),
+  email: z.email(),
+  photo: z.string().optional(),
+  address: z.string().optional(),
+  phone: z.string().optional(),
 });
 
 const review = z.object({

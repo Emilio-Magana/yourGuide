@@ -32,7 +32,7 @@ export default function TourCardMini({
         className="h-60 w-full duration-300 ease-in-out hover:scale-105"
       />
       <article className="flex min-h-28 flex-col gap-3 bg-white px-4 py-4 font-light">
-        <h1 className="justify-stretch text-xl uppercase leading-none text-black">
+        <h1 className="justify-stretch text-xl uppercase leading-none text-[#543939]">
           {name}
         </h1>
         <h2 className="font-thin">

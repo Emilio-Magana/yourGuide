@@ -1,4 +1,6 @@
 import express from "express";
+import reviewRouter from "./reviewRoutes";
+import bookingRouter from "./bookingRoutes";
 import {
   getAllUsers,
   createUser,
@@ -10,6 +12,8 @@ import {
   getMe,
   uploadUserPhoto,
   resizeUserPhoto,
+  getUserBookings,
+  getUserReviews,
 } from "./../controllers/userController";
 import {
   signup,
@@ -23,6 +27,10 @@ import {
 } from "./../controllers/authController";
 
 const router = express.Router();
+
+// taking example from how reviewRouter was merged with tours in ./tourRoutes
+router.use("/:userId/reviews", reviewRouter);
+router.use("/:userId/bookings", bookingRouter);
 
 router.post("/signup", signup);
 router.post("/login", login);
@@ -40,6 +48,10 @@ router.delete("/deleteMe", deleteMe);
 
 router.use(restrictTo("admin"));
 router.route("/").get(getAllUsers).post(createUser);
-router.route("/:id").get(getUser).patch(updateUser).delete(deleteUser);
+router
+  .route("/:userId")
+  .get(getUser, getUserBookings, getUserReviews)
+  .patch(updateUser)
+  .delete(deleteUser);
 
 export default router;

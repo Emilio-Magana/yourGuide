@@ -11,9 +11,9 @@ export default function LoginForm() {
     e.preventDefault();
     try {
       await loginMutation.mutateAsync({ email, password });
-      console.log("Login successful!");
+      // console.log("Login successful!");
     } catch (error) {
-      console.error("Login failed:", error);
+      // console.error("Login failed:", error);
     }
   };
 

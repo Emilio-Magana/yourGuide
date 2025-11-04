@@ -15,9 +15,12 @@
     --headerEndBg: #94a3b8;
     --centerLBg: #9a7a7a;
 
-    --primary: #11121a;
+    --primary: #000000;
+    --opposite: rgb(255, 255, 255);
     --secondary: #d1a8a8;
     --tertiary: #17244f;
+    --header: #543939;
+    --headerOpposite: #ffffff;
   }
 
   .dark-mode {
@@ -34,8 +37,11 @@
     --centerLBg: #393e46;
 
     --primary: #ffffff;
+    --opposite: rgb(0, 0, 0);
     --secondary: #64748b;
     --tertiary: #b3c2da;
+    --header: #ffffff;
+    --headerOpposite: #543939;
   }
 }
 

@@ -34,7 +34,7 @@ router
   .get(getAllTours)
   .post(protect, restrictTo("admin", "lead-guide"), createTour);
 router
-  .route("/:id")
+  .route("/:tourId")
   .get(getTour)
   .patch(
     protect,

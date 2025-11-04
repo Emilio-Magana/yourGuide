@@ -22,9 +22,12 @@ export default {
         loaderBg1: "var(--loaderBg1)",
         loaderBg2: "var(--loaderBg2)",
 
-        secondary: "var(--secondary)",
-        tertiary: "var(--tertiary)",
+        header: "var(--header)",
+        headerOpposite: "var(--headerOpposite)",
         primary: "var(--primary)",
+        opposite: "var(--opposite)",
+        tertiary: "var(--tertiary)",
+        secondary: "var(--secondary)",
       },
       animation: {
         "fade-in-up": "fadeInUp 0.6s ease-out forwards",

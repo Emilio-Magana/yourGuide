@@ -61,7 +61,7 @@ function App() {
 
               {/* Protected (any authenticated user) */}
               <Route element={<ProtectedRoutes />}>
-                <Route path="/:userId/profile" element={<UserOverview />} />
+                <Route path="/:userId/dashboard" element={<UserOverview />} />
                 <Route path="/:userId/bookings" element={<UserOverview />} />
                 <Route path="/:userId/reviews" element={<UserOverview />} />
                 <Route path="/:userId/settings" element={<UserOverview />} />

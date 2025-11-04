@@ -1,8 +1,10 @@
-import type { RefObject } from "react";
+import type { IconType } from "react-icons";
 import { Link } from "react-router-dom";
+import type { RefObject } from "react";
 
 export type Section = {
   id: string;
+  icon?: IconType;
 };
 
 interface SecNavProps {

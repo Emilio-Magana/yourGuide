@@ -1,90 +1,146 @@
-import { useAuth } from "../api/queries";
-import { useState } from "react";
-import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
+import { FiChevronsRight } from "react-icons/fi";
+import { FaUserCircle } from "react-icons/fa";
 import type { IconType } from "react-icons";
-import { CgProfile } from "react-icons/cg";
-import { MdReviews } from "react-icons/md";
-import { IoMdSettings } from "react-icons/io";
-import { FaCalendarCheck } from "react-icons/fa";
-import { FiChevronDown, FiChevronsRight } from "react-icons/fi";
+
+import type { Section } from "../ui/SectionNavigator";
+import type { User } from "../config/schema";
+
+import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
+import type { RefObject } from "react";
+
+const api_url = import.meta.env.VITE_API_URL;
 
 interface SideBarProps {
-  active: "Profile" | "Bookings" | "Reviews" | "Settings" | "";
+  sectionRefs: Record<string, RefObject<HTMLDivElement | null>>;
+  active?: "Dashboard" | "Bookings" | "Reviews" | "Settings";
+  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  sections: Array<Section>;
+  numBookings: number;
+  className: string;
+  isOpen: boolean;
+  user: User;
 }
 
-export default function RetractingSideBar({ active }: SideBarProps) {
-  const [open, setOpen] = useState(true);
-  const { data: user } = useAuth();
-
+export default function RetractingSideBar({
+  active,
+  numBookings,
+  className,
+  isOpen,
+  setIsOpen,
+  user,
+  sectionRefs,
+  sections,
+}: SideBarProps) {
+  const scrollToSection = (id: string) => {
+    sectionRefs[id].current?.scrollIntoView({ behavior: "smooth" });
+  };
   return (
     <motion.nav
       layout
-      className="sticky top-0 h-96 shrink-0 border-r border-slate-300 bg-white p-2"
+      className={className}
+      key="sidebar"
       style={{
-        width: open ? "225px" : "fit-content",
+        width: isOpen ? "225px" : "fit-content",
       }}
     >
-      <TitleSection open={open} username={user.name} role={user.role} />
+      <TitleSection
+        isOpen={isOpen}
+        username={user.name}
+        email={user.email}
+        pfp={user.photo}
+      />
       <div className="space-y-1">
-        <Option
-          Icon={CgProfile}
-          title="Profile"
-          isActive={active === "Profile"}
-          href="/:userId/profile"
-          open={open}
-        />
-        <Option
-          Icon={FaCalendarCheck}
-          title="Bookings"
-          isActive={active === "Bookings"}
-          href="/:userId/bookings"
-          open={open}
-          notifs={3}
-        />
-        <Option
-          Icon={MdReviews}
-          title="Reviews"
-          isActive={active === "Reviews"}
-          href="/:userId/reviews"
-          open={open}
-        />
-        <Option
-          Icon={IoMdSettings}
-          title="Settings"
-          isActive={active === "Settings"}
-          href="/:userId/settings"
-          open={open}
-        />
+        {sections.map((section, id) =>
+          section.id === "Bookings" ? (
+            <Option
+              onClick={() => scrollToSection(section.id)}
+              href={`/:userId/dashboard#$Bookings`}
+              isActive={active === "Bookings"}
+              notifs={numBookings}
+              Icon={section.icon}
+              title={"Bookings"}
+              isOpen={isOpen}
+            />
+          ) : (
+            <Option
+              onClick={() => scrollToSection(section.id)}
+              href={`/:userId/dashboard#${section.id}`}
+              isActive={active === section.id}
+              Icon={section.icon}
+              title={section.id}
+              isOpen={isOpen}
+            />
+          ),
+        )}
       </div>
-      <ToggleClose open={open} setOpen={setOpen} />
+      <ToggleClose isOpen={isOpen} setIsOpen={setIsOpen} />
     </motion.nav>
   );
 }
+
+interface TitleSectionProps {
+  isOpen: boolean;
+  username: string;
+  email: string;
+  pfp: string | undefined;
+}
+const TitleSection = ({ isOpen, username, email, pfp }: TitleSectionProps) => {
+  return (
+    <div className="mb-3 border-b border-slate-300 pb-3">
+      <div className="flex cursor-pointer items-center justify-between rounded-md transition-colors hover:bg-slate-100">
+        <div className="flex items-center gap-2">
+          <Logo pfp={pfp} />
+          {isOpen && (
+            <motion.div
+              layout
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.125 }}
+            >
+              <span className="block text-xs font-semibold">{username}</span>
+              <span className="block text-xs text-slate-500">{email}</span>
+            </motion.div>
+          )}
+        </div>
+        {/* {isOpen && <FiChevronDown className="mr-2" />} */}
+      </div>
+    </div>
+  );
+};
+
 interface OptionProps {
-  Icon: IconType;
+  Icon: IconType | undefined;
   title: string;
   isActive: boolean;
-  open: boolean;
+  isOpen: boolean;
   notifs?: number;
   href: string;
+  onClick: () => void;
 }
-
-const Option = ({ Icon, title, isActive, open, notifs, href }: OptionProps) => {
+const Option = ({
+  Icon,
+  title,
+  isActive,
+  isOpen,
+  notifs,
+  href,
+  onClick,
+}: OptionProps) => {
   return (
-    <Link to={href}>
+    <Link to={href} key={title}>
       <motion.button
         layout
-        // onClick={() => setSelected(title)}
+        onClick={onClick}
         className={`relative flex h-10 w-full items-center rounded-md transition-colors ${isActive ? "bg-indigo-100 text-indigo-800" : "text-slate-500 hover:bg-slate-100"}`}
       >
         <motion.div
           layout
           className="grid h-full w-10 place-content-center text-lg"
         >
-          <Icon />
+          {Icon && <Icon />}
         </motion.div>
-        {open && (
+        {isOpen && (
           <motion.span
             layout
             initial={{ opacity: 0, y: 12 }}
@@ -96,7 +152,7 @@ const Option = ({ Icon, title, isActive, open, notifs, href }: OptionProps) => {
           </motion.span>
         )}
 
-        {notifs && open && (
+        {notifs && isOpen && (
           <motion.span
             initial={{ scale: 0, opacity: 0 }}
             animate={{
@@ -115,77 +171,29 @@ const Option = ({ Icon, title, isActive, open, notifs, href }: OptionProps) => {
   );
 };
 
-const TitleSection = ({
-  open,
-  username,
-  role,
-}: {
-  open: boolean;
-  username: string;
-  role: string;
-}) => {
+const Logo = ({ pfp }: { pfp: string | undefined }) => {
   return (
-    <div className="mb-3 border-b border-slate-300 pb-3">
-      <div className="flex cursor-pointer items-center justify-between rounded-md transition-colors hover:bg-slate-100">
-        <div className="flex items-center gap-2">
-          <Logo />
-          {open && (
-            <motion.div
-              layout
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.125 }}
-            >
-              <span className="block text-xs font-semibold">{username}</span>
-              <span className="block text-xs text-slate-500">{role}</span>
-            </motion.div>
-          )}
-        </div>
-        {open && <FiChevronDown className="mr-2" />}
-      </div>
-    </div>
-  );
-};
-
-const Logo = () => {
-  // Temp logo from https://logoipsum.com/
-  return (
-    <motion.div
-      layout
-      className="grid size-10 shrink-0 place-content-center rounded-md bg-indigo-600"
-    >
-      <svg
-        width="24"
-        height="auto"
-        viewBox="0 0 50 39"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-        className="fill-slate-50"
-      >
-        <path
-          d="M16.4992 2H37.5808L22.0816 24.9729H1L16.4992 2Z"
-          stopColor="#000000"
-        ></path>
-        <path
-          d="M17.4224 27.102L11.4192 36H33.5008L49 13.0271H32.7024L23.2064 27.102H17.4224Z"
-          stopColor="#000000"
-        ></path>
-      </svg>
+    <motion.div layout className="grid size-10 shrink-0 place-content-center">
+      {pfp ? (
+        <img src={`${api_url}/img/users/${pfp}`} className="rounded" />
+      ) : (
+        <FaUserCircle size={30} />
+      )}
     </motion.div>
   );
 };
 
 const ToggleClose = ({
-  open,
-  setOpen,
+  isOpen,
+  setIsOpen,
 }: {
-  open: boolean;
-  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  isOpen: boolean;
+  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
   return (
     <motion.button
       layout
-      onClick={() => setOpen((pv) => !pv)}
+      onClick={() => setIsOpen((pv) => !pv)}
       className="absolute bottom-0 left-0 right-0 border-t border-slate-300 transition-colors hover:bg-slate-100"
     >
       <div className="flex items-center p-2">
@@ -194,10 +202,10 @@ const ToggleClose = ({
           className="grid size-10 place-content-center text-lg"
         >
           <FiChevronsRight
-            className={`transition-transform ${open && "rotate-180"}`}
+            className={`transition-transform ${isOpen && "rotate-180"}`}
           />
         </motion.div>
-        {open && (
+        {isOpen && (
           <motion.span
             layout
             initial={{ opacity: 0, y: 12 }}

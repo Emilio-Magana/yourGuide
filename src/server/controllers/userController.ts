@@ -83,7 +83,13 @@ const updateMe = catchAsync(
     }
 
     // 2) Filtered out unwanted fields names that are not allowed to be updated
-    const filteredBody = filterObj(req.body, "name", "email");
+    const filteredBody = filterObj(
+      req.body,
+      "name",
+      "email",
+      "phone",
+      "address",
+    );
     if (req.file) filteredBody.photo = req.file.filename;
 
     // 3) Update user document
@@ -127,6 +133,8 @@ const createUser = (req: Request, res: Response) => {
 };
 
 const getUser = getOne(User);
+const getUserReviews = getOne(User, { path: "reviews" });
+const getUserBookings = getOne(User, { path: "bookings" });
 const getAllUsers = getAll(User);
 
 // Do NOT update passwords with this!
@@ -135,7 +143,9 @@ const deleteUser = deleteOne(User);
 
 export {
   uploadUserPhoto,
+  getUserReviews,
   resizeUserPhoto,
+  getUserBookings,
   getMe,
   updateMe,
   deleteMe,

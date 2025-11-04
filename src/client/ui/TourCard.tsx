@@ -38,8 +38,8 @@ export default function TourCard({
         </h1>
       </Link>
       {/* </section> */}
-      <article className="text-zinc-700">
-        <div className="flex flex-col gap-3 bg-slate-50 px-6 py-3">
+      <article className="text-[#543939]">
+        <div className="flex h-[210px] flex-col gap-3 bg-slate-50 px-6 py-3">
           <h2 className="font-semibold uppercase">
             {difficulty} {duration}-day tour
           </h2>

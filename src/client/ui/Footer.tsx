@@ -6,7 +6,7 @@ export default function Footer() {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
   return (
-    <footer className="my-8 flex place-items-center items-center justify-center gap-1 text-xs text-primary duration-300 m_window:gap-2">
+    <footer className="text-header my-8 flex place-items-center items-center justify-center gap-1 text-xs duration-300 m_window:gap-2">
       <div>
         <span className="mr-1">&copy; {new Date().getFullYear()},</span>
         <Link onClick={handleClick} to="/">
