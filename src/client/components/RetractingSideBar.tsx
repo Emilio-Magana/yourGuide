@@ -2,12 +2,12 @@ import { FiChevronsRight } from "react-icons/fi";
 import { FaUserCircle } from "react-icons/fa";
 import type { IconType } from "react-icons";
 
-import type { Section } from "../ui/SectionNavigator";
-import type { User } from "../config/schema";
-
-import { Link } from "react-router-dom";
+import { HashLink } from "react-router-hash-link";
 import { motion } from "framer-motion";
 import type { RefObject } from "react";
+
+import type { Section } from "../ui/SectionNavigator";
+import type { User } from "../config/schema";
 
 const api_url = import.meta.env.VITE_API_URL;
 
@@ -29,12 +29,8 @@ export default function RetractingSideBar({
   isOpen,
   setIsOpen,
   user,
-  sectionRefs,
   sections,
 }: SideBarProps) {
-  const scrollToSection = (id: string) => {
-    sectionRefs[id].current?.scrollIntoView({ behavior: "smooth" });
-  };
   return (
     <motion.nav
       layout
@@ -51,26 +47,28 @@ export default function RetractingSideBar({
         pfp={user.photo}
       />
       <div className="space-y-1">
-        {sections.map((section, id) =>
+        {sections.map((section) =>
           section.id === "Bookings" ? (
-            <Option
-              onClick={() => scrollToSection(section.id)}
-              href={`/:userId/dashboard#$Bookings`}
-              isActive={active === "Bookings"}
-              notifs={numBookings}
-              Icon={section.icon}
-              title={"Bookings"}
-              isOpen={isOpen}
-            />
+            <div key={section.id}>
+              <Option
+                href={`/users/:userId/dashboard#Bookings`}
+                isActive={active === section.id}
+                notifs={numBookings}
+                Icon={section.icon}
+                label={"Bookings"}
+                isOpen={isOpen}
+              />
+            </div>
           ) : (
-            <Option
-              onClick={() => scrollToSection(section.id)}
-              href={`/:userId/dashboard#${section.id}`}
-              isActive={active === section.id}
-              Icon={section.icon}
-              title={section.id}
-              isOpen={isOpen}
-            />
+            <div key={section.id}>
+              <Option
+                href={`/users/:userId/dashboard#${section.id}`}
+                isActive={active === section.id}
+                Icon={section.icon}
+                label={section.id}
+                isOpen={isOpen}
+              />
+            </div>
           ),
         )}
       </div>
@@ -103,7 +101,6 @@ const TitleSection = ({ isOpen, username, email, pfp }: TitleSectionProps) => {
             </motion.div>
           )}
         </div>
-        {/* {isOpen && <FiChevronDown className="mr-2" />} */}
       </div>
     </div>
   );
@@ -111,27 +108,24 @@ const TitleSection = ({ isOpen, username, email, pfp }: TitleSectionProps) => {
 
 interface OptionProps {
   Icon: IconType | undefined;
-  title: string;
+  label: string;
   isActive: boolean;
   isOpen: boolean;
   notifs?: number;
   href: string;
-  onClick: () => void;
 }
 const Option = ({
   Icon,
-  title,
+  label,
   isActive,
   isOpen,
   notifs,
   href,
-  onClick,
 }: OptionProps) => {
   return (
-    <Link to={href} key={title}>
+    <HashLink smooth to={href} key={label}>
       <motion.button
         layout
-        onClick={onClick}
         className={`relative flex h-10 w-full items-center rounded-md transition-colors ${isActive ? "bg-indigo-100 text-indigo-800" : "text-slate-500 hover:bg-slate-100"}`}
       >
         <motion.div
@@ -148,11 +142,11 @@ const Option = ({
             transition={{ delay: 0.125 }}
             className="text-xs font-medium"
           >
-            {title}
+            {label}
           </motion.span>
         )}
 
-        {notifs && isOpen && (
+        {notifs != undefined && notifs > 0 && isOpen && (
           <motion.span
             initial={{ scale: 0, opacity: 0 }}
             animate={{
@@ -167,7 +161,7 @@ const Option = ({
           </motion.span>
         )}
       </motion.button>
-    </Link>
+    </HashLink>
   );
 };
 

@@ -1,15 +1,14 @@
 import type { Dispatch, SetStateAction } from "react";
 import type { IconType } from "react-icons";
-// import { Link } from "react-router-dom";
 import { HashLink } from "react-router-hash-link";
 import { motion } from "framer-motion";
 
 interface OptionProps {
+  setIsOpen: Dispatch<SetStateAction<boolean>>;
+  Icon: IconType;
   onClick?: () => void;
   href: string;
   label: string;
-  Icon: IconType;
-  setIsOpen: Dispatch<SetStateAction<boolean>>;
 }
 
 const Option = ({ href, label, Icon, setIsOpen, onClick }: OptionProps) => {

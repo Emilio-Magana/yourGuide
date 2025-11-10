@@ -1,6 +1,5 @@
 import { useState } from "react";
-import { useLogin } from "./../api/queries"; // adjust path as needed
-// import { useLocation, useNavigate } from "react-router-dom";
+import { useLogin } from "./../api/queries";
 
 export default function LoginForm() {
   const [email, setEmail] = useState("");
@@ -11,10 +10,7 @@ export default function LoginForm() {
     e.preventDefault();
     try {
       await loginMutation.mutateAsync({ email, password });
-      // console.log("Login successful!");
-    } catch (error) {
-      // console.error("Login failed:", error);
-    }
+    } catch (error) {}
   };
 
   return (

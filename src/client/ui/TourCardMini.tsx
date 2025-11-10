@@ -31,11 +31,11 @@ export default function TourCardMini({
         alt={name}
         className="h-60 w-full duration-300 ease-in-out hover:scale-105"
       />
-      <article className="flex min-h-28 flex-col gap-3 bg-white px-4 py-4 font-light">
-        <h1 className="justify-stretch text-xl uppercase leading-none text-[#543939]">
+      <article className="relative flex min-h-28 flex-col gap-3 bg-white px-4 py-4 font-light text-[#543939]">
+        <h1 className="justify-stretch text-xl uppercase leading-none">
           {name}
         </h1>
-        <h2 className="font-thin">
+        <h2 className="absolute bottom-7 font-thin">
           A {difficulty} {duration}-day tour
         </h2>
       </article>

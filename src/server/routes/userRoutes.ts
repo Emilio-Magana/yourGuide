@@ -12,8 +12,6 @@ import {
   getMe,
   uploadUserPhoto,
   resizeUserPhoto,
-  getUserBookings,
-  getUserReviews,
 } from "./../controllers/userController";
 import {
   signup,
@@ -28,9 +26,8 @@ import {
 
 const router = express.Router();
 
-// taking example from how reviewRouter was merged with tours in ./tourRoutes
 router.use("/:userId/reviews", reviewRouter);
-router.use("/:userId/bookings", bookingRouter);
+router.use("/:id/bookings", bookingRouter);
 
 router.post("/signup", signup);
 router.post("/login", login);
@@ -41,17 +38,13 @@ router.patch("/resetPassword/:token", resetPassword);
 
 // Protect all routes after this middleware
 router.use(protect);
-router.get("/me", getMe, getUser);
 router.patch("/updateMyPassword", updatePassword);
+router.get("/me", getMe, getUser);
 router.patch("/updateMe", uploadUserPhoto, resizeUserPhoto, updateMe);
 router.delete("/deleteMe", deleteMe);
 
 router.use(restrictTo("admin"));
 router.route("/").get(getAllUsers).post(createUser);
-router
-  .route("/:userId")
-  .get(getUser, getUserBookings, getUserReviews)
-  .patch(updateUser)
-  .delete(deleteUser);
+router.route("/:id").get(getUser).patch(updateUser).delete(deleteUser);
 
 export default router;

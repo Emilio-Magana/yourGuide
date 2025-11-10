@@ -42,15 +42,37 @@ export function useGetTours() {
     },
   });
 }
-export function useGetReviews(tourId: string) {
+export function useGetTourReviews(tourId: string) {
   return useQuery({
-    queryKey: ["reviews", tourId],
+    queryKey: ["tour-reviews", tourId],
     queryFn: async () => {
       const { data } = await api.get(`/tours/${tourId}/reviews`);
       // Unwrap the nested response → return pure array
       return data.data.data;
     },
     enabled: !!tourId, // only run when tourId exists
+  });
+}
+export function useGetUserReviews(userId: string) {
+  return useQuery({
+    queryKey: ["user-reviews", userId],
+    queryFn: async () => {
+      const { data } = await api.get(`/users/${userId}/reviews`);
+      // Unwrap the nested response → return pure array
+      return data.data.data;
+    },
+    enabled: !!userId, // only run when tourId exists
+  });
+}
+export function useGetUserBookings(userId: string) {
+  return useQuery({
+    queryKey: ["user-bookings", userId],
+    queryFn: async () => {
+      const { data } = await api.get(`/users/${userId}/bookings`);
+      // Unwrap the nested response → return pure array
+      return data.data.data;
+    },
+    enabled: !!userId, // only run when tourId exists
   });
 }
 

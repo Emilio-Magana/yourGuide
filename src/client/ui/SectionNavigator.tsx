@@ -5,6 +5,7 @@ import type { RefObject } from "react";
 export type Section = {
   id: string;
   icon?: IconType;
+  locked?: boolean;
 };
 
 interface SecNavProps {

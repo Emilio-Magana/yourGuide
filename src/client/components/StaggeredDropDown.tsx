@@ -1,12 +1,15 @@
-import { useAuth, useLogout } from "./../api/queries";
-import { motion } from "framer-motion";
 import { IoMdPerson, IoMdSettings } from "react-icons/io";
-import { CiLogin, CiLogout } from "react-icons/ci";
-import { MdReviews, MdTour } from "react-icons/md";
-import { FiEdit, FiChevronDown, FiPlusSquare } from "react-icons/fi";
+import { FaCalendarCheck, FaEdit } from "react-icons/fa";
+import { MdLogin, MdLogout } from "react-icons/md";
+import { BsPersonCircle } from "react-icons/bs";
+import { FiChevronDown } from "react-icons/fi";
+import { MdReviews } from "react-icons/md";
 
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
+
+import { useAuth, useLogout } from "./../api/queries";
 import { Option } from "./OptionTypes";
 
 export default function StaggeredDropDown() {
@@ -47,7 +50,7 @@ export default function StaggeredDropDown() {
       <motion.div animate={isOpen ? "open" : "closed"} className="relative">
         <button
           onClick={() => setIsOpen((isOpen) => !isOpen)}
-          className="flex items-center gap-2 rounded-md px-3 py-2 drop-shadow-[-1px_1.2px_1.2px_var(--headerOpposite)] transition-colors duration-300 hover:bg-slate-500"
+          className="flex items-center gap-2 rounded-md px-3 py-2 drop-shadow-[0px_1.3px_2px_var(--headerOpposite)] transition-colors duration-300 hover:bg-slate-500"
         >
           <IoMdPerson />
           <motion.span variants={iconVariants}>
@@ -66,73 +69,71 @@ export default function StaggeredDropDown() {
             <>
               <Option
                 setIsOpen={setIsOpen}
-                Icon={FiEdit}
+                Icon={BsPersonCircle}
                 label="Profile"
-                href="/:userId/dashboard#Profile"
+                href="/users/:userId/dashboard#Profile"
               />
               <Option
                 setIsOpen={setIsOpen}
-                Icon={FiPlusSquare}
+                Icon={FaCalendarCheck}
                 label="Bookings"
-                href="/:userId/dashboard#Bookings"
+                href="/users/:userId/dashboard#Bookings"
               />
               <Option
                 setIsOpen={setIsOpen}
                 Icon={MdReviews}
                 label="Reviews"
-                href="/:userId/dashboard#Reviews"
+                href="/users/:userId/dashboard#Reviews"
               />
               <Option
                 setIsOpen={setIsOpen}
                 Icon={IoMdSettings}
                 label="Settings"
-                href="/:userId/dashboard#Settings"
+                href="/users/:userId/dashboard#Settings"
               />
               <Option
                 setIsOpen={setIsOpen}
-                Icon={CiLogout}
+                Icon={MdLogout}
                 label="Logout"
                 href="#"
                 onClick={handLoggingOut}
               />
             </>
-          ) : user?.role === "guide" ||
-            user?.role === "lead-guide" ||
-            user?.role === "admin" ? (
+          ) : user?.role === "guide" || "lead-guide" || "admin" ? (
             <>
               <Option
                 setIsOpen={setIsOpen}
-                Icon={FiEdit}
+                Icon={BsPersonCircle}
                 label="Profile"
-                href="/:userId/dashboard#Profile"
+                href="/users/:userId/dashboard#Profile"
               />
               <Option
                 setIsOpen={setIsOpen}
-                Icon={FiPlusSquare}
+                Icon={FaCalendarCheck}
                 label="Bookings"
-                href="/:userId/dashboard#Bookings"
+                href="/users/:userId/dashboard#Bookings"
               />
               <Option
                 setIsOpen={setIsOpen}
                 Icon={MdReviews}
                 label="Reviews"
-                href="/:userId/dashboard#Reviews"
+                href="/users/:userId/dashboard#Reviews"
               />
               <Option
                 setIsOpen={setIsOpen}
-                Icon={MdTour}
+                Icon={FaEdit}
                 label="Edit Tours"
-                href="/:userId/tours"
+                href="/users/:userId/tours"
               />
               <Option
                 setIsOpen={setIsOpen}
                 Icon={IoMdSettings}
                 label="Settings"
-                href="/:userId/dashboard#Settings"
+                href="/users/:userId/dashboard#Settings"
               />
               <Option
                 setIsOpen={setIsOpen}
-                Icon={CiLogout}
+                Icon={MdLogout}
                 label="Logout"
                 href="#"
                 onClick={handLoggingOut}
@@ -141,7 +142,7 @@ export default function StaggeredDropDown() {
           ) : (
             <Option
               setIsOpen={setIsOpen}
-              Icon={CiLogin}
+              Icon={MdLogin}
               label="Login"
               href="/login"
             />

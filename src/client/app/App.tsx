@@ -61,10 +61,10 @@ function App() {
 
               {/* Protected (any authenticated user) */}
               <Route element={<ProtectedRoutes />}>
-                <Route path="/:userId/dashboard" element={<UserOverview />} />
-                <Route path="/:userId/bookings" element={<UserOverview />} />
-                <Route path="/:userId/reviews" element={<UserOverview />} />
-                <Route path="/:userId/settings" element={<UserOverview />} />
+                <Route
+                  path="/users/:userId/dashboard"
+                  element={<UserOverview />}
+                />
                 <Route path="/checkout/:tourId" element={<Checkout />} />
               </Route>
 

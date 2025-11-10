@@ -33,10 +33,10 @@ export default function Navigation() {
           key={id}
           className={`${
             id === 0
-              ? "text-xl font-bold drop-shadow-[-1px_1.2px_1.2px_var(--headerOpposite)] transition-all duration-300"
+              ? "text-xl font-bold drop-shadow-[0px_1.3px_2px_var(--headerOpposite)]"
               : id === 2
-                ? "rounded-md py-1 drop-shadow-[-1px_1.2px_1.2px_var(--headerOpposite)] hover:bg-slate-500"
-                : "transition-all duration-300 hover:drop-shadow-[-1px_1.2px_1px_var(--headerOpposite)]"
+                ? "rounded-md py-1 drop-shadow-[0px_1.3px_2px_var(--headerOpposite)] transition-colors duration-300 hover:bg-slate-500"
+                : "transition-all duration-300 hover:drop-shadow-[0px_1.3px_2px_var(--headerOpposite)]"
           } `}
         >
           {id === 1 ? (

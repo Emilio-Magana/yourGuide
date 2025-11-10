@@ -24,7 +24,7 @@ export default function StaggeredTestimonials({
 
   return (
     <div className={className}>
-      {reviews.map((review, ind: number) => {
+      {reviews?.map((review, ind) => {
         let offset = ind - activeIndex;
         if (offset > reviews.length / 2) {
           offset -= reviews.length;

@@ -3,6 +3,9 @@ import { config } from "dotenv";
 config({ path: ".env" });
 import app from "./app";
 
+// when using express passing in params be sure to use :id or how ever the data is represented,
+//  cant do :userId nor something like :tourId
+
 // connect to MongoDB
 const DB = process.env.DATABASE;
 mongoose.connect(DB).then(() => {

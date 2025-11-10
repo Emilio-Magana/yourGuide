@@ -51,7 +51,7 @@ const createOne = <T extends Document>(Model: Model<T>) =>
 
 const getOne = <T extends Document>(
   Model: Model<T>,
-  popOptions?: PopulateOptions
+  popOptions?: PopulateOptions,
 ) =>
   catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     let query = Model.findById(req.params.id);
@@ -70,18 +70,25 @@ const getOne = <T extends Document>(
     });
   });
 
-const getAll = <T extends Document>(Model: Model<T>) =>
+const getAll = <T extends Document>(
+  Model: Model<T>,
+  popOptions?: PopulateOptions | PopulateOptions[],
+) =>
   catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     // To allow for nested GET reviews on tour (hack)
     let filter = {};
     if (req.params.tourId) filter = { tour: req.params.tourId };
+    if (req.params.userId) filter = { user: req.params.userId };
 
     const features = new APIFeatures(Model.find(filter), req.query)
       .filter()
       .sort()
       .limitFields()
       .paginate();
-    // const doc = await features.query.explain();
+
+    if (popOptions) {
+      features.query = features.query.populate(popOptions);
+    }
     const doc = await features.query;
 
     // SEND RESPONSE

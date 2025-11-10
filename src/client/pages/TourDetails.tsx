@@ -8,7 +8,7 @@ import TourReviews from "../ui/TourReviews";
 import TourOverview from "../ui/TourOverview";
 import ViewOtherTours from "../ui/ViewOtherTours";
 import PathFinderLoader from "../components/PathFinderLoader";
-import { useGetReviews, useGetTour, useGetTours } from "../api/queries";
+import { useGetTourReviews, useGetTour, useGetTours } from "../api/queries";
 import SectionNavigator, { type Section } from "../ui/SectionNavigator";
 
 const tourSections: Section[] = [
@@ -21,7 +21,7 @@ const tourSections: Section[] = [
 export default function TourDetails() {
   const { tourId } = useParams();
   const { data: tours } = useGetTours();
-  const { data: reviews } = useGetReviews(tourId!);
+  const { data: reviews } = useGetTourReviews(tourId!);
   const { data: tour, isLoading } = useGetTour(tourId!);
 
   const sectionRefs = useMemo(() => {
@@ -33,8 +33,6 @@ export default function TourDetails() {
   }, []);
 
   if (isLoading) return <PathFinderLoader />;
-  if (!tour) return <div>No tour found</div>;
-  if (!tours) return <div>No tour found</div>;
 
   return (
     <div className="flex flex-col">
@@ -76,7 +74,7 @@ export default function TourDetails() {
         reviews={reviews}
       />
       <ViewOtherTours
-        className="mx-9 mb-5 mt-2 flex flex-col gap-[11px]"
+        className="mx-9 my-2 flex flex-col gap-[11px]"
         tours={tours}
       />
     </div>

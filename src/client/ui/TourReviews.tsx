@@ -13,6 +13,8 @@ export default function TourReviews({
   className,
   reviews,
 }: TourReviewProps) {
+  const reviewCount = reviews?.length ?? 3;
+
   return (
     <section ref={sectionRef} className={className}>
       <h1 className="bg-centerLBg place-self-center rounded-t-3xl px-6 pt-2 font-serif text-4xl text-white">
@@ -21,7 +23,7 @@ export default function TourReviews({
       <StaggeredTestimonials
         className="border-centerLBg bg-centerLBg relative flex h-[350px] justify-center overflow-hidden rounded-3xl border-[11px]"
         reviews={reviews}
-        length={reviews.length}
+        length={reviewCount}
       />
     </section>
   );

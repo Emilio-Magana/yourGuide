@@ -24,7 +24,10 @@ const setTourUserIds = (
   next();
 };
 
-const getAllReviews = getAll(Review);
+const getAllReviews = getAll(Review, [
+  { path: "tour", select: "name slug imageCover" },
+  { path: "user", select: "name photo" },
+]);
 const getReview = getOne(Review);
 const createReview = createOne(Review);
 const updateReview = updateOne(Review);
