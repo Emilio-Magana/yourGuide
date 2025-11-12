@@ -3,15 +3,20 @@ import type { IconType } from "react-icons";
 import { HashLink } from "react-router-hash-link";
 import { motion } from "framer-motion";
 
-interface OptionProps {
+interface StaggeredDownOptionProps {
   setIsOpen: Dispatch<SetStateAction<boolean>>;
-  Icon: IconType;
   onClick?: () => void;
-  href: string;
+  Icon: IconType;
   label: string;
+  href: string;
 }
-
-const Option = ({ href, label, Icon, setIsOpen, onClick }: OptionProps) => {
+function SDDOption({
+  setIsOpen,
+  onClick,
+  Icon,
+  label,
+  href,
+}: StaggeredDownOptionProps) {
   return (
     <HashLink smooth to={href}>
       <motion.li
@@ -26,8 +31,7 @@ const Option = ({ href, label, Icon, setIsOpen, onClick }: OptionProps) => {
       </motion.li>
     </HashLink>
   );
-};
-
+}
 const itemVariants = {
   open: {
     opacity: 1,
@@ -44,10 +48,68 @@ const itemVariants = {
     },
   },
 };
-
 const actionIconVariants = {
   open: { scale: 1, y: 0 },
   closed: { scale: 0, y: -7 },
 };
 
-export { Option };
+interface RSBOptionProps {
+  Icon: IconType;
+  label: string;
+  isActive: boolean;
+  isOpen: boolean;
+  notifs?: number;
+  href: string;
+}
+const RSBOption = ({
+  Icon,
+  label,
+  isActive,
+  isOpen,
+  notifs,
+  href,
+}: RSBOptionProps) => {
+  return (
+    <HashLink smooth to={href} key={label}>
+      <motion.button
+        layout
+        className={`relative flex h-10 w-full items-center rounded-md transition-colors ${isActive ? "bg-indigo-100 text-indigo-800" : "text-slate-500 hover:bg-slate-100"}`}
+      >
+        <motion.div
+          layout
+          className="grid h-full w-10 place-content-center text-lg"
+        >
+          {Icon && <Icon />}
+        </motion.div>
+        {isOpen && (
+          <motion.span
+            layout
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.125 }}
+            className="text-xs font-medium"
+          >
+            {label}
+          </motion.span>
+        )}
+
+        {notifs != undefined && notifs > 0 && isOpen && (
+          <motion.span
+            initial={{ scale: 0, opacity: 0 }}
+            animate={{
+              opacity: 1,
+              scale: 1,
+            }}
+            style={{ y: "-50%" }}
+            transition={{ delay: 0.5 }}
+            className="absolute right-2 top-1/2 size-4 rounded bg-indigo-500 text-xs text-white"
+          >
+            {notifs}
+          </motion.span>
+        )}
+      </motion.button>
+    </HashLink>
+  );
+};
+
+export { SDDOption, RSBOption };

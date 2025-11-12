@@ -1,44 +1,34 @@
-import { Link } from "react-router-dom";
 import type { Tour } from "../config/schema";
 
 const api_url = import.meta.env.VITE_API_URL;
 
 interface TourCardMiniProps {
-  name: string;
   imageCover: string;
-  _id: Tour["_id"];
   difficulty: string;
-  duration: number;
   className: string;
+  duration: number;
+  name: string;
+  _id: Tour["_id"];
+  onClick: () => void;
 }
 
 export default function TourCardMini({
   name,
   imageCover,
   _id,
-  difficulty,
-  duration,
   className,
+  onClick,
 }: TourCardMiniProps) {
-  function handleClick() {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  }
-
   return (
-    <Link className={className} to={`/tours/${_id}`} onClick={handleClick}>
+    <button className={className} onClick={onClick}>
       <img
         src={`${api_url}/img/tours/${imageCover}`}
         alt={name}
-        className="h-60 w-full duration-300 ease-in-out hover:scale-105"
+        className="h-60 w-full"
       />
-      <article className="relative flex min-h-28 flex-col gap-3 bg-white px-4 py-4 font-light text-[#543939]">
-        <h1 className="justify-stretch text-xl uppercase leading-none">
-          {name}
-        </h1>
-        <h2 className="absolute bottom-7 font-thin">
-          A {difficulty} {duration}-day tour
-        </h2>
-      </article>
-    </Link>
+      <h1 className="absolute bottom-0 flex h-fit w-full flex-col gap-2 p-4 text-white drop-shadow-[-1px_1.2px_1.2px_rgb(0,0,0)] duration-300">
+        <span className="font-semibold">{name}</span>
+      </h1>
+    </button>
   );
 }

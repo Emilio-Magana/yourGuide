@@ -1,11 +1,10 @@
 import axios from "axios";
 
 export const api = axios.create({
-  baseURL: "http://localhost:3000/api/v1", // adjust your API URL
+  baseURL: "http://localhost:3000/api/v1",
   withCredentials: true,
 });
 
-// attach token if exists
 api.interceptors.request.use((config) => {
   const token = localStorage.getItem("token");
   if (token) {

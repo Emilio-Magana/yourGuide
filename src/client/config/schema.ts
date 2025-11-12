@@ -32,9 +32,15 @@ const startLocation = z.object({
   address: z.string(),
   description: z.string(),
 });
+const location = z.object({
+  type: z.string(),
+  coordinates: z.array(z.float32()),
+  description: z.string(),
+  day: z.string(),
+});
 
 const tour = z.object({
-  _id: z.object({ $oid: z.string() }),
+  _id: z.string(),
   name: z.string(),
   imageCover: z.string(),
   maxGroupSize: z.number(),
@@ -49,23 +55,29 @@ const tour = z.object({
   images: z.array(z.string()),
   startDates: z.array(z.string()),
   startLocation: startLocation,
-  locations: z.array(startLocation),
+  locations: z.array(location),
   guides: z.array(z.any()),
 });
+const userRoles = z.union([
+  z.literal("user"),
+  z.literal("admin"),
+  z.literal("lead-guide"),
+  z.literal("guide"),
+]);
 const user = z.object({
-  _id: z.object({ $oid: z.string() }),
+  _id: z.string(),
+  role: userRoles,
   name: z.string(),
   email: z.email(),
   photo: z.string().optional(),
   address: z.string().optional(),
   phone: z.string().optional(),
 });
-
 const review = z.object({
-  _id: z.object({ $oid: z.string() }),
+  _id: z.string(),
   review: z.string(),
   rating: z.number(),
-  tour: z.object({ $oid: z.string() }),
+  tour: z.string(),
   user: user,
   createdAt: z.string(),
 });
@@ -79,6 +91,7 @@ const userSchema = z.object({ users: z.array(user) });
 type Tour = z.infer<typeof tour>;
 type Review = z.infer<typeof review>;
 type User = z.infer<typeof user>;
+type UserRoles = z.infer<typeof userRoles>;
 
-export type { Tour, Review, User };
+export type { Tour, Review, User, UserRoles };
 export { tourSchema, reviewSchema, userSchema };

@@ -1,28 +1,64 @@
+// import { type RefObject } from "react";
+// import ProfileForm from "./ProfileForm";
+
+// interface userProfileProps {
+//   sectionRef: RefObject<HTMLDivElement | null>;
+//   id: string;
+//   className: string;
+//   photo: string;
+//   user.Name: string;
+//   user.email: string;
+// }
+// export default function UserProfile({
+//   id,
+//   photo,
+//   user.Name,
+//   user.email,
+//   className,
+//   sectionRef,
+// }: userProfileProps) {
+//   return (
+//     <article id={id} ref={sectionRef} className={className}>
+//       <h1 className="font-semibold text-primary duration-300">
+//         Account Management
+//       </h1>
+//       {/* add a toaster pop upfor this */}
+//       {/* {message.text && (
+//         <div
+//           className={`mb-6 rounded-lg p-4 ${
+//             message.type === "success"
+//               ? "border border-green-200 bg-green-50 text-green-800"
+//               : "border border-red-200 bg-red-50 text-red-800"
+//           }`}
+//         >
+//           {message.text}
+//         </div>
+//       )} */}
+//       <ProfileForm photo={photo} user.Name={user.Name} user.email={user.email} />
+//     </article>
+//   );
+// }
 import { useEffect, useState, type RefObject } from "react";
 import { BsCamera, BsSave, BsX } from "react-icons/bs";
 
-import { useAuth, useUpdateMe } from "../api/queries";
+import { useUpdateMe } from "../api/queries";
+import type { User } from "../config/schema";
 
 const api_url = import.meta.env.VITE_API_URL;
 const defaultPFP = "default.jpg";
 
-interface userProfileProps {
+interface profileFormProps {
   sectionRef: RefObject<HTMLDivElement | null>;
-  id: string;
-  pfp: string;
-  userName: string;
-  userEmail: string;
   className: string;
+  id: string;
+  user: User;
 }
 export default function UserProfile({
-  id,
-  pfp,
-  userName,
-  userEmail,
+  user,
   className,
+  id,
   sectionRef,
-}: userProfileProps) {
-  const { data: user } = useAuth();
+}: profileFormProps) {
   const updateMeMutation = useUpdateMe();
   const [isEditing, setIsEditing] = useState(false);
   const [photoFile, setPhotoFile] = useState<File | null>(null);
@@ -31,21 +67,21 @@ export default function UserProfile({
     email: "",
     phone: "",
     address: "",
-    pfp: "",
+    photo: "",
   });
   const [originalData, setOriginalData] = useState({
     name: "",
     email: "",
     phone: "",
     address: "",
-    pfp: "",
+    photo: "",
   });
   useEffect(() => {
     if (user) {
       const userData = {
-        pfp: pfp || "",
-        name: userName || "",
-        email: userEmail || "",
+        photo: user.photo || "",
+        name: user.name || "",
+        email: user.email || "",
         phone: user.phone || "",
         address: user.address || "",
       };
@@ -91,25 +127,13 @@ export default function UserProfile({
       setFormData((prev) => ({ ...prev, [el]: "" }));
     }
   };
-  const photoUrl = formData.pfp ? `/img/users/${formData.pfp}` : null;
+  const photoUrl = formData.photo ? `/img/users/${formData.photo}` : null;
 
   return (
     <article id={id} ref={sectionRef} className={className}>
       <h1 className="font-semibold text-primary duration-300">
         Account Management
       </h1>
-      {/* add a toaster pop upfor this */}
-      {/* {message.text && (
-        <div
-          className={`mb-6 rounded-lg p-4 ${
-            message.type === "success"
-              ? "border border-green-200 bg-green-50 text-green-800"
-              : "border border-red-200 bg-red-50 text-red-800"
-          }`}
-        >
-          {message.text}
-        </div>
-      )} */}
       <form action="" className="rounded-2xl bg-white p-6">
         <div className="flex flex-col gap-5 duration-300 m_window:flex-row">
           <div className="flex flex-col place-items-start gap-3 duration-300 xs_window:place-items-center">
@@ -142,7 +166,7 @@ export default function UserProfile({
             {!isEditing ? (
               <button
                 onClick={() => setIsEditing(true)}
-                className="h-10 w-52 rounded-lg bg-blue-600 px-6 text-sm font-medium text-white shadow-md hover:bg-blue-700 hover:shadow-lg"
+                className="w-52 rounded-lg bg-blue-600 py-2 text-sm font-medium text-white shadow-md hover:bg-blue-700 hover:shadow-lg"
               >
                 Edit Profile
               </button>
@@ -151,7 +175,7 @@ export default function UserProfile({
                 <button
                   onClick={handleSubmit}
                   disabled={updateMeMutation.isPending}
-                  className="flex h-10 w-52 items-center justify-center gap-2 rounded-lg bg-green-600 px-6 py-2 text-white shadow-md hover:bg-green-700 hover:shadow-lg"
+                  className="form-submit-button w-52"
                 >
                   <BsSave size={20} />
                   {updateMeMutation.isPending ? "Saving..." : "Save Changes"}
@@ -159,7 +183,7 @@ export default function UserProfile({
                 <button
                   onClick={handleCancel}
                   disabled={updateMeMutation.isPending}
-                  className="flex h-10 w-52 items-center justify-center gap-2 rounded-lg bg-gray-500 px-6 py-2 text-white shadow-md hover:bg-gray-600 hover:shadow-lg"
+                  className="form-cancel-button w-52"
                 >
                   <BsX size={20} />
                   Cancel

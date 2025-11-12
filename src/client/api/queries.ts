@@ -1,6 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { api } from "./api";
 import { useLocation, useNavigate } from "react-router-dom";
+import type { Review, Tour, User } from "../config/schema";
 
 // all bookings (admin/lead-guide only)
 export function useBookings() {
@@ -33,7 +34,7 @@ export function useGetBooking(id: string) {
 }
 // Tours (public)
 export function useGetTours() {
-  return useQuery({
+  return useQuery<Tour[]>({
     queryKey: ["tours"],
     queryFn: async () => {
       const { data } = await api.get("/tours");
@@ -43,7 +44,7 @@ export function useGetTours() {
   });
 }
 export function useGetTourReviews(tourId: string) {
-  return useQuery({
+  return useQuery<Review[]>({
     queryKey: ["tour-reviews", tourId],
     queryFn: async () => {
       const { data } = await api.get(`/tours/${tourId}/reviews`);
@@ -54,7 +55,7 @@ export function useGetTourReviews(tourId: string) {
   });
 }
 export function useGetUserReviews(userId: string) {
-  return useQuery({
+  return useQuery<Review[]>({
     queryKey: ["user-reviews", userId],
     queryFn: async () => {
       const { data } = await api.get(`/users/${userId}/reviews`);
@@ -77,7 +78,7 @@ export function useGetUserBookings(userId: string) {
 }
 
 export function useGetTour(tourId: string) {
-  return useQuery({
+  return useQuery<Tour>({
     queryKey: ["tour", tourId],
     queryFn: async () => {
       const { data } = await api.get(`/tours/${tourId}`);
@@ -89,11 +90,48 @@ export function useGetTour(tourId: string) {
 }
 
 // create tour (restricted to admin/lead-guide)
+// export function useCreateTour() {
+//   return useMutation({
+//     mutationFn: async (newTour: any) => {
+//       const { data } = await api.post("/tours", newTour);
+//       return data.data.data;
+//     },
+//   });
+// }
+
 export function useCreateTour() {
+  const queryClient = useQueryClient();
+
   return useMutation({
-    mutationFn: async (newTour: any) => {
-      const { data } = await api.post("/tours", newTour);
+    mutationFn: async (newTour: Tour) => {
+      const { data } = await api.post("/tours", newTour, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
       return data.data.data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["tours"] });
+    },
+  });
+}
+
+export function useUpdateTour() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async ({ id, data }: { id: string; data: any }) => {
+      const response = await api.patch(`/tours/${id}`, data, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      return response.data.data.data;
+    },
+    onSuccess: (_, variables) => {
+      queryClient.invalidateQueries({ queryKey: ["tours"] });
+      queryClient.invalidateQueries({ queryKey: ["tour", variables.id] });
     },
   });
 }
@@ -120,7 +158,9 @@ export function useCreateReview() {
 
 // useGetMe = useAuth
 export function useAuth() {
-  return useQuery({
+  const navigate = useNavigate();
+
+  return useQuery<User>({
     queryKey: ["authUser"],
     queryFn: async () => {
       try {
@@ -128,6 +168,8 @@ export function useAuth() {
         return data.data.data;
       } catch (error: any) {
         if (error.response?.status === 401 || error.response?.status === 403) {
+          // Redirect to login on auth failure
+          navigate("/login");
           return null;
         }
         return null;
@@ -223,7 +265,6 @@ export function useUpdatePassword() {
   });
 }
 
-// Delete current user account (soft delete)
 export function useDeleteMe() {
   const queryClient = useQueryClient();
   const navigate = useNavigate();

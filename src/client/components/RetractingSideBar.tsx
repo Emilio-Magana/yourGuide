@@ -54,7 +54,7 @@ export default function RetractingSideBar({
                 href={`/users/:userId/dashboard#Bookings`}
                 isActive={active === section.id}
                 notifs={numBookings}
-                Icon={section.icon}
+                Icon={section.icon!}
                 label={"Bookings"}
                 isOpen={isOpen}
               />
@@ -64,7 +64,7 @@ export default function RetractingSideBar({
               <Option
                 href={`/users/:userId/dashboard#${section.id}`}
                 isActive={active === section.id}
-                Icon={section.icon}
+                Icon={section.icon!}
                 label={section.id}
                 isOpen={isOpen}
               />
@@ -107,7 +107,7 @@ const TitleSection = ({ isOpen, username, email, pfp }: TitleSectionProps) => {
 };
 
 interface OptionProps {
-  Icon: IconType | undefined;
+  Icon: IconType;
   label: string;
   isActive: boolean;
   isOpen: boolean;

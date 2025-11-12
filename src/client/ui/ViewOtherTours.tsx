@@ -1,4 +1,4 @@
-import TourCardMini from "./TourCardMini";
+import TourCardMiniLink from "./TourCardMiniLink";
 import type { Tour } from "../config/schema";
 import { getRandomInt } from "../utils/getRandomInt";
 
@@ -26,13 +26,13 @@ export default function ViewOtherTours({
           ?.slice(shuffleNumber, 4 + shuffleNumber)
           .map((tour: Tour, ind: number) =>
             ind === 3 ? (
-              <TourCardMini
+              <TourCardMiniLink
                 className="justify-self-stretch overflow-hidden rounded-2xl duration-300 hover:drop-shadow-[0_3px_5px_var(--header)] m_window:col-start-2 m_window:col-end-3 l_window:col-span-1"
                 {...tour}
                 key={ind}
               />
             ) : (
-              <TourCardMini
+              <TourCardMiniLink
                 className="justify-self-stretch overflow-hidden rounded-2xl duration-300 hover:drop-shadow-[0_3px_5px_var(--header)]"
                 {...tour}
                 key={ind}

@@ -10,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 
 import { useAuth, useLogout } from "./../api/queries";
-import { Option } from "./OptionTypes";
+import { SDDOption } from "./OptionTypes";
 
 export default function StaggeredDropDown() {
   const [isOpen, setIsOpen] = useState(false);
@@ -67,31 +67,31 @@ export default function StaggeredDropDown() {
         >
           {user?.role === "user" ? (
             <>
-              <Option
+              <SDDOption
                 setIsOpen={setIsOpen}
                 Icon={BsPersonCircle}
                 label="Profile"
                 href="/users/:userId/dashboard#Profile"
               />
-              <Option
+              <SDDOption
                 setIsOpen={setIsOpen}
                 Icon={FaCalendarCheck}
                 label="Bookings"
                 href="/users/:userId/dashboard#Bookings"
               />
-              <Option
+              <SDDOption
                 setIsOpen={setIsOpen}
                 Icon={MdReviews}
                 label="Reviews"
                 href="/users/:userId/dashboard#Reviews"
               />
-              <Option
+              <SDDOption
                 setIsOpen={setIsOpen}
                 Icon={IoMdSettings}
                 label="Settings"
                 href="/users/:userId/dashboard#Settings"
               />
-              <Option
+              <SDDOption
                 setIsOpen={setIsOpen}
                 Icon={MdLogout}
                 label="Logout"
@@ -101,37 +101,37 @@ export default function StaggeredDropDown() {
             </>
           ) : user?.role === "guide" || "lead-guide" || "admin" ? (
             <>
-              <Option
+              <SDDOption
                 setIsOpen={setIsOpen}
                 Icon={BsPersonCircle}
                 label="Profile"
                 href="/users/:userId/dashboard#Profile"
               />
-              <Option
+              <SDDOption
                 setIsOpen={setIsOpen}
                 Icon={FaCalendarCheck}
                 label="Bookings"
                 href="/users/:userId/dashboard#Bookings"
               />
-              <Option
+              <SDDOption
                 setIsOpen={setIsOpen}
                 Icon={MdReviews}
                 label="Reviews"
                 href="/users/:userId/dashboard#Reviews"
               />
-              <Option
+              <SDDOption
                 setIsOpen={setIsOpen}
                 Icon={FaEdit}
                 label="Edit Tours"
                 href="/users/:userId/tours"
               />
-              <Option
+              <SDDOption
                 setIsOpen={setIsOpen}
                 Icon={IoMdSettings}
                 label="Settings"
                 href="/users/:userId/dashboard#Settings"
               />
-              <Option
+              <SDDOption
                 setIsOpen={setIsOpen}
                 Icon={MdLogout}
                 label="Logout"
@@ -140,7 +140,7 @@ export default function StaggeredDropDown() {
               />
             </>
           ) : (
-            <Option
+            <SDDOption
               setIsOpen={setIsOpen}
               Icon={MdLogin}
               label="Login"

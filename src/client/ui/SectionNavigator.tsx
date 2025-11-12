@@ -5,7 +5,10 @@ import type { RefObject } from "react";
 export type Section = {
   id: string;
   icon?: IconType;
-  locked?: boolean;
+};
+
+export type UserSection<TKey extends string> = {
+  [P in TKey]: Section[];
 };
 
 interface SecNavProps {
@@ -37,7 +40,7 @@ export default function SectionNavigator({
       </ul>
       <Link
         to="/checkout/:tourId"
-        className="bg-highLightBg rounded-3xl px-3 py-3 text-white duration-300 hover:-translate-y-1 hover:drop-shadow-[0_2px_1.2px_var(--primary)] s_window:px-3 m_window:px-5"
+        className="bg-highLightBg rounded-3xl px-3 py-3 text-white duration-300 hover:-translate-y-1 hover:drop-shadow-[0_4px_1.2px_var(--primary)] s_window:px-3 m_window:px-5"
       >
         Start Planning
       </Link>
