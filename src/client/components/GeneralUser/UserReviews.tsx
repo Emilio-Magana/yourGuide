@@ -1,5 +1,5 @@
-import { useGetUserReviews } from "../../api/queries";
-import UserReviewCard from "../../ui/UserReviewCard";
+import { useGetUserReviews } from "../../api/queries/reviewQueries";
+import UserReviewCard from "../../ui/user/UserReviewCard";
 import type { User } from "../../config/schema";
 
 import { type RefObject } from "react";

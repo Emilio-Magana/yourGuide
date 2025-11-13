@@ -1,15 +1,16 @@
-import { createRef, useMemo } from "react";
 import { useParams } from "react-router-dom";
+import { createRef, useMemo } from "react";
 
-import ImageGrid from "../ui/ImageGrid";
-import TourHeader from "../ui/tour/TourHeader";
-import TourMap from "../ui/TourMap";
-import TourReviews from "../ui/tour/TourReviews";
-import TourOverview from "../ui/tour/TourOverview";
-import ViewOtherTours from "../ui/tour/ViewOtherTours";
-import PathFinderLoader from "../components/PathFinderLoader";
-import { useGetTourReviews, useGetTour, useGetTours } from "../api/queries";
 import SectionNavigator, { type Section } from "../ui/SectionNavigator";
+import { useGetTour, useGetTours } from "../api/queries/tourQueries";
+import { useGetTourReviews } from "../api/queries/reviewQueries";
+import PathFinderLoader from "../components/PathFinderLoader";
+import ViewOtherTours from "../ui/tour/ViewOtherTours";
+import TourOverview from "../ui/tour/TourOverview";
+import TourReviews from "../ui/tour/TourReviews";
+import TourHeader from "../ui/tour/TourHeader";
+import TourMap from "../ui/tour/TourMap";
+import ImageGrid from "../ui/ImageGrid";
 
 const tourSections: Section[] = [
   { id: "Overview" },
@@ -44,7 +45,7 @@ export default function TourDetails() {
         detailTwo={tour!.startLocation.description}
       />
       <SectionNavigator
-        className="border-centerLBg sticky top-0 z-20 flex place-content-between border-b-[1px] bg-mainBg px-2 py-[13px] text-sm duration-300 m_window:text-base l_window:px-6"
+        className="sticky top-0 z-20 flex place-content-between border-b-[1px] border-centerLBg bg-mainBg px-2 py-[13px] text-sm duration-300 m_window:text-base l_window:px-6"
         sections={tourSections}
         sectionRefs={sectionRefs}
       />

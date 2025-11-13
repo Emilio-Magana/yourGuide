@@ -1,34 +1,30 @@
-import { IoMdPerson, IoMdSettings } from "react-icons/io";
-import { FaCalendarCheck, FaEdit } from "react-icons/fa";
-import { MdLogin, MdLogout } from "react-icons/md";
-import { BsPersonCircle } from "react-icons/bs";
 import { FiChevronDown } from "react-icons/fi";
-import { MdReviews } from "react-icons/md";
+import { IoMdPerson } from "react-icons/io";
+import { MdLogin, MdLogout } from "react-icons/md";
 
 import { useEffect, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 
-import { useAuth, useLogout } from "./../api/queries";
+import { useAuth, useLogout } from "../api/queries/authQueries";
+import { userNavigation } from "../config/userNavigation";
 import { SDDOption } from "../ui/OptionTypes";
 
 export default function StaggeredDropDown() {
   const [isOpen, setIsOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
-  const navigate = useNavigate();
-  const { data: user } = useAuth();
   const logoutMutation = useLogout();
+  const { data: user } = useAuth();
+
+  const userOptions = userNavigation[user?.role || "user"];
 
   const handLoggingOut = async () => {
-    setIsOpen(false);
     try {
       await logoutMutation.mutateAsync();
-      navigate("/", { replace: true });
     } catch (error) {
       console.error("Logout failed:", error);
     }
+    setIsOpen(false);
   };
-
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (ref.current && !ref.current.contains(event.target as Node)) {
@@ -40,7 +36,6 @@ export default function StaggeredDropDown() {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [isOpen]);
-
   useEffect(() => {
     setIsOpen(false);
   }, [user]);
@@ -53,7 +48,12 @@ export default function StaggeredDropDown() {
           className="flex items-center gap-2 rounded-md px-3 py-2 drop-shadow-[0px_1.3px_2px_var(--headerOpposite)] transition-colors duration-300 hover:bg-slate-500"
         >
           <IoMdPerson />
-          <motion.span variants={iconVariants}>
+          <motion.span
+            variants={{
+              open: { rotate: 180 },
+              closed: { rotate: 0 },
+            }}
+          >
             <FiChevronDown />
           </motion.span>
         </button>
@@ -65,86 +65,31 @@ export default function StaggeredDropDown() {
           style={{ originY: "top", translateX: "-50%" }}
           className={`absolute left-[50%] top-[120%] flex w-32 flex-col gap-2 overflow-hidden rounded-lg bg-white p-2 shadow-xl`}
         >
-          {user?.role === "user" ? (
-            <>
+          {user ? (
+            userOptions.map((section) => (
               <SDDOption
+                key={section.id}
+                href={`/users/:userId/dashboard#${section.id}`}
+                Icon={section.Icon!}
+                id={section.id}
                 setIsOpen={setIsOpen}
-                Icon={BsPersonCircle}
-                label="Profile"
-                href="/users/:userId/dashboard#Profile"
               />
-              <SDDOption
-                setIsOpen={setIsOpen}
-                Icon={FaCalendarCheck}
-                label="Bookings"
-                href="/users/:userId/dashboard#Bookings"
-              />
-              <SDDOption
-                setIsOpen={setIsOpen}
-                Icon={MdReviews}
-                label="Reviews"
-                href="/users/:userId/dashboard#Reviews"
-              />
-              <SDDOption
-                setIsOpen={setIsOpen}
-                Icon={IoMdSettings}
-                label="Settings"
-                href="/users/:userId/dashboard#Settings"
-              />
-              <SDDOption
-                setIsOpen={setIsOpen}
-                Icon={MdLogout}
-                label="Logout"
-                href="#"
-                onClick={handLoggingOut}
-              />
-            </>
-          ) : user?.role === "guide" || "lead-guide" || "admin" ? (
-            <>
-              <SDDOption
-                setIsOpen={setIsOpen}
-                Icon={BsPersonCircle}
-                label="Profile"
-                href="/users/:userId/dashboard#Profile"
-              />
-              <SDDOption
-                setIsOpen={setIsOpen}
-                Icon={FaCalendarCheck}
-                label="Bookings"
-                href="/users/:userId/dashboard#Bookings"
-              />
-              <SDDOption
-                setIsOpen={setIsOpen}
-                Icon={MdReviews}
-                label="Reviews"
-                href="/users/:userId/dashboard#Reviews"
-              />
-              <SDDOption
-                setIsOpen={setIsOpen}
-                Icon={FaEdit}
-                label="Edit Tours"
-                href="/users/:userId/tours"
-              />
-              <SDDOption
-                setIsOpen={setIsOpen}
-                Icon={IoMdSettings}
-                label="Settings"
-                href="/users/:userId/dashboard#Settings"
-              />
-              <SDDOption
-                setIsOpen={setIsOpen}
-                Icon={MdLogout}
-                label="Logout"
-                href="#"
-                onClick={handLoggingOut}
-              />
-            </>
+            ))
           ) : (
             <SDDOption
               setIsOpen={setIsOpen}
               Icon={MdLogin}
-              label="Login"
+              id="Login"
               href="/login"
+            />
+          )}
+          {user && (
+            <SDDOption
+              setIsOpen={setIsOpen}
+              Icon={MdLogout}
+              id="Logout"
+              href="#"
+              onClick={handLoggingOut}
             />
           )}
         </motion.ul>
@@ -152,7 +97,6 @@ export default function StaggeredDropDown() {
     </div>
   );
 }
-
 const wrapperVariants = {
   open: {
     scaleY: 1,
@@ -169,9 +113,4 @@ const wrapperVariants = {
       staggerChildren: 0.1,
     },
   },
-};
-
-const iconVariants = {
-  open: { rotate: 180 },
-  closed: { rotate: 0 },
 };

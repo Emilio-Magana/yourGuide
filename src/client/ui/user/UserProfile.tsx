@@ -2,7 +2,7 @@ import { useEffect, useState, type RefObject } from "react";
 
 import { BsCamera, BsSave, BsX } from "react-icons/bs";
 
-import { useUpdateMe } from "../../api/queries";
+import { useUpdateMe } from "../../api/queries/userQueries";
 import type { User } from "../../config/schema";
 
 const api_url = import.meta.env.VITE_API_URL;

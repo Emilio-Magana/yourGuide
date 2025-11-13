@@ -1,6 +1,8 @@
 import { Link } from "react-router-dom";
-import type { Tour } from "../config/schema";
+
+import type { Tour } from "../../config/schema";
 import { IoIosStar } from "react-icons/io";
+
 const api_url = import.meta.env.VITE_API_URL;
 
 interface UserReviewCardProps {

@@ -35,7 +35,6 @@ const tour = z.object({
 const userRoles = z.union([
   z.literal("user"),
   z.literal("admin"),
-  // z.literal("lead-guide"),
   z.literal("guide"),
 ]);
 const user = z.object({

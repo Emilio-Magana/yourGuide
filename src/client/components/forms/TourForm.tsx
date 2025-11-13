@@ -10,8 +10,7 @@ import {
   FaClock,
   FaDollarSign,
 } from "react-icons/fa";
-
-import { useGetTour } from "../../api/queries";
+import { useGetTour } from "../../api/queries/tourQueries";
 
 interface TourFormProps {
   setIsEditing: React.Dispatch<React.SetStateAction<boolean>>;

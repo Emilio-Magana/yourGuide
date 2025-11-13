@@ -2,8 +2,8 @@ import { useState, type RefObject } from "react";
 
 import { FaPlus } from "react-icons/fa";
 
+import { useGetTours } from "../../api/queries/tourQueries";
 import TourCardMini from "../../ui/tour/TourCardMini";
-import { useGetTours } from "../../api/queries";
 import type { Tour } from "../../config/schema";
 import TourForm from "../forms/TourForm";
 

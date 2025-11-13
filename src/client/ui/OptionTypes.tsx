@@ -3,74 +3,26 @@ import type { IconType } from "react-icons";
 import { HashLink } from "react-router-hash-link";
 import { motion } from "framer-motion";
 
-interface StaggeredDownOptionProps {
-  setIsOpen: Dispatch<SetStateAction<boolean>>;
-  onClick?: () => void;
-  Icon: IconType;
-  label: string;
+export type UserOptions<TKey extends string> = {
+  [P in TKey]: NavOption[];
+};
+type NavOption = {
+  id: string;
   href: string;
-}
-function SDDOption({
-  setIsOpen,
-  onClick,
-  Icon,
-  label,
-  href,
-}: StaggeredDownOptionProps) {
-  return (
-    <HashLink smooth to={href}>
-      <motion.li
-        variants={itemVariants}
-        onClick={label === "Logout" ? onClick : () => setIsOpen(false)}
-        className="flex w-full cursor-pointer items-center gap-2 whitespace-nowrap rounded-md p-2 text-xs font-medium text-slate-700 transition-colors hover:bg-slate-100 hover:text-slate-600"
-      >
-        <motion.span variants={actionIconVariants}>
-          <Icon />
-        </motion.span>
-        <span>{label}</span>
-      </motion.li>
-    </HashLink>
-  );
-}
-const itemVariants = {
-  open: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      when: "beforeChildren",
-    },
-  },
-  closed: {
-    opacity: 0,
-    y: -15,
-    transition: {
-      when: "afterChildren",
-    },
-  },
-};
-const actionIconVariants = {
-  open: { scale: 1, y: 0 },
-  closed: { scale: 0, y: -7 },
-};
-
-interface RSBOptionProps {
   Icon: IconType;
-  label: string;
-  isActive: boolean;
-  isOpen: boolean;
+  Component: React.FC<any>;
+};
+type Option = {
+  id: string;
+  href: string;
+  Icon?: IconType;
   notifs?: number;
-  href: string;
-}
-const RSBOption = ({
-  Icon,
-  label,
-  isActive,
-  isOpen,
-  notifs,
-  href,
-}: RSBOptionProps) => {
+  isOpen?: boolean;
+  isActive?: boolean;
+};
+function RSBOption({ Icon, id, isActive, isOpen, notifs, href }: Option) {
   return (
-    <HashLink smooth to={href} key={label}>
+    <HashLink smooth to={href} key={id}>
       <motion.button
         layout
         className={`relative flex h-10 w-full items-center rounded-md transition-colors ${isActive ? "bg-indigo-100 text-indigo-800" : "text-slate-500 hover:bg-slate-100"}`}
@@ -89,7 +41,7 @@ const RSBOption = ({
             transition={{ delay: 0.125 }}
             className="text-xs font-medium"
           >
-            {label}
+            {id}
           </motion.span>
         )}
 
@@ -110,6 +62,47 @@ const RSBOption = ({
       </motion.button>
     </HashLink>
   );
-};
+}
+
+interface SDDOptionProps {
+  setIsOpen: Dispatch<SetStateAction<boolean>>;
+  onClick?: () => void;
+  Icon: IconType;
+  id: string;
+  href: string;
+}
+function SDDOption({ setIsOpen, onClick, Icon, id, href }: SDDOptionProps) {
+  return (
+    <HashLink smooth to={href}>
+      <motion.li
+        variants={{
+          open: {
+            opacity: 1,
+            y: 0,
+            transition: {
+              when: "beforeChildren",
+            },
+          },
+          closed: {
+            opacity: 0,
+            y: -15,
+            transition: {
+              when: "afterChildren",
+            },
+          },
+        }}
+        onClick={id === "Logout" ? onClick : () => setIsOpen(false)}
+        className="flex w-full cursor-pointer items-center gap-2 whitespace-nowrap rounded-md p-2 text-xs font-medium text-slate-700 transition-colors hover:bg-slate-100 hover:text-slate-600"
+      >
+        <motion.span
+          variants={{ open: { scale: 1, y: 0 }, closed: { scale: 0, y: -7 } }}
+        >
+          <Icon />
+        </motion.span>
+        <span>{id}</span>
+      </motion.li>
+    </HashLink>
+  );
+}
 
 export { SDDOption, RSBOption };

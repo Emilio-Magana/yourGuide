@@ -5,7 +5,7 @@ export default {
   theme: {
     screens: {
       xs_window: "300px",
-      s_window: "510px",
+      s_window: "520px",
       m_window: "720px",
       l_window: "930px",
       xl_window: "1140px",

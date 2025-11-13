@@ -1,6 +1,6 @@
-import { useGetUserReviews } from "../../api/queries";
-import UserReviewCard from "../UserReviewCard";
+import { useGetUserReviews } from "../../api/queries/reviewQueries";
 import type { User } from "../../config/schema";
+import UserReviewCard from "./UserReviewCard";
 
 import { type RefObject } from "react";
 
@@ -17,7 +17,7 @@ export default function UserReviews({
   id,
   user,
 }: ReviewsProps) {
-  const { data: userReviews } = useGetUserReviews(user._id);
+  const { data: userReviews } = useGetUserReviews(user?._id || "");
   const reviewsExist = userReviews != undefined;
   let reviewCount;
   if (reviewsExist) {

@@ -1,5 +1,6 @@
+import { useLogin } from "./../api/queries/authQueries";
+
 import { useState } from "react";
-import { useLogin } from "./../api/queries";
 
 export default function LoginForm() {
   const [email, setEmail] = useState("");

@@ -1,8 +1,8 @@
 import { type RefObject } from "react";
 
-import { useGetUserBookings } from "../../api/queries";
-import UserReviewCard from "../UserReviewCard";
 import type { User } from "../../config/schema";
+import UserReviewCard from "./UserReviewCard";
+import { useGetUserBookings } from "../../api/queries/bookingQueries";
 
 interface BookingsProps {
   sectionRef: RefObject<HTMLDivElement | null>;
@@ -17,7 +17,7 @@ export default function UserBookings({
   id,
   user,
 }: BookingsProps) {
-  const { data: userBookings } = useGetUserBookings(user._id);
+  const { data: userBookings } = useGetUserBookings(user?._id || "");
   const bookingsExist = userBookings != undefined;
 
   return (

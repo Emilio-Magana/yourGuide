@@ -1,9 +1,9 @@
 import { FaCalendar, FaMapPin } from "react-icons/fa6";
 import { MdOutlineZoomOutMap } from "react-icons/md";
 
-import type { Location } from "../config/schema";
+import type { Location } from "../../config/schema";
 
-interface MapMenuProps {
+interface TourMapMenuProps {
   className: string;
   locations: Location[];
   resetView: () => void;
@@ -11,13 +11,13 @@ interface MapMenuProps {
   flyToLocation: (loc: Location, idx: number) => void;
 }
 
-export default function MapMenu({
+export default function TourMapMenu({
   className,
   locations,
   flyToLocation,
   resetView,
   selectedLocation,
-}: MapMenuProps) {
+}: TourMapMenuProps) {
   return (
     <div className={className}>
       <div className="mb-5 flex items-baseline justify-between text-2xl">
@@ -36,15 +36,15 @@ export default function MapMenu({
             onClick={() => flyToLocation(loc, idx)}
             className={`cursor-pointer rounded-xl p-3 transition-all ${
               selectedLocation === loc
-                ? "bg-highLightBg scale-105 text-white shadow-lg duration-300"
-                : "text-header bg-simBg hover:bg-secondary hover:shadow-md"
+                ? "scale-105 bg-highLightBg text-white shadow-lg duration-300"
+                : "bg-simBg text-header hover:bg-secondary hover:shadow-md"
             }`}
           >
             <div className="flex items-start gap-3">
               <div
                 className={`flex h-8 w-8 flex-shrink-0 items-center justify-center self-center rounded-full font-bold ${
                   selectedLocation === loc
-                    ? "text-highLightBg bg-white"
+                    ? "bg-white text-highLightBg"
                     : "bg-highLightBg text-white"
                 }`}
               >

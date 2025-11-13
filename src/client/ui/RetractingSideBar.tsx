@@ -1,13 +1,12 @@
 import { FiChevronsRight } from "react-icons/fi";
 import { FaUserCircle } from "react-icons/fa";
-import type { IconType } from "react-icons";
 
-import { HashLink } from "react-router-hash-link";
 import { motion } from "framer-motion";
 import type { RefObject } from "react";
 
 import type { Section } from "./SectionNavigator";
 import type { User } from "../config/schema";
+import { RSBOption } from "./OptionTypes";
 
 const api_url = import.meta.env.VITE_API_URL;
 
@@ -15,7 +14,7 @@ interface SideBarProps {
   sectionRefs: Record<string, RefObject<HTMLDivElement | null>>;
   active?: "Dashboard" | "Bookings" | "Reviews" | "Settings";
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  sections: Array<Section>;
+  sections: Section[];
   numBookings: number;
   className: string;
   isOpen: boolean;
@@ -50,22 +49,22 @@ export default function RetractingSideBar({
         {sections.map((section) =>
           section.id === "Bookings" ? (
             <div key={section.id}>
-              <Option
+              <RSBOption
                 href={`/users/:userId/dashboard#Bookings`}
                 isActive={active === section.id}
                 notifs={numBookings}
-                Icon={section.icon!}
-                label={"Bookings"}
+                Icon={section.Icon!}
+                id={"Bookings"}
                 isOpen={isOpen}
               />
             </div>
           ) : (
             <div key={section.id}>
-              <Option
+              <RSBOption
                 href={`/users/:userId/dashboard#${section.id}`}
                 isActive={active === section.id}
-                Icon={section.icon!}
-                label={section.id}
+                Icon={section.Icon!}
+                id={section.id}
                 isOpen={isOpen}
               />
             </div>
@@ -103,65 +102,6 @@ const TitleSection = ({ isOpen, username, email, pfp }: TitleSectionProps) => {
         </div>
       </div>
     </div>
-  );
-};
-
-interface OptionProps {
-  Icon: IconType;
-  label: string;
-  isActive: boolean;
-  isOpen: boolean;
-  notifs?: number;
-  href: string;
-}
-const Option = ({
-  Icon,
-  label,
-  isActive,
-  isOpen,
-  notifs,
-  href,
-}: OptionProps) => {
-  return (
-    <HashLink smooth to={href} key={label}>
-      <motion.button
-        layout
-        className={`relative flex h-10 w-full items-center rounded-md transition-colors ${isActive ? "bg-indigo-100 text-indigo-800" : "text-slate-500 hover:bg-slate-100"}`}
-      >
-        <motion.div
-          layout
-          className="grid h-full w-10 place-content-center text-lg"
-        >
-          {Icon && <Icon />}
-        </motion.div>
-        {isOpen && (
-          <motion.span
-            layout
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.125 }}
-            className="text-xs font-medium"
-          >
-            {label}
-          </motion.span>
-        )}
-
-        {notifs != undefined && notifs > 0 && isOpen && (
-          <motion.span
-            initial={{ scale: 0, opacity: 0 }}
-            animate={{
-              opacity: 1,
-              scale: 1,
-            }}
-            style={{ y: "-50%" }}
-            transition={{ delay: 0.5 }}
-            className="absolute right-2 top-1/2 size-4 rounded bg-indigo-500 text-xs text-white"
-          >
-            {notifs}
-          </motion.span>
-        )}
-      </motion.button>
-    </HashLink>
   );
 };
 

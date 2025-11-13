@@ -1,6 +1,7 @@
-import type { RefObject } from "react";
 import StaggeredTestimonials from "../../components/StaggeredTestimonials";
 import type { Review } from "../../config/schema";
+
+import type { RefObject } from "react";
 
 interface TourReviewProps {
   sectionRef: RefObject<HTMLDivElement | null>;
@@ -15,11 +16,11 @@ export default function TourReviews({
 }: TourReviewProps) {
   return (
     <section ref={sectionRef} className={className}>
-      <h1 className="bg-centerLBg place-self-center rounded-t-3xl px-6 pt-2 font-serif text-4xl text-white">
+      <h1 className="place-self-center rounded-t-3xl bg-centerLBg px-6 pt-2 font-serif text-4xl text-white">
         Reviews
       </h1>
       <StaggeredTestimonials
-        className="border-centerLBg bg-centerLBg relative flex h-[350px] justify-center overflow-hidden rounded-3xl border-[11px]"
+        className="relative flex h-[350px] justify-center overflow-hidden rounded-3xl border-[11px] border-centerLBg bg-centerLBg"
         reviews={reviews}
       />
     </section>

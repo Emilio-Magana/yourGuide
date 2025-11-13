@@ -1,6 +1,6 @@
-import { FaClock } from "react-icons/fa";
 import { FaLocationDot } from "react-icons/fa6";
 import { useLocation } from "react-router-dom";
+import { FaClock } from "react-icons/fa";
 
 const api_url = import.meta.env.VITE_API_URL;
 

@@ -1,6 +1,6 @@
+import { getRandomInt } from "../../utils/getRandomInt";
 import TourCardMiniLink from "./TourCardMiniLink";
 import type { Tour } from "../../config/schema";
-import { getRandomInt } from "../../utils/getRandomInt";
 
 interface ViewOtherToursProps {
   tours: Tour[];
@@ -18,7 +18,7 @@ export default function ViewOtherTours({
 
   return (
     <section className={className}>
-      <h1 className="text-header font-serif text-2xl">
+      <h1 className="font-serif text-2xl text-header">
         While you're here be sure to check out:
       </h1>
       <div className="grid grid-cols-2 gap-3 duration-300 m_window:grid-cols-3 l_window:grid-cols-4">
@@ -29,13 +29,13 @@ export default function ViewOtherTours({
               <TourCardMiniLink
                 className="justify-self-stretch overflow-hidden rounded-2xl duration-300 hover:drop-shadow-[0_3px_5px_var(--header)] m_window:col-start-2 m_window:col-end-3 l_window:col-span-1"
                 {...tour}
-                key={ind}
+                key={tour.name}
               />
             ) : (
               <TourCardMiniLink
                 className="justify-self-stretch overflow-hidden rounded-2xl duration-300 hover:drop-shadow-[0_3px_5px_var(--header)]"
                 {...tour}
-                key={ind}
+                key={tour.name}
               />
             ),
           )}

@@ -2,7 +2,7 @@ import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 import { useRef, useEffect, useState, type RefObject } from "react";
 
-import MapMenu from "../ui/MapMenu";
+import MapMenu from "../ui/tour/TourMapMenu";
 import type { Location } from "../config/schema";
 
 mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_TOKEN;
