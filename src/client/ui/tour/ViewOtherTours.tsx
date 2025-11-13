@@ -1,6 +1,6 @@
 import TourCardMiniLink from "./TourCardMiniLink";
-import type { Tour } from "../config/schema";
-import { getRandomInt } from "../utils/getRandomInt";
+import type { Tour } from "../../config/schema";
+import { getRandomInt } from "../../utils/getRandomInt";
 
 interface ViewOtherToursProps {
   tours: Tour[];

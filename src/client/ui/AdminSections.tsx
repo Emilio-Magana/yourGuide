@@ -1,10 +1,11 @@
-import UserProfile from "../components/UserProfile";
-import UserBookings from "../components/UserBookings";
-import UserReviews from "../components/UserReviews";
-import UserSettings from "../components/UserSettings";
+import UserProfile from "./generalUser/UserProfile";
+import UserSettings from "./generalUser/UserSettings";
 import type { User } from "../config/schema";
 import type { Section } from "./SectionNavigator";
-import EditTours from "../components/EditTours";
+import EditTours from "../components/admin/EditTours";
+import AllReviews from "../components/admin/AllReviews";
+import AllBookings from "../components/admin/AllBookings";
+import AllUsers from "../components/admin/AllUsers";
 
 interface AdminSectionsProps {
   sectionRefs: Record<string, React.RefObject<HTMLDivElement | null>>;
@@ -16,6 +17,7 @@ export default function AdminSections({
   user,
   sectionRefs,
 }: AdminSectionsProps) {
+  console.log("inAdmin sections :", sections);
   return (
     <>
       <UserProfile
@@ -24,25 +26,28 @@ export default function AdminSections({
         sectionRef={sectionRefs["Profile"]}
         className="flex scroll-mt-28 flex-col gap-5 text-black"
       />
-      <UserBookings
+      <AllUsers
         id={sections[1].id}
-        user={user}
         sectionRef={sectionRefs["Bookings"]}
         className="flex scroll-mt-24 flex-col gap-5"
       />
-      <UserReviews
+      <AllBookings
         id={sections[2].id}
-        user={user}
+        sectionRef={sectionRefs["Bookings"]}
+        className="flex scroll-mt-24 flex-col gap-5"
+      />
+      <AllReviews
+        id={sections[3].id}
         sectionRef={sectionRefs["Reviews"]}
         className="flex scroll-mt-24 flex-col gap-5"
       />
       <EditTours
-        id={sections[3].id}
+        id={sections[4].id}
         sectionRef={sectionRefs["Edit Tours"]}
         className="flex w-full scroll-mt-24 flex-col gap-5 text-black"
       />
       <UserSettings
-        id={sections[4].id}
+        id={sections[5].id}
         sectionRef={sectionRefs["Settings"]}
         className="flex w-full scroll-mt-24 flex-col gap-5 text-black"
       />

@@ -1,5 +1,5 @@
 import { FaArrowTrendUp, FaCalendar } from "react-icons/fa6";
-import { convertDate } from "../utils/convertDate";
+import { convertDate } from "../../utils/convertDate";
 import { BsFillPeopleFill } from "react-icons/bs";
 import type { RefObject } from "react";
 

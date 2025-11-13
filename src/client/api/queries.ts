@@ -168,7 +168,6 @@ export function useAuth() {
         return data.data.data;
       } catch (error: any) {
         if (error.response?.status === 401 || error.response?.status === 403) {
-          // Redirect to login on auth failure
           navigate("/login");
           return null;
         }

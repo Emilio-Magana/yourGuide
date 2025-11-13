@@ -1,4 +1,4 @@
-import RetractingSideBar from "../components/RetractingSideBar";
+import RetractingSideBar from "../ui/RetractingSideBar";
 import { useAuth, useGetUserBookings } from "../api/queries";
 import type { UserSection } from "../ui/SectionNavigator";
 
@@ -13,6 +13,8 @@ import { IoPeople } from "react-icons/io5";
 import type { UserRoles } from "../config/schema";
 import AdminSections from "../ui/AdminSections";
 import UserSections from "../ui/UserSections";
+import GuideSections from "../ui/GuideSections";
+import { useParams } from "react-router-dom";
 
 const OverviewSections: UserSection<UserRoles>[] = [
   {
@@ -30,16 +32,16 @@ const OverviewSections: UserSection<UserRoles>[] = [
       { id: "Tour Editor", icon: FaEdit },
       { id: "Settings", icon: IoMdSettings },
     ],
-    "lead-guide": [
-      { id: "Profile", icon: BsPersonCircle },
-      { id: "Working On", icon: FaEdit },
-      { id: "Settings", icon: IoMdSettings },
-    ],
     guide: [
       { id: "Profile", icon: BsPersonCircle },
-      { id: "Working On", icon: FaEdit },
+      { id: "Your Tasks", icon: FaEdit },
       { id: "Settings", icon: IoMdSettings },
     ],
+    // "lead-guide": [
+    //   { id: "Profile", icon: BsPersonCircle },
+    //   { id: "Your Tasks", icon: FaEdit },
+    //   { id: "Settings", icon: IoMdSettings },
+    // ],
   },
 ];
 
@@ -47,6 +49,8 @@ export default function UserOverview() {
   const [isOpen, setIsOpen] = useState(true);
   const { data: user } = useAuth();
   const { data: userBookings } = useGetUserBookings(user!._id);
+  const { pathname } = useParams();
+  console.log("pathname", pathname);
 
   const sections = OverviewSections[0][user!.role];
 
@@ -64,7 +68,8 @@ export default function UserOverview() {
     userBookingsAmount = userBookings.length;
   }
 
-  console.log(sections);
+  console.log("role", user!.role);
+  console.log("sections", sections);
 
   return (
     // h-[calc(100vh-70px)]
@@ -86,16 +91,23 @@ export default function UserOverview() {
       >
         {user!.role === "admin" && (
           <AdminSections
+            sectionRefs={sectionRefs}
             sections={sections}
             user={user!}
-            sectionRefs={sectionRefs}
           />
         )}
         {user!.role === "user" && (
           <UserSections
+            sectionRefs={sectionRefs}
             sections={sections}
             user={user!}
+          />
+        )}
+        {user!.role === "guide" && (
+          <GuideSections
             sectionRefs={sectionRefs}
+            sections={sections}
+            user={user!}
           />
         )}
       </motion.div>

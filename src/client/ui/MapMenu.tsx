@@ -1,6 +1,7 @@
 import { FaCalendar, FaMapPin } from "react-icons/fa6";
 import { MdOutlineZoomOutMap } from "react-icons/md";
-import type { Location } from "../components/MapTile";
+
+import type { Location } from "../config/schema";
 
 interface MapMenuProps {
   className: string;

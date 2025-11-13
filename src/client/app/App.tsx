@@ -1,23 +1,21 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-import Login from "./../pages/Login";
-import Tours from "./../pages/Tours";
-import Privacy from "../pages/Privacy";
-import Contact from "../pages/Contact";
+import UserOverview from "../pages/UserOverview";
+import TourDetails from "../pages/TourDetails";
+import Overview from "../pages/Overview";
+import Checkout from "../pages/Checkout";
+import NotFound from "../pages/NotFound";
 import AboutUs from "../pages/AboutUs";
 import Careers from "../pages/Careers";
-import NotFound from "./../pages/NotFound";
-import Overview from "./../pages/Overview";
-import Checkout from "./../pages/Checkout";
-import TourDetails from "./../pages/TourDetails";
-import NewTourForm from "./../pages/NewTourForm";
+import Contact from "../pages/Contact";
+import Privacy from "../pages/Privacy";
+import Tours from "../pages/Tours";
+import Login from "../pages/Login";
 
-import AppLayout from "./../ui/AppLayout";
-import TourForm from "./../components/TourForm";
-import { DarkModeProvider } from "./../context/DarkModeContext";
-import ProtectedRoutes from "./../authentication/ProtectedRoutes";
-import UserOverview from "../pages/UserOverview";
+import ProtectedRoutes from "../authentication/ProtectedRoutes";
+import { DarkModeProvider } from "../context/DarkModeContext";
+import AppLayout from "../ui/AppLayout";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -28,7 +26,7 @@ const queryClient = new QueryClient({
   },
 });
 
-const lastUpdated = "October 2025";
+const lastUpdated = "November 2025";
 
 function App() {
   return (
@@ -69,7 +67,7 @@ function App() {
               </Route>
 
               {/* Role-based protection */}
-              <Route
+              {/* <Route
                 element={<ProtectedRoutes roles={["admin", "lead-guide"]} />}
               >
                 <Route
@@ -78,12 +76,7 @@ function App() {
                 />
                 <Route path="/update/tours/:tourId" element={<TourForm />} />
 
-                {/* <Route path="/bookings" element={<Bookings />} /> */}
-                {/* <Route
-                  path="/bookings/:bookingId"
-                  element={<BookingDetails />}
-                /> */}
-              </Route>
+              </Route> */}
 
               <Route path="*" element={<NotFound />} />
             </Route>

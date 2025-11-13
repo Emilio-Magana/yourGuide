@@ -1,48 +1,9 @@
-// import { type RefObject } from "react";
-// import ProfileForm from "./ProfileForm";
-
-// interface userProfileProps {
-//   sectionRef: RefObject<HTMLDivElement | null>;
-//   id: string;
-//   className: string;
-//   photo: string;
-//   user.Name: string;
-//   user.email: string;
-// }
-// export default function UserProfile({
-//   id,
-//   photo,
-//   user.Name,
-//   user.email,
-//   className,
-//   sectionRef,
-// }: userProfileProps) {
-//   return (
-//     <article id={id} ref={sectionRef} className={className}>
-//       <h1 className="font-semibold text-primary duration-300">
-//         Account Management
-//       </h1>
-//       {/* add a toaster pop upfor this */}
-//       {/* {message.text && (
-//         <div
-//           className={`mb-6 rounded-lg p-4 ${
-//             message.type === "success"
-//               ? "border border-green-200 bg-green-50 text-green-800"
-//               : "border border-red-200 bg-red-50 text-red-800"
-//           }`}
-//         >
-//           {message.text}
-//         </div>
-//       )} */}
-//       <ProfileForm photo={photo} user.Name={user.Name} user.email={user.email} />
-//     </article>
-//   );
-// }
 import { useEffect, useState, type RefObject } from "react";
+
 import { BsCamera, BsSave, BsX } from "react-icons/bs";
 
-import { useUpdateMe } from "../api/queries";
-import type { User } from "../config/schema";
+import { useUpdateMe } from "../../api/queries";
+import type { User } from "../../config/schema";
 
 const api_url = import.meta.env.VITE_API_URL;
 const defaultPFP = "default.jpg";

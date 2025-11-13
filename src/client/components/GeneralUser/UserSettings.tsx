@@ -1,4 +1,4 @@
-import PasswordForm from "./PasswordForm";
+import PasswordForm from "../../components/forms/PasswordForm";
 import type { RefObject } from "react";
 
 interface SettingsProps {

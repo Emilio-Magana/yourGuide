@@ -3,8 +3,8 @@ import { FaFlag, FaLocationDot } from "react-icons/fa6";
 import { FaCalendar } from "react-icons/fa";
 import { BsFillPeopleFill } from "react-icons/bs";
 
-import type { Tour } from "../config/schema";
-import { convertDate } from "../utils/convertDate";
+import type { Tour } from "../../config/schema";
+import { convertDate } from "../../utils/convertDate";
 const api_url = import.meta.env.VITE_API_URL || "";
 
 export default function TourCard({

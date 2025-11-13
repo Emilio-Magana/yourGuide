@@ -1,5 +1,7 @@
+import type { Location } from "../config/schema";
+import Maptile from "../components/MapTile";
+
 import type { RefObject } from "react";
-import Maptile, { type Location } from "./MapTile";
 
 interface TourMapProps {
   sectionRef: RefObject<HTMLDivElement | null>;

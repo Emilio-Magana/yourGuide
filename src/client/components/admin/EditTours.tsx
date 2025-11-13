@@ -1,10 +1,11 @@
 import { useState, type RefObject } from "react";
-// import TourForm from "./TourForm";
-import { useGetTours } from "../api/queries";
-import TourCardMini from "../ui/TourCardMini";
-import type { Tour } from "../config/schema";
+
 import { FaPlus } from "react-icons/fa";
-import TourForm from "./TourForm";
+
+import TourCardMini from "../../ui/tour/TourCardMini";
+import { useGetTours } from "../../api/queries";
+import type { Tour } from "../../config/schema";
+import TourForm from "../forms/TourForm";
 
 interface EditToursProps {
   sectionRef: RefObject<HTMLDivElement | null>;
@@ -33,7 +34,7 @@ export default function EditTours({
     if (tourId) setTourId(tourId);
   };
 
-  console.log("editing: ", isEditing, "tourId: ", tourId);
+  // console.log("editing: ", isEditing, "tourId: ", tourId);
 
   return (
     <article id={id} ref={sectionRef} className={className}>

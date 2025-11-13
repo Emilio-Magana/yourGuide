@@ -1,4 +1,4 @@
-import type { Tour } from "../config/schema";
+import type { Tour } from "../../config/schema";
 
 const api_url = import.meta.env.VITE_API_URL;
 

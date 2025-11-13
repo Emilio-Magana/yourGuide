@@ -1,9 +1,8 @@
-import TourCard from "../ui/TourCard";
+import TourCard from "../ui/tour/TourCard";
 import ControlPanel from "../ui/ControlPanel";
 import { useGetTours } from "./../api/queries";
-import type { Tour } from "./../config/schema";
 import PathFinderLoader from "../components/PathFinderLoader";
-import TourHeader from "../ui/TourHeader";
+import TourHeader from "../ui/tour/TourHeader";
 
 export default function Tours() {
   const { data: tours, isLoading } = useGetTours();
@@ -17,7 +16,7 @@ export default function Tours() {
       <article className="flex flex-col gap-4 p-2 duration-300 s_window:flex-row">
         <ControlPanel />
         <div className="grid grid-cols-1 gap-2 duration-300 s_window:grid-cols-1 m_window:grid-cols-2 xl_window:grid-cols-3">
-          {tours.map((tour: Tour, ind: number) => (
+          {tours.map((tour, ind: number) => (
             <TourCard {...tour} key={ind} />
           ))}
         </div>

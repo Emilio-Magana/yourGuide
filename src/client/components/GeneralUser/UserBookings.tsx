@@ -1,7 +1,8 @@
 import { type RefObject } from "react";
-import { useGetUserBookings } from "../api/queries";
-import UserReviewCard from "../ui/UserReviewCard";
-import type { User } from "../config/schema";
+
+import { useGetUserBookings } from "../../api/queries";
+import UserReviewCard from "../../ui/UserReviewCard";
+import type { User } from "../../config/schema";
 
 interface BookingsProps {
   sectionRef: RefObject<HTMLDivElement | null>;

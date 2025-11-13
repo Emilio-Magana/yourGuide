@@ -10,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 
 import { useAuth, useLogout } from "./../api/queries";
-import { SDDOption } from "./OptionTypes";
+import { SDDOption } from "../ui/OptionTypes";
 
 export default function StaggeredDropDown() {
   const [isOpen, setIsOpen] = useState(false);

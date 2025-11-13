@@ -1,4 +1,4 @@
-import TourHeader from "../ui/TourHeader";
+import TourHeader from "../ui/tour/TourHeader";
 export default function Overview() {
   return (
     <section className="mx-auto mb-28 flex flex-col">

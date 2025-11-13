@@ -1,31 +1,5 @@
 import { z } from "zod";
 
-// const startLocationLocal = z.object({
-//   type: z.string(),
-//   coordinates: z.array(z.float32()),
-//   description: z.string(),
-// });
-
-// const tourLocal = z.object({
-//   _id: z.string(),
-//   name: z.string(),
-//   imageCover: z.string(),
-//   maxGroupSize: z.number(),
-//   difficulty: z.string(),
-//   duration: z.number(),
-//   summary: z.string(),
-//   description: z.string(),
-//   ratingsAverage: z.number(),
-//   ratingsQuantity: z.number(),
-//   price: z.number(),
-//   createdAt: z.string(),
-//   images: z.array(z.string()),
-//   startDates: z.array(z.string()),
-//   startLocation: startLocationLocal,
-//   locations: z.array(startLocationLocal),
-//   guides: z.array(z.any()),
-// });
-
 const startLocation = z.object({
   type: z.string(),
   coordinates: z.array(z.float32()),
@@ -61,7 +35,7 @@ const tour = z.object({
 const userRoles = z.union([
   z.literal("user"),
   z.literal("admin"),
-  z.literal("lead-guide"),
+  // z.literal("lead-guide"),
   z.literal("guide"),
 ]);
 const user = z.object({
@@ -82,16 +56,20 @@ const review = z.object({
   createdAt: z.string(),
 });
 
-// const tourSchemaLocal = z.array(tourLocal);
 const tourSchema = z.object({ tours: z.array(tour) });
-const reviewSchema = z.object({ reviews: z.array(review) });
 const userSchema = z.object({ users: z.array(user) });
+const reviewSchema = z.object({ reviews: z.array(review) });
 
-// type TourLocal = z.infer<typeof tourLocal>;
 type Tour = z.infer<typeof tour>;
-type Review = z.infer<typeof review>;
 type User = z.infer<typeof user>;
+type Review = z.infer<typeof review>;
+type Location = z.infer<typeof location>;
 type UserRoles = z.infer<typeof userRoles>;
 
-export type { Tour, Review, User, UserRoles };
 export { tourSchema, reviewSchema, userSchema };
+export type { Tour, Review, User, UserRoles, Location };
+
+// for some reason the user is not able to flag logging out,
+// simply the user is navigated to Overview...... state issue?
+// context rather than calling useAuth() in components indeividually..?
+// but then whats the point of an authenticated route....?

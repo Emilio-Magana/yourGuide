@@ -6,7 +6,7 @@ import { HashLink } from "react-router-hash-link";
 import { motion } from "framer-motion";
 import type { RefObject } from "react";
 
-import type { Section } from "../ui/SectionNavigator";
+import type { Section } from "./SectionNavigator";
 import type { User } from "../config/schema";
 
 const api_url = import.meta.env.VITE_API_URL;

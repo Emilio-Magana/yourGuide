@@ -3,6 +3,7 @@ import "mapbox-gl/dist/mapbox-gl.css";
 import { useRef, useEffect, useState, type RefObject } from "react";
 
 import MapMenu from "../ui/MapMenu";
+import type { Location } from "../config/schema";
 
 mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_TOKEN;
 
@@ -11,13 +12,7 @@ interface MaptileProps {
   sectionRef?: RefObject<HTMLDivElement | null>;
   className: string;
 }
-export interface Location {
-  type: string;
-  coordinates: number[];
-  description: string;
-  day: number;
-  _id: { $oid: string };
-}
+
 type CoordinateTuple = [number, number];
 
 export default function Maptile({

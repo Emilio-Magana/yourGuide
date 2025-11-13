@@ -5,17 +5,15 @@ import type { Review } from "../config/schema";
 const api_url = import.meta.env.VITE_API_URL;
 
 interface StaggeredTestProps {
-  length: number;
   className: string;
   reviews: Review[];
 }
 
 export default function StaggeredTestimonials({
-  length,
   className,
   reviews,
 }: StaggeredTestProps) {
-  const middlePoint: number = Math.ceil(length / 2);
+  const middlePoint: number = Math.ceil(reviews.length / 2);
   const [activeIndex, setActiveIndex] = useState(middlePoint);
 
   const handleClick = (ind: number) => {
@@ -24,7 +22,7 @@ export default function StaggeredTestimonials({
 
   return (
     <div className={className}>
-      {reviews?.map((review, ind) => {
+      {reviews.map((review, ind: number) => {
         let offset = ind - activeIndex;
         if (offset > reviews.length / 2) {
           offset -= reviews.length;

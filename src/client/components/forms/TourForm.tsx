@@ -1,4 +1,7 @@
 import React, { useState } from "react";
+
+import { IoMdTrendingUp } from "react-icons/io";
+import { FaCirclePlus } from "react-icons/fa6";
 import { BsSave, BsX } from "react-icons/bs";
 import {
   FaImages,
@@ -7,9 +10,8 @@ import {
   FaClock,
   FaDollarSign,
 } from "react-icons/fa";
-import { FaCirclePlus } from "react-icons/fa6";
-import { IoMdTrendingUp } from "react-icons/io";
-import { useGetTour } from "../api/queries";
+
+import { useGetTour } from "../../api/queries";
 
 interface TourFormProps {
   setIsEditing: React.Dispatch<React.SetStateAction<boolean>>;

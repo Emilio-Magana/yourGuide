@@ -1,4 +1,4 @@
-import { useUpdatePassword } from "../api/queries";
+import { useUpdatePassword } from "../../api/queries";
 
 import { FaCheckDouble, FaLock } from "react-icons/fa";
 import { IoMdEyeOff, IoMdEye } from "react-icons/io";
