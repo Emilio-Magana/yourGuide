@@ -50,7 +50,7 @@ const review = z.object({
   _id: z.string(),
   review: z.string(),
   rating: z.number(),
-  tour: z.string(),
+  tour: tour,
   user: user,
   createdAt: z.string(),
 });

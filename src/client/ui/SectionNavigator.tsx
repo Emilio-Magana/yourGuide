@@ -7,9 +7,13 @@ export type Section = {
   Icon?: IconType;
 };
 
+export interface UserSection extends Section {
+  sectionRef: RefObject<HTMLDivElement | null>;
+}
+
 interface SecNavProps {
-  sections: Array<Section>;
   sectionRefs: Record<string, RefObject<HTMLDivElement | null>>;
+  sections: Section[];
   className: string;
 }
 export default function SectionNavigator({

@@ -22,6 +22,16 @@ export function useGetUserReviews(userId: string) {
     enabled: !!userId,
   });
 }
+export function useGetAllReviews() {
+  return useQuery<Review[]>({
+    queryKey: ["all-reviews"],
+    queryFn: async () => {
+      const { data } = await api.get("/reviews");
+      return data.data.data;
+    },
+  });
+}
+
 export function useCreateReview() {
   return useMutation({
     mutationFn: async ({

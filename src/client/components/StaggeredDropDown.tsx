@@ -69,7 +69,7 @@ export default function StaggeredDropDown() {
             userOptions.map((section) => (
               <SDDOption
                 key={section.id}
-                href={`/users/:userId/dashboard#${section.id}`}
+                href={section.href}
                 Icon={section.Icon!}
                 id={section.id}
                 setIsOpen={setIsOpen}

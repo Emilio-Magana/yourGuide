@@ -1,6 +1,6 @@
 import express from "express";
 import reviewRouter from "./reviewRoutes";
-import bookingRouter from "./bookingRoutes";
+
 import {
   getAllUsers,
   createUser,
@@ -27,7 +27,7 @@ import {
 const router = express.Router();
 
 router.use("/:userId/reviews", reviewRouter);
-router.use("/:id/bookings", bookingRouter);
+// router.use("/:id/bookings", bookingRouter);
 
 router.post("/signup", signup);
 router.post("/login", login);
@@ -36,7 +36,6 @@ router.get("/logout", logout);
 router.post("/forgotPassword", forgotPassword);
 router.patch("/resetPassword/:token", resetPassword);
 
-// Protect all routes after this middleware
 router.use(protect);
 router.patch("/updateMyPassword", updatePassword);
 router.get("/me", getMe, getUser);

@@ -2,37 +2,38 @@ import { FaArrowTrendUp, FaCalendar } from "react-icons/fa6";
 import { convertDate } from "../../utils/convertDate";
 import { BsFillPeopleFill } from "react-icons/bs";
 import type { RefObject } from "react";
+import type { User } from "../../config/schema";
 
 const api_url = import.meta.env.VITE_API_URL;
 
 interface TourOverviewProps {
   sectionRef: RefObject<HTMLDivElement | null>;
-  name: string;
-  startDate: string;
-  difficulty: string;
   maxGroupSize: number;
-  guides: Array<{ _id: string }>;
   description: string;
+  difficulty: string;
+  startDate: string;
+  guides: User[];
+  name: string;
   className: string;
 }
 
 export default function TourOverview({
   sectionRef,
-  name,
-  startDate,
-  difficulty,
   maxGroupSize,
-  guides,
   description,
+  difficulty,
+  startDate,
+  guides,
+  name,
   className,
 }: TourOverviewProps) {
   return (
     <section className={className} ref={sectionRef}>
-      <h1 className="bg-centerLBg place-self-start rounded-tr-3xl pl-3 pr-6 pt-1 font-serif text-4xl text-white duration-300">
+      <h1 className="place-self-start rounded-tr-3xl bg-centerLBg pl-3 pr-6 pt-1 font-serif text-4xl text-white duration-300">
         Overview
       </h1>
       <div className="grid grid-cols-2">
-        <article className="bg-centerLBg border-centerLBg flex flex-col gap-14 overflow-hidden rounded-r-3xl p-4 text-white duration-300 m_window:px-6 l_window:gap-10 xl_window:gap-10 xl_window:px-8">
+        <article className="flex flex-col gap-14 overflow-hidden rounded-r-3xl border-centerLBg bg-centerLBg p-4 text-white duration-300 m_window:px-6 l_window:gap-10 xl_window:gap-10 xl_window:px-8">
           <div className="flex flex-col gap-5">
             <h1 className="text-xl font-medium">Quick Facts</h1>
             <ul className="grid gap-2 capitalize" key={name}>
@@ -57,7 +58,7 @@ export default function TourOverview({
           <div className="flex flex-col gap-5">
             <h1 className="text-xl font-medium">This Trips Tour Guides</h1>
             <ul className="flex flex-col gap-3">
-              {guides.map((guide: any) => (
+              {guides.map((guide) => (
                 <li
                   key={guide.name}
                   className="grid grid-cols-3 items-center gap-1 s_window:gap-3 m_window:gap-5"

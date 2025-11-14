@@ -1,6 +1,18 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { api } from "../api";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
+
+import type { User } from "../../config/schema";
+import { api } from "../api";
+
+export function useGetAllUsers() {
+  return useQuery<User[]>({
+    queryKey: ["all-users"],
+    queryFn: async () => {
+      const { data } = await api.get("/users");
+      return data.data.data;
+    },
+  });
+}
 
 export function useUpdateMe() {
   const queryClient = useQueryClient();

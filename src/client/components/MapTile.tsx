@@ -42,9 +42,9 @@ export default function Maptile({
         center,
         zoom: 8,
         scrollZoom: false,
-      });
+      }); // here is a violation
 
-      mapRef.current.addControl(new mapboxgl.NavigationControl(), "top-right");
+      mapRef.current.addControl(new mapboxgl.NavigationControl(), "top-right"); // and here is a violation
 
       mapRef.current.on("load", () => {
         mapRef.current?.resize();

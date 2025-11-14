@@ -107,17 +107,17 @@ const webhookCheckout = catchAsync(
 );
 
 const createBooking = createOne(Booking);
-const getBooking = getOne(Booking);
-const getAllBookings = getAll(Booking);
 const updateBooking = updateOne(Booking);
 const deleteBooking = deleteOne(Booking);
+const getAllBookings = getAll(Booking);
+const getBooking = getOne(Booking);
 
 export {
   getCheckoutSession,
   webhookCheckout,
-  createBooking,
-  getBooking,
   getAllBookings,
+  createBooking,
   updateBooking,
   deleteBooking,
+  getBooking,
 };

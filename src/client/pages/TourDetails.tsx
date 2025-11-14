@@ -1,39 +1,34 @@
-import { useParams } from "react-router-dom";
-import { createRef, useMemo } from "react";
-
-import SectionNavigator, { type Section } from "../ui/SectionNavigator";
 import { useGetTour, useGetTours } from "../api/queries/tourQueries";
 import { useGetTourReviews } from "../api/queries/reviewQueries";
 import PathFinderLoader from "../components/PathFinderLoader";
+import { tourNavigation } from "../config/tourNavigation";
 import ViewOtherTours from "../ui/tour/ViewOtherTours";
+import SectionNavigator from "../ui/SectionNavigator";
+import { refGenerator } from "../utils/refGenerator";
 import TourOverview from "../ui/tour/TourOverview";
 import TourReviews from "../ui/tour/TourReviews";
 import TourHeader from "../ui/tour/TourHeader";
 import TourMap from "../ui/tour/TourMap";
 import ImageGrid from "../ui/ImageGrid";
 
-const tourSections: Section[] = [
-  { id: "Overview" },
-  { id: "Itinerary" },
-  { id: "Included" },
-  { id: "Reviews" },
-];
+import { useParams } from "react-router-dom";
+import { useMemo } from "react";
 
 export default function TourDetails() {
   const { tourId } = useParams();
-  const { data: tours } = useGetTours();
-  const { data: reviews } = useGetTourReviews(tourId!);
-  const { data: tour, isLoading } = useGetTour(tourId!);
+  const { data: tours, isLoading: toursAreLoading } = useGetTours();
+  const { data: reviews, isLoading: reviewIsLoading } = useGetTourReviews(
+    tourId!,
+  );
+  const { data: tour, isLoading: tourIsLoading } = useGetTour(tourId!);
 
-  const sectionRefs = useMemo(() => {
-    const refs: Record<string, React.RefObject<HTMLDivElement | null>> = {};
-    tourSections.forEach((section) => {
-      refs[section.id] = createRef<HTMLDivElement | null>();
-    });
-    return refs;
-  }, []);
+  const sectionRefs = useMemo(
+    () => refGenerator(tourNavigation),
+    [tourNavigation],
+  );
 
-  if (isLoading) return <PathFinderLoader />;
+  if (toursAreLoading || reviewIsLoading || tourIsLoading)
+    return <PathFinderLoader />;
 
   return (
     <div className="flex flex-col">
@@ -46,11 +41,11 @@ export default function TourDetails() {
       />
       <SectionNavigator
         className="sticky top-0 z-20 flex place-content-between border-b-[1px] border-centerLBg bg-mainBg px-2 py-[13px] text-sm duration-300 m_window:text-base l_window:px-6"
-        sections={tourSections}
+        sections={tourNavigation}
         sectionRefs={sectionRefs}
       />
       <TourOverview
-        sectionRef={sectionRefs["Overview"]}
+        sectionRef={sectionRefs[tourNavigation[0].id]}
         className="mb-1 mt-5 scroll-mt-[74px]"
         name={tour!.name}
         startDate={tour!.startDates[0]}
@@ -60,12 +55,12 @@ export default function TourDetails() {
         description={tour!.description}
       />
       <TourMap
-        sectionRef={sectionRefs["Itinerary"]}
+        sectionRef={sectionRefs[tourNavigation[1].id]}
         className="mb-5 ml-9 flex scroll-mt-[74px] flex-col duration-300 l_window:-mt-3 xl_window:-mt-5"
         locations={tour!.locations}
       />
       <ImageGrid
-        sectionRef={sectionRefs["Included"]}
+        sectionRef={sectionRefs[tourNavigation[2].id]}
         className="mb-5 mr-9 flex scroll-mt-[74px] flex-col duration-300"
         imageArray={tour!.images}
       />
@@ -73,7 +68,7 @@ export default function TourDetails() {
       {reviews ? (
         <TourReviews
           className="mx-9 mb-5 scroll-mt-[74px]"
-          sectionRef={sectionRefs["Reviews"]}
+          sectionRef={sectionRefs[tourNavigation[3].id]}
           reviews={reviews}
         />
       ) : (

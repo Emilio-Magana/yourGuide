@@ -4,9 +4,8 @@ import { FaUserCircle } from "react-icons/fa";
 import { motion } from "framer-motion";
 import type { RefObject } from "react";
 
-import type { Section } from "./SectionNavigator";
+import { RSBOption, type NavOption } from "./OptionTypes";
 import type { User } from "../config/schema";
-import { RSBOption } from "./OptionTypes";
 
 const api_url = import.meta.env.VITE_API_URL;
 
@@ -14,7 +13,7 @@ interface SideBarProps {
   sectionRefs: Record<string, RefObject<HTMLDivElement | null>>;
   active?: "Dashboard" | "Bookings" | "Reviews" | "Settings";
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  sections: Section[];
+  sections: NavOption[];
   numBookings: number;
   className: string;
   isOpen: boolean;
@@ -48,26 +47,24 @@ export default function RetractingSideBar({
       <div className="space-y-1">
         {sections.map((section) =>
           section.id === "Bookings" ? (
-            <div key={section.id}>
-              <RSBOption
-                href={`/users/:userId/dashboard#Bookings`}
-                isActive={active === section.id}
-                notifs={numBookings}
-                Icon={section.Icon!}
-                id={"Bookings"}
-                isOpen={isOpen}
-              />
-            </div>
+            <RSBOption
+              key="Bookings"
+              href={section.href}
+              isActive={active === section.id}
+              notifs={numBookings}
+              Icon={section.Icon!}
+              id={"Bookings"}
+              isOpen={isOpen}
+            />
           ) : (
-            <div key={section.id}>
-              <RSBOption
-                href={`/users/:userId/dashboard#${section.id}`}
-                isActive={active === section.id}
-                Icon={section.Icon!}
-                id={section.id}
-                isOpen={isOpen}
-              />
-            </div>
+            <RSBOption
+              key={section.id}
+              href={section.href}
+              isActive={active === section.id}
+              Icon={section.Icon!}
+              id={section.id}
+              isOpen={isOpen}
+            />
           ),
         )}
       </div>

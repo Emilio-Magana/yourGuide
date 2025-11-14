@@ -4,12 +4,12 @@ import { Link } from "react-router-dom";
 const api_url = import.meta.env.VITE_API_URL;
 
 interface TourCardMiniLinkProps {
-  name: string;
   imageCover: string;
-  _id: Tour["_id"];
   difficulty: string;
-  duration: number;
   className: string;
+  _id: Tour["_id"];
+  duration: number;
+  name: string;
 }
 
 export default function TourCardMiniLink({

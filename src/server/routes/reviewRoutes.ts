@@ -6,6 +6,7 @@ import {
   updateReview,
   setTourUserIds,
   getReview,
+  getAllUserReviews,
 } from "./../controllers/reviewController";
 import { protect, restrictTo } from "./../controllers/authController";
 
@@ -13,7 +14,7 @@ const router = express.Router({ mergeParams: true });
 
 router
   .route("/")
-  .get(getAllReviews)
+  .get(getAllReviews, restrictTo("admin"), getAllUserReviews)
   .post(protect, restrictTo("user"), setTourUserIds, createReview);
 
 router.use(protect);

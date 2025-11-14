@@ -1,22 +1,19 @@
-import { useEffect, useState, type RefObject } from "react";
+import { useEffect, useState } from "react";
 
 import { BsCamera, BsSave, BsX } from "react-icons/bs";
 
 import { useUpdateMe } from "../../api/queries/userQueries";
 import type { User } from "../../config/schema";
+import type { UserSection } from "../SectionNavigator";
 
 const api_url = import.meta.env.VITE_API_URL;
 const defaultPFP = "default.jpg";
 
-interface profileFormProps {
-  sectionRef: RefObject<HTMLDivElement | null>;
-  className: string;
-  id: string;
+interface profileFormProps extends UserSection {
   user: User;
 }
 export default function UserProfile({
   user,
-  className,
   id,
   sectionRef,
 }: profileFormProps) {
@@ -91,7 +88,11 @@ export default function UserProfile({
   const photoUrl = formData.photo ? `/img/users/${formData.photo}` : null;
 
   return (
-    <article id={id} ref={sectionRef} className={className}>
+    <article
+      id={id}
+      ref={sectionRef}
+      className="flex scroll-mt-28 flex-col gap-5 text-black"
+    >
       <h1 className="font-semibold text-primary duration-300">
         Account Management
       </h1>

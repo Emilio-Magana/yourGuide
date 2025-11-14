@@ -6,23 +6,23 @@ import { motion } from "framer-motion";
 export type UserOptions<TKey extends string> = {
   [P in TKey]: NavOption[];
 };
-type NavOption = {
+export type NavOption = {
   id: string;
   href: string;
-  Icon: IconType;
-  Component: React.FC<any>;
+  Icon?: IconType;
+  component: React.FC<any>;
 };
 type Option = {
   id: string;
   href: string;
-  Icon?: IconType;
+  Icon: IconType;
   notifs?: number;
-  isOpen?: boolean;
-  isActive?: boolean;
+  isOpen: boolean;
+  isActive: boolean;
 };
 function RSBOption({ Icon, id, isActive, isOpen, notifs, href }: Option) {
   return (
-    <HashLink smooth to={href} key={id}>
+    <HashLink smooth to={href}>
       <motion.button
         layout
         className={`relative flex h-10 w-full items-center rounded-md transition-colors ${isActive ? "bg-indigo-100 text-indigo-800" : "text-slate-500 hover:bg-slate-100"}`}

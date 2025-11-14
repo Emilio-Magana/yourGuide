@@ -1,104 +1,72 @@
-import { FaCalendarCheck, FaEdit } from "react-icons/fa";
+import { FaCalendarCheck, FaEdit, FaDatabase } from "react-icons/fa";
 import { BsPersonCircle } from "react-icons/bs";
 import { IoMdSettings } from "react-icons/io";
 import { MdReviews } from "react-icons/md";
-import { IoPeople } from "react-icons/io5";
 
-import type { UserRoles } from "../config/schema";
-import type { UserOptions } from "../ui/OptionTypes";
-import UserProfile from "../ui/user/UserProfile";
-import UserBookings from "../ui/user/UserBookings";
-import UserReviews from "../ui/user/UserReviews";
-import UserSettings from "../ui/user/UserSettings";
-import AllUsers from "../components/admin/AllUsers";
-import AllBookings from "../components/admin/AllBookings";
-import AllReviews from "../components/admin/AllReviews";
+import DatabaseManager from "../components/admin/DatabaseManager";
 import EditTours from "../components/admin/EditTours";
 import GuideJobs from "../components/guide/GuideJobs";
+import type { UserOptions } from "../ui/OptionTypes";
+import UserSettings from "../ui/user/UserSettings";
+import UserBookings from "../ui/user/UserBookings";
+import type { UserRoles } from "../config/schema";
+import UserReviews from "../ui/user/UserReviews";
+import UserProfile from "../ui/user/UserProfile";
+
+const Profile = {
+  id: "Profile",
+  href: "/users/:userId/dashboard#Profile",
+  Icon: BsPersonCircle,
+  component: UserProfile,
+};
+const Settings = {
+  id: "Settings",
+  href: "/users/:userId/dashboard#Settings",
+  Icon: IoMdSettings,
+  component: UserSettings,
+};
 
 export const userNavigation: UserOptions<UserRoles> = {
   user: [
-    {
-      id: "Profile",
-      href: "/users/:userId/dashboard#Profile",
-      Icon: BsPersonCircle,
-      Component: UserProfile,
-    },
+    Profile,
     {
       id: "Bookings",
       href: "/users/:userId/dashboard#Bookings",
       Icon: FaCalendarCheck,
-      Component: UserBookings,
+      component: UserBookings,
     },
     {
       id: "Reviews",
       href: "/users/:userId/dashboard#Reviews",
       Icon: MdReviews,
-      Component: UserReviews,
+      component: UserReviews,
     },
-    {
-      id: "Settings",
-      href: "/users/:userId/dashboard#Settings",
-      Icon: IoMdSettings,
-      Component: UserSettings,
-    },
+    Settings,
   ],
   admin: [
+    Profile,
     {
-      id: "Profile",
-      href: "/users/:userId/dashboard#Profile",
-      Icon: BsPersonCircle,
-      Component: UserProfile,
-    },
-    {
-      id: "All Users",
-      href: "/users/:userId/dashboard#All%20Users",
-      Icon: IoPeople,
-      Component: AllUsers,
-    },
-    {
-      id: "All Bookings",
-      href: "/users/:userId/dashboard#All%20Bookings",
-      Icon: FaCalendarCheck,
-      Component: AllBookings,
-    },
-    {
-      id: "All Reviews",
-      href: "/users/:userId/dashboard#All%20Reviews",
-      Icon: MdReviews,
-      Component: AllReviews,
+      id: "Database",
+      href: "/users/:userId/dashboard#DatabaseManager",
+      Icon: FaDatabase,
+      component: DatabaseManager,
     },
     {
       id: "Tour Editor",
-      href: "/users/:userId/dashboard#Tour%20Editor",
+      href: "/users/:userId/dashboard#TourEditor",
       Icon: FaEdit,
-      Component: EditTours,
+      component: EditTours,
     },
-    {
-      id: "Settings",
-      href: "/users/:userId/dashboard#Settings",
-      Icon: IoMdSettings,
-      Component: UserSettings,
-    },
+    Settings,
   ],
   guide: [
-    {
-      id: "Profile",
-      href: "/users/:userId/dashboard#Profile",
-      Icon: BsPersonCircle,
-      Component: UserProfile,
-    },
+    Profile,
     {
       id: "Your Tasks",
-      href: "/users/:userId/dashboard#Your%20Tasks",
+      href: "/users/:userId/dashboard#YourTasks",
       Icon: FaEdit,
-      Component: GuideJobs,
+      component: GuideJobs,
     },
-    {
-      id: "Settings",
-      href: "/users/:userId/dashboard#Settings",
-      Icon: IoMdSettings,
-      Component: UserSettings,
-    },
+    Settings,
   ],
 };

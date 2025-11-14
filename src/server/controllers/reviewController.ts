@@ -24,20 +24,20 @@ const setTourUserIds = (
   next();
 };
 
+const createReview = createOne(Review);
+const updateReview = updateOne(Review);
+const deleteReview = deleteOne(Review);
+const getReview = getOne(Review);
 const getAllReviews = getAll(Review, [
   { path: "tour", select: "name slug imageCover" },
   { path: "user", select: "name photo" },
 ]);
-const getReview = getOne(Review);
-const createReview = createOne(Review);
-const updateReview = updateOne(Review);
-const deleteReview = deleteOne(Review);
 
 export {
   setTourUserIds,
   getAllReviews,
-  getReview,
   createReview,
   updateReview,
   deleteReview,
+  getReview,
 };

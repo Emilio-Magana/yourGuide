@@ -11,7 +11,6 @@ interface UserReviewCardProps {
   className: string;
   review: string;
   name: string;
-  id: React.Key | null | undefined;
 }
 
 export default function UserReviewCard({
@@ -20,19 +19,13 @@ export default function UserReviewCard({
   className,
   review,
   name,
-  id,
 }: UserReviewCardProps) {
   function handleClick() {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
   return (
-    <Link
-      className={className}
-      to={`/tours/${_id}`}
-      onClick={handleClick}
-      key={id}
-    >
+    <Link className={className} to={`/tours/${_id}`} onClick={handleClick}>
       <img
         src={`${api_url}/img/tours/${imageCover}`}
         alt={name}
