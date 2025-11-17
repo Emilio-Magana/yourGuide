@@ -121,11 +121,7 @@ export default function DatabaseManager({ sectionRef, id }: UserSection) {
       ref={sectionRef}
       className="flex scroll-mt-24 flex-col gap-5"
     >
-      <div className="flex items-center justify-between">
-        <h1 className="text-xl font-semibold">Data Management</h1>
-      </div>
-
-      {/* View Mode Toggle */}
+      <h1 className="user-section-header">Data Management</h1>
       <div className="flex gap-14">
         <div className="flex w-fit rounded-lg bg-gray-100 p-1">
           <button
@@ -191,7 +187,7 @@ export default function DatabaseManager({ sectionRef, id }: UserSection) {
 
             <button
               onClick={toggleSortOrder}
-              className="flex items-center gap-2 rounded-lg border border-gray-300 px-4 py-2 transition-colors hover:bg-gray-50"
+              className="flex items-center gap-2 rounded-lg border border-secondary px-4 py-2 transition-all duration-300 hover:border-white hover:px-5 hover:py-1"
             >
               <LuArrowUpDown size={20} />
               <span>
@@ -233,7 +229,7 @@ export default function DatabaseManager({ sectionRef, id }: UserSection) {
 
             <button
               onClick={toggleSortOrder}
-              className="flex items-center gap-2 rounded-lg border border-gray-300 px-4 py-2 transition-colors duration-300 hover:bg-gray-50 hover:text-black"
+              className="flex items-center gap-2 rounded-lg border border-secondary px-4 py-2 transition-all duration-300 hover:border-white"
             >
               <LuArrowUpDown size={20} />
               <span>
@@ -272,7 +268,7 @@ export default function DatabaseManager({ sectionRef, id }: UserSection) {
       )}
 
       {/* Content List */}
-      <div className="grid grid-cols-1 grid-rows-2 gap-4 m_window:grid-cols-2 l_window:grid-cols-3">
+      <div className="grid h-[780px] grid-cols-1 grid-rows-2 gap-2 m_window:grid-cols-2 l_window:grid-cols-3">
         {currentItems.length > 0 ? (
           viewMode === "by-user" ? (
             currentItems.map((user) => (
@@ -301,7 +297,7 @@ export default function DatabaseManager({ sectionRef, id }: UserSection) {
           <button
             onClick={() => goToPage(currentPage - 1)}
             disabled={currentPage === 1}
-            className="rounded-lg border border-gray-300 p-2 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-50"
+            className="rounded-lg border border-gray-300 p-2 duration-200 hover:-translate-y-[2px] hover:border-primary hover:bg-loaderBg2 disabled:cursor-not-allowed disabled:opacity-50"
           >
             <FaChevronLeft size={20} />
           </button>
@@ -323,10 +319,10 @@ export default function DatabaseManager({ sectionRef, id }: UserSection) {
                 <button
                   key={pageNum}
                   onClick={() => goToPage(pageNum)}
-                  className={`h-10 w-10 rounded-lg transition-colors ${
+                  className={`h-10 w-10 rounded-lg duration-200 hover:-translate-y-[2px] ${
                     currentPage === pageNum
                       ? "bg-blue-600 text-white"
-                      : "border border-gray-300 hover:bg-gray-50"
+                      : "border border-secondary hover:border-primary"
                   }`}
                 >
                   {pageNum}
@@ -338,7 +334,7 @@ export default function DatabaseManager({ sectionRef, id }: UserSection) {
           <button
             onClick={() => goToPage(currentPage + 1)}
             disabled={currentPage === totalPages}
-            className="rounded-lg border border-gray-300 p-2 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-50"
+            className="rounded-lg border border-secondary p-2 duration-200 hover:-translate-y-[2px] hover:border-primary disabled:cursor-not-allowed disabled:opacity-50"
           >
             <FaChevronRight size={20} />
           </button>

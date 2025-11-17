@@ -1,13 +1,8 @@
 import { useGetUserBookings } from "../../api/queries/bookingQueries";
-import type { User } from "../../config/schema";
-import UserReviewCard from "./UserReviewCard";
 import type { UserSection } from "../SectionNavigator";
+import UserReviewCard from "./UserReviewCard";
 
-interface BookingsProps extends UserSection {
-  user: User;
-}
-
-export default function UserBookings({ sectionRef, id, user }: BookingsProps) {
+export default function UserBookings({ sectionRef, id, user }: UserSection) {
   const { data: bookings } = useGetUserBookings(user?._id || "");
   // figure out booking data type
 
@@ -17,7 +12,7 @@ export default function UserBookings({ sectionRef, id, user }: BookingsProps) {
       ref={sectionRef}
       className="flex scroll-mt-24 flex-col gap-5"
     >
-      <h1 className="font-semibold duration-300">Bookings</h1>
+      <h1 className="user-section-header">Bookings</h1>
       {bookings && bookings.length > 0 ? (
         bookings.map((booking: any) => (
           <UserReviewCard

@@ -131,3 +131,11 @@
 .form-cancel-button:hover {
   background-color: rgb(75 85 99);
 }
+
+.user-section-header {
+  font-size: 1.125rem /* 18px */;
+  line-height: 1.75rem /* 28px */;
+  font-weight: 600;
+  color: var(--primary);
+  transition-duration: 300ms;
+}

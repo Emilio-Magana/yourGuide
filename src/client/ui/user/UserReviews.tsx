@@ -1,13 +1,8 @@
 import { useGetUserReviews } from "../../api/queries/reviewQueries";
 import type { UserSection } from "../SectionNavigator";
-import type { User } from "../../config/schema";
 import UserReviewCard from "./UserReviewCard";
 
-interface ReviewsProps extends UserSection {
-  user: User;
-}
-
-export default function UserReviews({ sectionRef, id, user }: ReviewsProps) {
+export default function UserReviews({ sectionRef, id, user }: UserSection) {
   const { data: reviews } = useGetUserReviews(user?._id || "");
 
   return (
@@ -16,7 +11,7 @@ export default function UserReviews({ sectionRef, id, user }: ReviewsProps) {
       ref={sectionRef}
       className="flex scroll-mt-24 flex-col gap-5"
     >
-      <h1 className="font-semibold duration-300">Reviews</h1>
+      <h1 className="user-section-header">Reviews</h1>
       <div
         className={`grid grid-cols-1 gap-3 duration-300 m_window:grid-cols-2 l_window:grid-cols-3`}
       >

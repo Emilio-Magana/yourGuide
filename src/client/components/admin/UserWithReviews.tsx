@@ -47,7 +47,7 @@ export function UserWithReviews({ user }: { user: User }) {
   const getRoleBadgeColor = (role: UserRoles) => {
     const colors = {
       admin: "bg-purple-100 text-purple-800",
-      // "lead-guide": "bg-blue-100 text-blue-800",
+      "lead-guide": "bg-blue-100 text-blue-800",
       guide: "bg-green-100 text-green-800",
       user: "bg-gray-100 text-gray-800",
     };
@@ -55,7 +55,7 @@ export function UserWithReviews({ user }: { user: User }) {
   };
 
   return (
-    <div className="h-96 overflow-scroll rounded-lg border border-gray-200 p-4 transition-shadow hover:shadow-md">
+    <div className="h-full overflow-scroll rounded-lg border border-secondary bg-mainBg p-4">
       <div className="mb-3 flex items-start justify-between">
         {isEditing ? (
           <div className="flex-1 space-y-2">
@@ -92,7 +92,7 @@ export function UserWithReviews({ user }: { user: User }) {
           </div>
         ) : (
           <div>
-            <h2 className="text-lg font-semibold">{user.name}</h2>
+            <h2 className="text-lg font-semibold text-primary">{user.name}</h2>
             <p className="text-sm text-gray-600">{user.email}</p>
             <span
               className={`mt-1 inline-block rounded px-2 py-1 text-xs ${getRoleBadgeColor(user.role || "user")}`}
@@ -102,7 +102,7 @@ export function UserWithReviews({ user }: { user: User }) {
           </div>
         )}
 
-        <div className="flex gap-2">
+        <div className="flex">
           {isEditing ? (
             <>
               <button
@@ -145,16 +145,16 @@ export function UserWithReviews({ user }: { user: User }) {
         </div>
       </div>
 
-      <div className="border-t pt-3">
+      <div className="border-t border-secondary pt-3">
         <h3 className="mb-2 text-sm font-medium text-gray-700">Reviews:</h3>
         {reviews && reviews.length > 0 ? (
           <div className="space-y-3">
             {reviews.map((review) => (
-              <div key={review._id} className="rounded bg-gray-50 p-3">
-                <p className="text-sm font-medium text-blue-600">
+              <div key={review._id} className="rounded bg-headerEndBg p-3">
+                <p className="text-sm font-medium text-headerBegBg">
                   {review.tour?.name || "Unknown Tour"}
                 </p>
-                <p className="mt-1 text-sm text-gray-700">{review.review}</p>
+                <p className="mt-1 text-sm text-primary">{review.review}</p>
                 <div className="mt-2 flex items-center gap-2">
                   <div className="flex">
                     {Array.from({ length: 5 }, (_, i) => (

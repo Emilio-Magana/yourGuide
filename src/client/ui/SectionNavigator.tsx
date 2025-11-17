@@ -1,6 +1,7 @@
 import type { IconType } from "react-icons";
 import { Link } from "react-router-dom";
 import type { RefObject } from "react";
+import type { User } from "../config/schema";
 
 export type Section = {
   id: string;
@@ -9,6 +10,7 @@ export type Section = {
 
 export interface UserSection extends Section {
   sectionRef: RefObject<HTMLDivElement | null>;
+  user?: User;
 }
 
 interface SecNavProps {

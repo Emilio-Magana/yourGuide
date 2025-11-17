@@ -1,10 +1,10 @@
+import { Link } from "react-router-dom";
 import { useGetTourReviews } from "../../api/queries/reviewQueries";
 import type { Tour } from "../../config/schema";
 
 import { useMemo, useState } from "react";
 
 import { FaAngleDoubleLeft, FaAngleDoubleRight, FaStar } from "react-icons/fa";
-import { HashLink } from "react-router-hash-link";
 
 export function TourWithReviews({ tour }: { tour: Tour }) {
   const { data: reviews } = useGetTourReviews(tour._id);
@@ -21,19 +21,22 @@ export function TourWithReviews({ tour }: { tour: Tour }) {
       }
     });
   }, [reviews, reviewSortOrder]);
+  function handleClick() {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
 
   return (
-    <div className="h-96 overflow-scroll rounded-lg border border-gray-200 p-4 transition-shadow hover:shadow-md">
+    <div className="h-full overflow-scroll rounded-lg border border-secondary bg-mainBg p-4">
       <div className="mb-4">
         <div className="flex items-start justify-between">
           <div>
-            <HashLink
-              smooth
+            <Link
               to={`/tours/${tour._id}`}
-              className="text-xl font-semibold text-blue-600"
+              className="text-lg font-semibold text-primary duration-300 hover:font-bold"
+              onClick={handleClick}
             >
               {tour.name}
-            </HashLink>
+            </Link>
           </div>
           {tour.ratingsAverage && (
             <div className="flex items-center gap-1 rounded-lg bg-yellow-50 px-3 py-1">
@@ -48,7 +51,7 @@ export function TourWithReviews({ tour }: { tour: Tour }) {
           )}
         </div>
       </div>
-      <div className="border-t pt-4">
+      <div className="border-t border-secondary pt-4">
         <div className="mb-3 flex items-center justify-between">
           <h3 className="text-sm font-medium text-primary">
             User Reviews ({reviews?.length || 0}):
@@ -58,7 +61,7 @@ export function TourWithReviews({ tour }: { tour: Tour }) {
               onClick={() =>
                 setReviewSortOrder((prev) => (prev === "asc" ? "desc" : "asc"))
               }
-              className="flex items-center gap-1 rounded border border-gray-300 px-2 py-1 text-xs text-primary duration-300 hover:-translate-y-1"
+              className="flex items-center gap-1 rounded border border-gray-300 bg-mainBg px-2 py-1 text-xs text-primary duration-200 hover:-translate-y-[2px] hover:drop-shadow-[0_2px_1.2px_var(--primary)]"
             >
               <FaStar size={12} />
               {reviewSortOrder === "asc" ? (
@@ -78,18 +81,18 @@ export function TourWithReviews({ tour }: { tour: Tour }) {
             {sortedReviews.map((review) => (
               <div
                 key={review._id}
-                className="flex gap-3 rounded bg-gray-50 p-3"
+                className="flex gap-3 rounded bg-headerEndBg p-3"
               >
                 <div className="flex-1">
                   <div className="mb-1 flex items-center gap-2">
-                    <p className="text-sm font-medium text-gray-900">
+                    <p className="text-sm font-medium text-headerBegBg">
                       {review.user?.name || "Anonymous"}
                     </p>
                     <span className="text-xs text-gray-500">
                       ({review.user?.email})
                     </span>
                   </div>
-                  <p className="text-sm text-gray-700">{review.review}</p>
+                  <p className="mt-1 text-sm text-primary">{review.review}</p>
                   <div className="mt-2 flex items-center gap-2">
                     <div className="flex">
                       {Array.from({ length: 5 }, (_, i) => (

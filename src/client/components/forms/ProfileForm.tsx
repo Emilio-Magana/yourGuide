@@ -1,23 +1,13 @@
 import { BsCamera, BsSave, BsX } from "react-icons/bs";
 import { useEffect, useState } from "react";
 
-import { useUpdateMe } from "../api/queries/userQueries";
-import { useAuth } from "../api/queries/authQueries";
+import { useUpdateMe } from "../../api/queries/userQueries";
+import type { User } from "../../config/schema";
 
 const api_url = import.meta.env.VITE_API_URL;
 const defaultPFP = "default.jpg";
 
-interface profileFormProps {
-  pfp: string;
-  userName: string;
-  userEmail: string;
-}
-export default function ProfileForm({
-  pfp,
-  userName,
-  userEmail,
-}: profileFormProps) {
-  const { data: user } = useAuth();
+export default function ProfileForm({ user }: { user: User }) {
   const updateMeMutation = useUpdateMe();
   const [isEditing, setIsEditing] = useState(false);
   const [photoFile, setPhotoFile] = useState<File | null>(null);
@@ -26,21 +16,21 @@ export default function ProfileForm({
     email: "",
     phone: "",
     address: "",
-    pfp: "",
+    photo: "",
   });
   const [originalData, setOriginalData] = useState({
     name: "",
     email: "",
     phone: "",
     address: "",
-    pfp: "",
+    photo: "",
   });
   useEffect(() => {
     if (user) {
       const userData = {
-        pfp: pfp || "",
-        name: userName || "",
-        email: userEmail || "",
+        photo: user.photo || "",
+        name: user.name || "",
+        email: user.email || "",
         phone: user.phone || "",
         address: user.address || "",
       };
@@ -86,7 +76,7 @@ export default function ProfileForm({
       setFormData((prev) => ({ ...prev, [el]: "" }));
     }
   };
-  const photoUrl = formData.pfp ? `/img/users/${formData.pfp}` : null;
+  const photoUrl = formData.photo ? `/img/users/${formData.photo}` : null;
 
   return (
     <form action="" className="rounded-2xl bg-white p-6">
@@ -121,7 +111,7 @@ export default function ProfileForm({
           {!isEditing ? (
             <button
               onClick={() => setIsEditing(true)}
-              className="h-10 w-52 rounded-lg bg-blue-600 px-6 text-sm font-medium text-white shadow-md hover:bg-blue-700 hover:shadow-lg"
+              className="w-52 rounded-lg bg-blue-600 py-2 text-sm font-medium text-white shadow-md hover:bg-blue-700 hover:shadow-lg"
             >
               Edit Profile
             </button>
@@ -130,7 +120,7 @@ export default function ProfileForm({
               <button
                 onClick={handleSubmit}
                 disabled={updateMeMutation.isPending}
-                className="flex h-10 w-52 items-center justify-center gap-2 rounded-lg bg-green-600 px-6 py-2 text-white shadow-md hover:bg-green-700 hover:shadow-lg"
+                className="form-submit-button w-52"
               >
                 <BsSave size={20} />
                 {updateMeMutation.isPending ? "Saving..." : "Save Changes"}
@@ -138,7 +128,7 @@ export default function ProfileForm({
               <button
                 onClick={handleCancel}
                 disabled={updateMeMutation.isPending}
-                className="flex h-10 w-52 items-center justify-center gap-2 rounded-lg bg-gray-500 px-6 py-2 text-white shadow-md hover:bg-gray-600 hover:shadow-lg"
+                className="form-cancel-button w-52"
               >
                 <BsX size={20} />
                 Cancel
@@ -162,7 +152,7 @@ export default function ProfileForm({
                 onChange={handleInputChange}
                 onFocus={(e) => handleOnFocus(e, "name")}
                 placeholder="Enter your full name"
-                className="w-full rounded-lg border border-gray-300 px-4 py-3 focus:ring-2 focus:ring-blue-500 disabled:bg-gray-50 disabled:text-gray-600"
+                className="input"
               />
             </div>
             <div className="w-full">
@@ -177,7 +167,7 @@ export default function ProfileForm({
                 onChange={handleInputChange}
                 onFocus={(e) => handleOnFocus(e, "phone")}
                 placeholder="+1 (555) 123-4567"
-                className="w-full rounded-lg border border-gray-300 px-4 py-3 focus:ring-2 focus:ring-blue-500 disabled:bg-gray-50 disabled:text-gray-600"
+                className="input"
               />
             </div>
           </div>
@@ -195,7 +185,7 @@ export default function ProfileForm({
               onChange={handleInputChange}
               onFocus={(e) => handleOnFocus(e, "email")}
               placeholder="your.email@example.com"
-              className="w-full rounded-lg border border-gray-300 px-4 py-3 focus:ring-2 focus:ring-blue-500 disabled:bg-gray-50 disabled:text-gray-600"
+              className="input"
             />
           </div>
           <div className="hidden l_window:block">
