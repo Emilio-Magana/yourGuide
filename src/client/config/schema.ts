@@ -12,7 +12,20 @@ const location = z.object({
   description: z.string(),
   day: z.string(),
 });
-
+const userRoles = z.union([
+  z.literal("user"),
+  z.literal("admin"),
+  z.literal("guide"),
+]);
+const user = z.object({
+  _id: z.string(),
+  role: userRoles,
+  name: z.string(),
+  email: z.email(),
+  photo: z.string().optional(),
+  address: z.string().optional(),
+  phone: z.string().optional(),
+});
 const tour = z.object({
   _id: z.string(),
   name: z.string(),
@@ -30,21 +43,7 @@ const tour = z.object({
   startDates: z.array(z.string()),
   startLocation: startLocation,
   locations: z.array(location),
-  guides: z.array(z.any()),
-});
-const userRoles = z.union([
-  z.literal("user"),
-  z.literal("admin"),
-  z.literal("guide"),
-]);
-const user = z.object({
-  _id: z.string(),
-  role: userRoles,
-  name: z.string(),
-  email: z.email(),
-  photo: z.string().optional(),
-  address: z.string().optional(),
-  phone: z.string().optional(),
+  guides: z.array(user),
 });
 const review = z.object({
   _id: z.string(),

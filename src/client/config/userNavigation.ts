@@ -47,7 +47,7 @@ export const userNavigation: UserOptions<UserRoles> = {
     Profile,
     {
       id: "Database",
-      href: "/users/:userId/dashboard#DatabaseManager",
+      href: "/users/:userId/dashboard#Database",
       Icon: FaDatabase,
       component: DatabaseManager,
     },

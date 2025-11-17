@@ -1,5 +1,5 @@
+import { HashLink } from "react-router-hash-link";
 import type { Tour } from "../../config/schema";
-import { Link } from "react-router-dom";
 
 const api_url = import.meta.env.VITE_API_URL;
 
@@ -20,12 +20,8 @@ export default function TourCardMiniLink({
   duration,
   className,
 }: TourCardMiniLinkProps) {
-  function handleClick() {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  }
-
   return (
-    <Link className={className} to={`/tours/${_id}`} onClick={handleClick}>
+    <HashLink smooth to={`/tours/${_id}`} className={className}>
       <img
         src={`${api_url}/img/tours/${imageCover}`}
         alt={name}
@@ -39,6 +35,6 @@ export default function TourCardMiniLink({
           A {difficulty} {duration}-day tour
         </h2>
       </article>
-    </Link>
+    </HashLink>
   );
 }

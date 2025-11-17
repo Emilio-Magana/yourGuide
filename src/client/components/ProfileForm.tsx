@@ -1,7 +1,8 @@
-import { useEffect, useState } from "react";
 import { BsCamera, BsSave, BsX } from "react-icons/bs";
+import { useEffect, useState } from "react";
 
-import { useAuth, useUpdateMe } from "../api/queries";
+import { useUpdateMe } from "../api/queries/userQueries";
+import { useAuth } from "../api/queries/authQueries";
 
 const api_url = import.meta.env.VITE_API_URL;
 const defaultPFP = "default.jpg";

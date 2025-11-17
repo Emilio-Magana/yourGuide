@@ -112,130 +112,131 @@ export default function PasswordForm() {
             <span>{message.text}</span>
           </div>
         )}
-
-        <form className="flex flex-col gap-5">
-          <div key="currentPassWord">
-            <label className="mb-2 block text-sm font-medium text-gray-700">
-              Current Password
-            </label>
-            <div className="relative">
-              <input
-                type={showPasswords.current ? "text" : "password"}
-                name="passwordCurrent"
-                autoComplete="on"
-                value={passwords.passwordCurrent}
-                onChange={handleInputChange}
-                className="input"
-                placeholder="Enter your current password"
-              />
-              <button
-                type="button"
-                onClick={() => togglePasswordVisibility("current")}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700"
-              >
-                {showPasswords.current ? (
-                  <IoMdEyeOff className="h-5 w-5" />
-                ) : (
-                  <IoMdEye className="h-5 w-5" />
-                )}
-              </button>
+        <form action="" className="flex flex-col gap-5">
+          <div className="flex flex-col gap-5">
+            <div key="currentPassWord">
+              <label className="mb-2 block text-sm font-medium text-gray-700">
+                Current Password
+              </label>
+              <div className="relative">
+                <input
+                  type={showPasswords.current ? "text" : "password"}
+                  name="passwordCurrent"
+                  autoComplete="on"
+                  value={passwords.passwordCurrent}
+                  onChange={handleInputChange}
+                  className="input"
+                  placeholder="Enter your current password"
+                />
+                <button
+                  type="button"
+                  onClick={() => togglePasswordVisibility("current")}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700"
+                >
+                  {showPasswords.current ? (
+                    <IoMdEyeOff className="h-5 w-5" />
+                  ) : (
+                    <IoMdEye className="h-5 w-5" />
+                  )}
+                </button>
+              </div>
             </div>
-          </div>
-          <div key="newPassWord">
-            <label className="mb-2 block text-sm font-medium text-gray-700">
-              New Password
-            </label>
-            <div className="relative">
-              <input
-                type={showPasswords.new ? "text" : "password"}
-                name="password"
-                autoComplete="on"
-                value={passwords.password}
-                onChange={handleInputChange}
-                placeholder="Enter your new password"
-                className="input"
-              />
-              <button
-                type="button"
-                onClick={() => togglePasswordVisibility("new")}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700"
-              >
-                {showPasswords.new ? (
-                  <IoMdEyeOff className="h-5 w-5" />
-                ) : (
-                  <IoMdEye className="h-5 w-5" />
-                )}
-              </button>
-            </div>
-            <p className="mt-2 text-sm text-gray-500">
-              Password must be at least 8 characters long
-            </p>
-          </div>
-
-          <div key="confirmNewPassWord">
-            <label className="mb-2 block text-sm font-medium text-gray-700">
-              Confirm New Password
-            </label>
-            <div className="relative">
-              <input
-                type={showPasswords.confirm ? "text" : "password"}
-                name="passwordConfirm"
-                autoComplete="on"
-                value={passwords.passwordConfirm}
-                onChange={handleInputChange}
-                className={`w-full rounded-lg border px-4 py-2 focus:ring-2 focus:ring-green-500 ${
-                  isPasswordMismatch
-                    ? "border-red-300 bg-red-50"
-                    : isPasswordMatch
-                      ? "border-green-300 bg-green-50"
-                      : "border-gray-300"
-                }`}
-                placeholder="Confirm your new password"
-              />
-              <button
-                type="button"
-                onClick={() => togglePasswordVisibility("confirm")}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700"
-              >
-                {showPasswords.confirm ? (
-                  <IoMdEyeOff className="h-5 w-5" />
-                ) : (
-                  <IoMdEye className="h-5 w-5" />
-                )}
-              </button>
-            </div>
-            {isPasswordMatch && (
-              <p className="mt-2 flex items-center gap-1 text-sm text-green-600">
-                <FaCheckDouble className="h-4 w-4" />
-                Passwords match
+            <div key="newPassWord">
+              <label className="mb-2 block text-sm font-medium text-gray-700">
+                New Password
+              </label>
+              <div className="relative">
+                <input
+                  type={showPasswords.new ? "text" : "password"}
+                  name="password"
+                  autoComplete="on"
+                  value={passwords.password}
+                  onChange={handleInputChange}
+                  placeholder="Enter your new password"
+                  className="input"
+                />
+                <button
+                  type="button"
+                  onClick={() => togglePasswordVisibility("new")}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700"
+                >
+                  {showPasswords.new ? (
+                    <IoMdEyeOff className="h-5 w-5" />
+                  ) : (
+                    <IoMdEye className="h-5 w-5" />
+                  )}
+                </button>
+              </div>
+              <p className="mt-2 text-sm text-gray-500">
+                Password must be at least 8 characters long
               </p>
-            )}
-            {isPasswordMismatch && (
-              <p className="mt-2 flex items-center gap-1 text-sm text-red-600">
-                <BsX className="h-4 w-4" />
-                Passwords do not match
-              </p>
-            )}
+            </div>
+
+            <div key="confirmNewPassWord">
+              <label className="mb-2 block text-sm font-medium text-gray-700">
+                Confirm New Password
+              </label>
+              <div className="relative">
+                <input
+                  type={showPasswords.confirm ? "text" : "password"}
+                  name="passwordConfirm"
+                  autoComplete="on"
+                  value={passwords.passwordConfirm}
+                  onChange={handleInputChange}
+                  className={`w-full rounded-lg border px-4 py-2 focus:ring-2 focus:ring-green-500 ${
+                    isPasswordMismatch
+                      ? "border-red-300 bg-red-50"
+                      : isPasswordMatch
+                        ? "border-green-300 bg-green-50"
+                        : "border-gray-300"
+                  }`}
+                  placeholder="Confirm your new password"
+                />
+                <button
+                  type="button"
+                  onClick={() => togglePasswordVisibility("confirm")}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700"
+                >
+                  {showPasswords.confirm ? (
+                    <IoMdEyeOff className="h-5 w-5" />
+                  ) : (
+                    <IoMdEye className="h-5 w-5" />
+                  )}
+                </button>
+              </div>
+              {isPasswordMatch && (
+                <p className="mt-2 flex items-center gap-1 text-sm text-green-600">
+                  <FaCheckDouble className="h-4 w-4" />
+                  Passwords match
+                </p>
+              )}
+              {isPasswordMismatch && (
+                <p className="mt-2 flex items-center gap-1 text-sm text-red-600">
+                  <BsX className="h-4 w-4" />
+                  Passwords do not match
+                </p>
+              )}
+            </div>
           </div>
+
+          <button
+            type="button"
+            key="submitButton"
+            onClick={handleSubmit}
+            disabled={
+              updatePasswordMutation.isPending ||
+              !passwords.passwordCurrent ||
+              !passwords.password ||
+              !passwords.passwordConfirm
+            }
+            className="form-submit-button w-full"
+          >
+            <FaLock size={20} />
+            {updatePasswordMutation.isPending
+              ? "Updating Password..."
+              : "Update Password"}
+          </button>
         </form>
-
-        <button
-          type="button"
-          key="submitButton"
-          onClick={handleSubmit}
-          disabled={
-            updatePasswordMutation.isPending ||
-            !passwords.passwordCurrent ||
-            !passwords.password ||
-            !passwords.passwordConfirm
-          }
-          className="form-submit-button w-full"
-        >
-          <FaLock size={20} />
-          {updatePasswordMutation.isPending
-            ? "Updating Password..."
-            : "Update Password"}
-        </button>
 
         <div
           key="securityTips"

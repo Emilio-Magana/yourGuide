@@ -1,5 +1,4 @@
 import { type RefObject } from "react";
-import type { User } from "../../config/schema";
 
 interface JobsProps {
   sectionRef: RefObject<HTMLDivElement | null>;

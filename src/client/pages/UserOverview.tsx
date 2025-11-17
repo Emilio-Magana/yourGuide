@@ -13,8 +13,13 @@ export default function UserOverview() {
   const [isOpen, setIsOpen] = useState(true);
   const { user } = useOutletContext<{ user: User }>();
   const { data: bookings } = useGetUserBookings(user?._id || "");
+  let bookingLength: number = 0;
+
+  if (bookings && bookings.length > 0) bookingLength = bookings.length ?? 1;
 
   const userSections = userNavigation[user?.role || "user"];
+
+  console.log(user.role);
   const sectionRefs = useMemo(() => refGenerator(userSections), [userSections]);
 
   // console.log("role", user?.role); //renders twice but maybe thats because its in development
@@ -27,7 +32,7 @@ export default function UserOverview() {
         // active={active}
         sections={userSections}
         sectionRefs={sectionRefs}
-        numBookings={bookings && bookings.length > 0 ? bookings.length : 1} //not sure if this works quite yet...
+        numBookings={bookingLength} //not sure if this works quite yet...
         setIsOpen={setIsOpen}
         isOpen={isOpen}
         user={user}

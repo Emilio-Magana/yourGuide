@@ -169,7 +169,7 @@ export default function UserProfile({
                   onChange={handleInputChange}
                   onFocus={(e) => handleOnFocus(e, "name")}
                   placeholder="Enter your full name"
-                  className="w-full rounded-lg border border-gray-300 px-4 py-3 focus:ring-2 focus:ring-blue-500 disabled:bg-gray-50 disabled:text-gray-600"
+                  className="input"
                 />
               </div>
               <div className="w-full">
@@ -184,7 +184,7 @@ export default function UserProfile({
                   onChange={handleInputChange}
                   onFocus={(e) => handleOnFocus(e, "phone")}
                   placeholder="+1 (555) 123-4567"
-                  className="w-full rounded-lg border border-gray-300 px-4 py-3 focus:ring-2 focus:ring-blue-500 disabled:bg-gray-50 disabled:text-gray-600"
+                  className="input"
                 />
               </div>
             </div>
@@ -202,7 +202,7 @@ export default function UserProfile({
                 onChange={handleInputChange}
                 onFocus={(e) => handleOnFocus(e, "email")}
                 placeholder="your.email@example.com"
-                className="w-full rounded-lg border border-gray-300 px-4 py-3 focus:ring-2 focus:ring-blue-500 disabled:bg-gray-50 disabled:text-gray-600"
+                className="input"
               />
             </div>
             <div className="hidden l_window:block">
