@@ -45,7 +45,7 @@ export default function StaggeredDropDown() {
       <motion.div animate={isOpen ? "open" : "closed"} className="relative">
         <button
           onClick={() => setIsOpen((isOpen) => !isOpen)}
-          className="flex items-center gap-2 rounded-md px-3 py-2 drop-shadow-[0px_1.3px_2px_var(--headerOpposite)] transition-colors duration-300 hover:bg-slate-500"
+          className="flex items-center gap-2 rounded-md px-3 py-2 drop-shadow-[0px_1.3px_2px_var(--headerOpposite)] duration-300 hover:bg-slate-500 hover:px-5"
         >
           <IoMdPerson />
           <motion.span

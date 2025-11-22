@@ -40,8 +40,8 @@
     --opposite: rgb(0, 0, 0);
     --secondary: #64748b;
     --tertiary: #b3c2da;
-    --header: rgb(255, 255, 255);
-    --headerOpposite: rgb(84, 57, 57);
+    --header: #ffffff;
+    --headerOpposite: #543939;
   }
 }
 .li_card {
