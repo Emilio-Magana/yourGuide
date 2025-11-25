@@ -159,7 +159,7 @@ export default function DatabaseManager({ sectionRef, id }: UserSection) {
         {viewMode === "Users" && (
           <button
             onClick={() => setShowCreateModal(true)}
-            className="flex items-center gap-2 rounded-lg bg-green-600 px-4 text-white duration-300 hover:-translate-y-1 hover:bg-green-700 hover:drop-shadow-[0_4px_1.2px_var(--primary)]"
+            className="flex items-center gap-2 rounded-lg bg-highLightBg px-4 text-white duration-300 hover:-translate-y-1 hover:drop-shadow-[0_4px_1.2px_var(--primary)]"
           >
             <FaPlus size={16} />
             Create User

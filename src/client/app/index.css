@@ -7,6 +7,7 @@
     background-color: #ececec;
 
     --mainBg: #ececec;
+    --mainShadeBg: #e9e4e4;
     --loaderBg1: #e8e8e8;
     --loaderBg2: #b9b9b9;
     --simBg: #ececec;
@@ -14,12 +15,14 @@
     --headerBegBg: #1e293b;
     --headerEndBg: #94a3b8;
     --centerLBg: #9a7a7a;
+    --navBg: #8a94a3;
 
     --primary: #000000;
     --opposite: rgb(255, 255, 255);
     --secondary: #d1a8a8;
     --tertiary: #17244f;
-    --header: #543939;
+    --header: rgb(8, 47, 73);
+    /* --header: #543939; */
     --headerOpposite: #ffffff;
   }
 
@@ -28,6 +31,7 @@
     background-color: #222831;
 
     --mainBg: #222831;
+    --mainShadeBg: #232934;
     --loaderBg1: #020617;
     --loaderBg2: #0f172a;
     --simBg: #131823;
@@ -35,13 +39,15 @@
     --headerBegBg: #94a3b8;
     --headerEndBg: #1e293b;
     --centerLBg: #393e46;
+    --navBg: #64748b;
 
     --primary: #ffffff;
     --opposite: rgb(0, 0, 0);
     --secondary: #64748b;
     --tertiary: #b3c2da;
     --header: #ffffff;
-    --headerOpposite: #543939;
+    --headerOpposite: #082f49;
+    /* --headerOpposite: #543939; */
   }
 }
 .li_card {
@@ -86,10 +92,10 @@
   align-items: center;
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
+  transition-duration: 300ms;
   justify-content: center;
   transition-property: all;
   color: rgb(255 255 255);
-  transition-duration: 150ms;
   background-color: rgb(22 163 74);
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   border-radius: 0.5rem;

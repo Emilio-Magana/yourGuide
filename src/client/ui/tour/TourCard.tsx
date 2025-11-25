@@ -27,7 +27,7 @@ export default function TourCard({
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
   return (
-    <section className="w-full overflow-hidden rounded-2xl">
+    <section className="w-full overflow-hidden rounded-2xl shadow-lg">
       <Link to={`/tours/${_id}`} className="relative" onClick={handleClick}>
         <img
           src={`${api_url}/img/tours/${imageCover}`}
@@ -39,7 +39,7 @@ export default function TourCard({
         </h1>
       </Link>
       {/* </section> */}
-      <article className="text-[#543939]">
+      <article className="sky-950">
         <div className="flex h-[210px] flex-col gap-3 bg-slate-50 px-6 py-3">
           <h2 className="font-semibold uppercase">
             {difficulty} {duration}-day tour

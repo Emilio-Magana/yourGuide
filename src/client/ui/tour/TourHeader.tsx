@@ -6,7 +6,9 @@ const api_url = import.meta.env.VITE_API_URL;
 
 interface PageHeaderProps {
   tourCover: string;
+  height: string;
   title: string;
+
   detailed?: boolean;
   detailOne?: string;
   detailTwo?: string;
@@ -14,6 +16,7 @@ interface PageHeaderProps {
 
 export default function TourHeader({
   tourCover,
+  height,
   title,
   detailed,
   detailOne,
@@ -33,7 +36,7 @@ export default function TourHeader({
     <section className="relative">
       <img
         src={`${api_url}/img/tours/${tourCover}`}
-        className="h-[320px] w-full object-none object-center duration-300 s_window:h-[380px]"
+        className={`w-full object-none object-center duration-300 ${height}`}
       />
       <h1 className="absolute inset-0 flex flex-col items-center justify-center gap-10 text-5xl font-semibold text-header drop-shadow-[-1px_1.2px_1.2px_var(--headerOpposite)] duration-300">
         {title}

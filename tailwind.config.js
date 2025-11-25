@@ -19,8 +19,10 @@ export default {
         headerEndBg: "var(--headerEndBg)",
         centerLBg: "var(--centerLBg)",
         mainBg: "var(--mainBg)",
+        mainShadeBg: "var(--mainShadeBg)",
         loaderBg1: "var(--loaderBg1)",
         loaderBg2: "var(--loaderBg2)",
+        navBg: "var(--navBg)",
 
         header: "var(--header)",
         headerOpposite: "var(--headerOpposite)",

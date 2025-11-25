@@ -31,7 +31,7 @@ export default function TourCardMiniLink({
         alt={name}
         className="min-h-60 w-full flex-1 duration-300 ease-in-out hover:scale-105"
       />
-      <article className="relative h-28 flex-none flex-col gap-3 bg-white px-4 py-4 font-light text-[#543939]">
+      <article className="sky-950 relative h-28 flex-none flex-col gap-3 bg-white px-4 py-4 font-light">
         <h1 className="justify-stretch text-xl uppercase leading-none">
           {name}
         </h1>

@@ -20,7 +20,6 @@ export default function UserBookings({ sectionRef, id, user }: UserSection) {
             review={booking.review}
             name={booking.tour.name}
             imageCover={booking.tour.imageCover}
-            className="relative justify-self-stretch overflow-hidden rounded-2xl duration-300 hover:scale-105"
           />
         ))
       ) : (

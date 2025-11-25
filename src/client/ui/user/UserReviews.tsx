@@ -23,7 +23,6 @@ export default function UserReviews({ sectionRef, id, user }: UserSection) {
               review={review.review}
               name={review.tour.name}
               imageCover={review.tour.imageCover}
-              className="relative w-full overflow-hidden rounded-2xl duration-300 hover:scale-105"
             />
           ))
         ) : (

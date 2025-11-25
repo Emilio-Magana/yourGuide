@@ -95,7 +95,7 @@ export default function ProfileForm({ user }: { user: User }) {
             {isEditing && (
               <label
                 htmlFor="photo-upload"
-                className="absolute bottom-0 right-0 cursor-pointer rounded-full bg-indigo-500 p-2 shadow-lg hover:bg-indigo-700"
+                className="absolute bottom-0 right-0 cursor-pointer rounded-full bg-highLightBg p-2 shadow-lg duration-300 hover:bg-indigo-600"
               >
                 <BsCamera size={20} className="text-white" />
                 <input
@@ -111,7 +111,7 @@ export default function ProfileForm({ user }: { user: User }) {
           {!isEditing ? (
             <button
               onClick={() => setIsEditing(true)}
-              className="w-52 rounded-lg bg-blue-600 py-2 text-sm font-medium text-white shadow-md hover:bg-blue-700 hover:shadow-lg"
+              className="w-52 rounded-lg bg-highLightBg py-2 text-sm font-medium text-white shadow-md duration-300 hover:-translate-y-1 hover:drop-shadow-[0_4px_1.2px_rgb(0,0,0)]"
             >
               Edit Profile
             </button>

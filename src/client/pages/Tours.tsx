@@ -82,7 +82,13 @@ export default function Tours() {
   if (!tours) return <div>No tours available</div>;
   return (
     <section className="flex flex-col gap-1">
-      <TourHeader tourCover="tour-3-1.jpg" title="Tours" detailed={false} />
+      <TourHeader
+        tourCover="tour-3-1.jpg"
+        title="Tours"
+        height="h-[320px] s_window:h-[380px]"
+        detailed={false}
+      />
+
       <article className="flex flex-col gap-3 p-2 duration-300 s_window:flex-row">
         <ControlPanel
           searchQuery={searchQuery}

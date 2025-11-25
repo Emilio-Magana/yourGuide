@@ -34,11 +34,13 @@ export default function TourDetails() {
     <div className="flex flex-col">
       <TourHeader
         tourCover={tour!.imageCover}
+        height="h-[320px] s_window:h-[380px]"
         title={tour!.name}
         detailed={true}
         detailOne={tour!.duration.toString()}
         detailTwo={tour!.startLocation.description}
       />
+
       <SectionNavigator
         className="sticky top-0 z-20 flex place-content-between border-b-[1px] border-centerLBg bg-mainBg px-2 py-[13px] text-sm duration-300 m_window:text-base l_window:px-6"
         sections={tourNavigation}
