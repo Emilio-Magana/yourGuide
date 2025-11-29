@@ -33,6 +33,13 @@ const bookingSchema: Schema = new Schema({
     ref: "User",
     required: [true, "Booking must belong to a User!"],
   },
+  participants: {
+    type: Number,
+    default: 1,
+  },
+  startDate: {
+    type: Date,
+  },
   price: {
     type: Number,
     require: [true, "Booking must have a price."],

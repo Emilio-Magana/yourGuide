@@ -17,7 +17,6 @@ declare global {
       SENDGRID_USERNAME: string;
       SENDGRID_PASSWORD: string;
       STRIPE_SECRET_KEY: string;
-      STRIPE_PUBLISHABLE_KEY: string;
       STRIPE_WEBHOOK_SECRET: string;
     }
   }

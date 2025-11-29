@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import logo from "/img/logo-green-small.png";
-import CardMiniLink from "../ui/CardMiniLink";
+import CardLink from "../ui/CardMiniLink";
 
 const cardInfo = [
   { label: "The Outdoors", imageCover: "tour-1-2.jpg" },
@@ -10,7 +10,7 @@ const cardInfo = [
 ];
 export default function Overview() {
   return (
-    <section className="mt-6 flex flex-col gap-16 text-primary">
+    <section className="mx-10 mt-6 flex flex-col gap-16 text-primary">
       <div className="h-40 pt-16">
         <h1 className="rounded pt-9 text-center text-5xl font-semibold">
           Where to?
@@ -42,7 +42,7 @@ export default function Overview() {
         </div>
       </div>
 
-      <div className="mx-10 grid grid-cols-1 shadow-2xl duration-300 m_window:h-[480px] m_window:grid-cols-[1fr_400px] l_window:grid-cols-[1fr_500px] xl_window:grid-cols-[1fr_600px]">
+      <div className="grid grid-cols-1 shadow-2xl duration-300 m_window:h-[480px] m_window:grid-cols-[1fr_400px] l_window:grid-cols-[1fr_500px] xl_window:grid-cols-[1fr_600px]">
         <img
           src="/img/tours/tour-1-1.jpg"
           alt=""
@@ -70,7 +70,7 @@ export default function Overview() {
           </p>
 
           <Link
-            to="/login"
+            to="/users/:userId/dashboard#Profile"
             className="w-fit rounded-3xl bg-sky-950 px-3 py-3 font-medium text-white duration-300 hover:-translate-y-1 hover:drop-shadow-[0_4px_1.2px_rgb(255,255,255)]"
           >
             Learn More
@@ -78,16 +78,12 @@ export default function Overview() {
         </div>
       </div>
 
-      <div className="mx-12">
+      <div>
         <h1 className="text-xl font-semibold">Find things to do by interest</h1>
         <h2 className="font-light">Whatever you're into, we&#39;ve got it</h2>
         <div className="mt-4 grid grid-cols-2 gap-3 duration-300 l_window:grid-cols-4">
           {cardInfo.map((card, i) => (
-            <CardMiniLink
-              key={i}
-              imageCover={card.imageCover}
-              label={card.label}
-            />
+            <CardLink key={i} imageCover={card.imageCover} label={card.label} />
           ))}
         </div>
       </div>

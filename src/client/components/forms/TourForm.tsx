@@ -15,14 +15,14 @@ import { useGetTour } from "../../api/queries/tourQueries";
 interface TourFormProps {
   setIsEditing: React.Dispatch<React.SetStateAction<boolean>>;
   isEditing: boolean;
-  onSuccess?: () => void;
+  // onSuccess?: () => void;
   className: string;
   tourId?: string;
 }
 
 export default function TourForm({
   setIsEditing,
-  onSuccess,
+  // onSuccess,
   isEditing,
   className,
   tourId,
@@ -246,7 +246,7 @@ export default function TourForm({
         setImagesPreview([]);
       }
 
-      onSuccess?.();
+      // onSuccess?.();
     } catch (err: any) {
       setMessage({
         type: "error",

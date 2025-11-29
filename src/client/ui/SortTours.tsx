@@ -59,10 +59,10 @@ export default function SortTours({
             key={option.value}
             onClick={() => handleChange(option.value)}
             //
-            className={`rounded-lg px-4 py-2 text-sm text-white transition hover:-translate-y-[2px] ${
+            className={`rounded-lg px-4 py-2 text-sm font-semibold transition hover:-translate-y-[2px] s_window:text-base ${
               tourSortBy === option.value
-                ? "bg-highLightBg"
-                : "bg-slate-500 hover:bg-slate-400"
+                ? "bg-sky-400 text-sky-950"
+                : "bg-slate-500 text-white hover:bg-slate-400"
             } `}
           >
             {option.label}
@@ -73,7 +73,7 @@ export default function SortTours({
 
       <button
         onClick={toggleSortOrder}
-        className="group relative flex items-center justify-center gap-2 rounded-lg border border-secondary bg-secondary px-4 py-2 duration-300 hover:border-headerOpposite hover:bg-headerOpposite hover:px-6"
+        className="group relative flex items-center justify-center gap-2 rounded-lg bg-centerLBg px-4 py-2 text-white duration-300 hover:bg-headerOpposite hover:text-header"
       >
         {tourSortBy === "name" ? (
           sortOrder === "asc" ? (

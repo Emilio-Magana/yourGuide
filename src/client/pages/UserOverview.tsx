@@ -19,7 +19,7 @@ export default function UserOverview() {
 
   const userSections = userNavigation[user?.role || "user"];
 
-  console.log(user.role);
+  console.log(user.name);
   const sectionRefs = useMemo(() => refGenerator(userSections), [userSections]);
 
   // console.log("role", user?.role); //renders twice but maybe thats because its in development

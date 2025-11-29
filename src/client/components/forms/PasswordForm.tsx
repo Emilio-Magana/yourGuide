@@ -3,7 +3,6 @@ import { useUpdatePassword } from "../../api/queries/userQueries";
 import { FaCheckDouble, FaLock } from "react-icons/fa";
 import { IoMdEyeOff, IoMdEye } from "react-icons/io";
 import { BsX } from "react-icons/bs";
-
 import { useState } from "react";
 
 export default function PasswordForm() {

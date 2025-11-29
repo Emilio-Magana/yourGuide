@@ -1,6 +1,25 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { api } from "../api";
 
+export function useCreateCheckoutSession() {
+  return useMutation({
+    mutationFn: async ({
+      tourId,
+      participants,
+      date,
+    }: {
+      tourId: string;
+      participants: number;
+      date: string;
+    }) => {
+      const { data } = await api.get(
+        `/bookings/checkout-session/${tourId}?participants=${participants}&date=${date}`,
+      );
+      return data.checkoutSession;
+    },
+  });
+}
+
 export function useBookings() {
   return useQuery({
     queryKey: ["bookings"],

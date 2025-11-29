@@ -7,16 +7,13 @@ interface TourCardMiniLinkProps {
   label: string;
 }
 
-export default function CardMiniLink({
-  label,
-  imageCover,
-}: TourCardMiniLinkProps) {
+export default function CardLink({ label, imageCover }: TourCardMiniLinkProps) {
   function handleClick() {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
   return (
     <Link
-      className="relative w-full overflow-hidden rounded-2xl shadow-2xl duration-300 hover:drop-shadow-[-1px_1px_1px_rgb(8,47,73)]"
+      className="relative w-full overflow-hidden rounded-2xl shadow-2xl duration-300 hover:drop-shadow-[0px_1px_1px_var(--header)]"
       to={`/tours`}
       onClick={handleClick}
     >

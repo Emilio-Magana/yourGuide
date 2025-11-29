@@ -1,11 +1,15 @@
+import { Link } from "react-router-dom";
 import { useLogin } from "./../api/queries/authQueries";
-
+// import { useAuth } from "./../api/queries/authQueries";
 import { useState } from "react";
 
 export default function LoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const loginMutation = useLogin();
+
+  // const { data: user } = useAuth();
+  // console.log(user);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -15,7 +19,7 @@ export default function LoginForm() {
   };
 
   return (
-    <section className="my-52 flex w-[450px] flex-col justify-between gap-5 place-self-center l_window:w-[900px] l_window:flex-row">
+    <section className="my-20 flex w-[450px] flex-col justify-between gap-5 place-self-center l_window:w-[900px] l_window:flex-row">
       <h1 className="text-2xl text-primary">Sign in or Create account</h1>
 
       <form
@@ -62,6 +66,14 @@ export default function LoginForm() {
         >
           {loginMutation.isPending ? "Logging in..." : "Login"}
         </button>
+        <div>
+          <Link
+            to="/signup"
+            className="rounded-2xl border border-black px-3 py-1"
+          >
+            SIgn up
+          </Link>
+        </div>
       </form>
     </section>
   );

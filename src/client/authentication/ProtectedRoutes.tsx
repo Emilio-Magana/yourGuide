@@ -6,6 +6,7 @@ import { useEffect } from "react";
 
 function ProtectedRoutes({ roles }: { roles?: string[] }) {
   const navigate = useNavigate();
+
   const { data: user, isLoading, error } = useAuth();
 
   useEffect(() => {

@@ -45,10 +45,11 @@ export default function TourDetails() {
         className="sticky top-0 z-20 flex place-content-between border-b-[1px] border-centerLBg bg-mainBg px-2 py-[13px] text-sm duration-300 m_window:text-base l_window:px-6"
         sections={tourNavigation}
         sectionRefs={sectionRefs}
+        tourId={tour!._id}
       />
       <TourOverview
         sectionRef={sectionRefs[tourNavigation[0].id]}
-        className="mb-1 mt-5 scroll-mt-[74px]"
+        className="mb-1 mt-5 scroll-mt-[79px]"
         name={tour!.name}
         startDate={tour!.startDates[0]}
         difficulty={tour!.difficulty}
@@ -58,18 +59,18 @@ export default function TourDetails() {
       />
       <TourMap
         sectionRef={sectionRefs[tourNavigation[1].id]}
-        className="mb-5 ml-9 flex scroll-mt-[74px] flex-col duration-300 l_window:-mt-3 xl_window:-mt-5"
+        className="mb-5 ml-9 flex scroll-mt-[79px] flex-col duration-300 l_window:-mt-3 xl_window:-mt-5"
         locations={tour!.locations}
       />
       <ImageGrid
         sectionRef={sectionRefs[tourNavigation[2].id]}
-        className="mb-5 mr-9 flex scroll-mt-[74px] flex-col duration-300"
+        className="mb-5 mr-9 flex scroll-mt-[79px] flex-col duration-300"
         imageArray={tour!.images}
       />
 
       {reviews ? (
         <TourReviews
-          className="mx-9 mb-5 scroll-mt-[74px]"
+          className="mx-9 mb-5 scroll-mt-[79px]"
           sectionRef={sectionRefs[tourNavigation[3].id]}
           reviews={reviews}
         />

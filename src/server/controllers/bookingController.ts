@@ -23,6 +23,8 @@ const getCheckoutSession = catchAsync(
     if (!tour) {
       return next(new AppError("No tour found with that ID", 404));
     }
+    const participants = parseInt(req.query.participants as string) || 1;
+    const date = req.query.date as string;
 
     // 2) Create checkout session
     const checkoutSession: Stripe.Checkout.Session =
@@ -32,9 +34,13 @@ const getCheckoutSession = catchAsync(
         cancel_url: `${req.protocol}://${req.get("host")}/tour/${tour.slug}`,
         customer_email: req.user!.email,
         client_reference_id: req.params.tourId,
+        metadata: {
+          participants: participants.toString(),
+          bookingDate: date || "",
+        },
         line_items: [
           {
-            quantity: 1,
+            quantity: participants,
             price_data: {
               currency: "usd",
               unit_amount: tour.price * 100, // amount in cents
@@ -74,10 +80,18 @@ const createBookingCheckout = async (session: Stripe.Checkout.Session) => {
   }
 
   const userId = user._id;
-  // const price = session.line_items[0].amount / 100;
-
   const price = session.amount_total / 100;
-  await Booking.create({ tour, user: userId, price });
+
+  const participants = parseInt(session.metadata?.participants || "1");
+  const bookingDate = session.metadata?.bookingDate;
+
+  await Booking.create({
+    tour,
+    user: userId,
+    price,
+    participants,
+    startDate: bookingDate,
+  });
 };
 
 const webhookCheckout = catchAsync(

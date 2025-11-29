@@ -16,12 +16,12 @@ import Login from "../pages/Login";
 import ProtectedRoutes from "../authentication/ProtectedRoutes";
 import { DarkModeProvider } from "../context/DarkModeContext";
 import AppLayout from "../ui/AppLayout";
+import Signup from "../pages/Signup";
 
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      // staleTime: 60 * 1000,
-      staleTime: 0,
+      staleTime: 60 * 1000,
     },
   },
 });
@@ -34,12 +34,13 @@ function App() {
       <QueryClientProvider client={queryClient}>
         <BrowserRouter>
           <Routes>
-            {/* Public */}
             <Route element={<AppLayout />}>
               <Route path="/" element={<Overview />} />
               <Route path="/login" element={<Login />} />
+              <Route path="/signup" element={<Signup />} />
               <Route path="/tours" element={<Tours />} />
               <Route path="/tours/:tourId" element={<TourDetails />} />
+              <Route path="/tours/:tourId/checkout" element={<Checkout />} />
               <Route
                 path="/privacy"
                 element={<Privacy lastUpdated={lastUpdated} />}
@@ -56,28 +57,12 @@ function App() {
                 path="/careers"
                 element={<Careers lastUpdated={lastUpdated} />}
               />
-
-              {/* Protected (any authenticated user) */}
               <Route element={<ProtectedRoutes />}>
                 <Route
                   path="/users/:userId/dashboard"
                   element={<UserOverview />}
                 />
-                <Route path="/checkout/:tourId" element={<Checkout />} />
               </Route>
-
-              {/* Role-based protection */}
-              {/* <Route
-                element={<ProtectedRoutes roles={["admin", "lead-guide"]} />}
-              >
-                <Route
-                  path="/tours/create-new-tour"
-                  element={<NewTourForm />}
-                />
-                <Route path="/update/tours/:tourId" element={<TourForm />} />
-
-              </Route> */}
-
               <Route path="*" element={<NotFound />} />
             </Route>
           </Routes>

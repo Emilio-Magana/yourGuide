@@ -18,7 +18,11 @@ export function useCreateUser() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async (userData: any) => {
+    mutationFn: async (userData: {
+      email: string;
+      password: string;
+      passwordConfirm: string;
+    }) => {
       const { data } = await api.post("/users/signup", userData);
       return data.data.data;
     },

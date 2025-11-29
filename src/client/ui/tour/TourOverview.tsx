@@ -74,7 +74,7 @@ export default function TourOverview({
             </ul>
           </div>
         </article>
-        <article className="flex flex-col gap-10 p-4 text-primary duration-300 m_window:px-6 xl_window:px-8">
+        <article className="flex flex-col gap-10 p-4 text-header duration-300 m_window:px-6 xl_window:px-8">
           <h1 className="text-xl font-medium">About {name}</h1>
           <p>{description}</p>
         </article>
