@@ -125,7 +125,7 @@ const protect = async (req: UserRequest, res: Response, next: NextFunction) => {
       req.headers.authorization.startsWith("Bearer")
     ) {
       token = req.headers.authorization.split(" ")[1];
-      // console.log("Token from Authorization header:", token);
+      // console.log("Token from Authorization primary:", token);
     } else if (req.cookies.jwt) {
       token = req.cookies.jwt;
       // console.log("Token from cookie:", token);

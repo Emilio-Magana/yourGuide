@@ -6,7 +6,7 @@ export default function Footer() {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
   return (
-    <footer className="my-10 flex justify-center gap-1 text-xs text-header duration-300 s_window:text-sm m_window:gap-2">
+    <footer className="my-10 flex justify-center gap-1 text-xs text-primary duration-300 s_window:text-sm m_window:gap-2">
       <div className="flex items-center gap-1 m_window:gap-2">
         <div>
           <span className="mr-1">&copy; {new Date().getFullYear()},</span>

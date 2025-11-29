@@ -1,7 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 
-import type { User } from "../../config/schema";
+import type { User, UserRoles } from "../../config/schema";
 import { api } from "../api";
 
 export function useGetAllUsers() {
@@ -19,15 +19,42 @@ export function useCreateUser() {
 
   return useMutation({
     mutationFn: async (userData: {
+      name: string;
+      email: string;
+      password: string;
+      passwordConfirm: string;
+      role?: UserRoles;
+    }) => {
+      const { data } = await api.post("/", userData);
+
+      return data.data.user;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["all-users"] });
+    },
+  });
+}
+export function useSignUserUp() {
+  const queryClient = useQueryClient();
+  const navigate = useNavigate();
+
+  return useMutation({
+    mutationFn: async (userData: {
+      name: string;
       email: string;
       password: string;
       passwordConfirm: string;
     }) => {
       const { data } = await api.post("/users/signup", userData);
-      return data.data.data;
+      console.log("data", data);
+      console.log("data.data", data.data);
+      console.log("data.data.data", data.data.data);
+
+      return data.data.user;
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["all-users"] });
+      navigate(-2);
     },
   });
 }

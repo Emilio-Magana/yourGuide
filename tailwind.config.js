@@ -13,7 +13,6 @@ export default {
     },
     extend: {
       colors: {
-        highLightBg: "var(--highLightBg)",
         simBg: "var(--simBg)",
         headerBegBg: "var(--headerBegBg)",
         headerEndBg: "var(--headerEndBg)",
@@ -24,12 +23,10 @@ export default {
         loaderBg2: "var(--loaderBg2)",
         navBg: "var(--navBg)",
 
-        header: "var(--header)",
-        headerOpposite: "var(--headerOpposite)",
         primary: "var(--primary)",
         opposite: "var(--opposite)",
-        tertiary: "var(--tertiary)",
         secondary: "var(--secondary)",
+        tertiary: "var(--tertiary)",
       },
       animation: {
         "fade-in-up": "fadeInUp 0.6s ease-out forwards",

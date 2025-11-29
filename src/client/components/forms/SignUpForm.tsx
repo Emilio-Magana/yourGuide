@@ -1,14 +1,15 @@
-import { useState } from "react";
-import { useCreateUser } from "../../api/queries/userQueries";
-import { FaCheckDouble, FaLock } from "react-icons/fa";
+import { useSignUserUp } from "../../api/queries/userQueries";
+
+import { FaCheckDouble } from "react-icons/fa";
 import { BsX } from "react-icons/bs";
+import { useState } from "react";
+import { containsAllCharacterTypes } from "../../utils/constainsAllCharacterTypes";
 
 export default function SignUpForm() {
-  const createUserMutation = useCreateUser();
+  const createUserMutation = useSignUserUp();
   const [message, setMessage] = useState({ type: "", text: "" });
-  //   const [loading, setLoading] = useState(false);
-
   const [userData, setUserData] = useState({
+    name: "",
     email: "",
     password: "",
     passwordConfirm: "",
@@ -41,7 +42,7 @@ export default function SignUpForm() {
 
     try {
       await createUserMutation.mutateAsync(userData);
-      setMessage({ type: "success", text: "Password updated successfully!" });
+      setMessage({ type: "success", text: "User created successfully!" });
 
       setTimeout(() => setMessage({ type: "", text: "" }), 3000);
     } catch (err: any) {
@@ -60,70 +61,83 @@ export default function SignUpForm() {
     userData.passwordConfirm &&
     userData.password !== userData.passwordConfirm;
 
-  console.log("UserData", userData);
+  const isPasswordLongEnough = userData.password.length < 8 ? false : true;
+  const isAllCharacters = containsAllCharacterTypes(userData.password);
+
   return (
-    <div>
-      <h1>SignUpForm</h1>
-      <form action="">
-        <div>
-          <div>
-            <label className="mb-2 block text-sm font-medium text-gray-700">
-              Email
-            </label>
-            <input
-              type="text"
-              name="email"
-              value={userData.email}
-              onChange={handleInputChange}
-              placeholder="Enter your Email"
-              className="input"
-            />
-          </div>
-          <div>
-            <label className="mb-2 block text-sm font-medium text-gray-700">
-              Password
-            </label>
-            <input
-              type="text"
-              name="password"
-              value={userData.password}
-              onChange={handleInputChange}
-              placeholder="Enter your Password"
-              className="input"
-            />
-          </div>
-          <div>
-            <label className="mb-2 block text-sm font-medium text-gray-700">
-              Confirm New Password
-            </label>
-            <input
-              type="text"
-              name="passwordConfirm"
-              value={userData.passwordConfirm}
-              onChange={handleInputChange}
-              className={`w-full rounded-lg border px-4 py-2 focus:ring-2 focus:ring-green-500 ${
-                isPasswordMismatch
-                  ? "border-red-300 bg-red-50"
-                  : isPasswordMatch
-                    ? "border-green-300 bg-green-50"
-                    : "border-gray-300"
-              }`}
-              placeholder="Confirm your new password"
-            />
-          </div>
-          {isPasswordMatch && (
-            <p className="mt-2 flex items-center gap-1 text-sm text-green-600">
-              <FaCheckDouble className="h-4 w-4" />
-              Passwords match
-            </p>
+    <div className="overflow-hidden rounded-2xl bg-white shadow-lg">
+      {message.text && (
+        <div
+          className={`mb-6 flex items-start gap-3 rounded-lg p-4 ${
+            message.type === "success"
+              ? "border border-green-200 bg-green-50 text-green-800"
+              : "border border-red-200 bg-red-50 text-red-800"
+          }`}
+        >
+          {message.type === "success" ? (
+            <FaCheckDouble className="mt-0.5 h-5 w-5 flex-shrink-0" />
+          ) : (
+            <BsX className="mt-0.5 h-5 w-5 flex-shrink-0" />
           )}
-          {isPasswordMismatch && (
-            <p className="mt-2 flex items-center gap-1 text-sm text-red-600">
-              <BsX className="h-4 w-4" />
-              Passwords do not match
-            </p>
-          )}
+          <span>{message.text}</span>
         </div>
+      )}
+      <form className="w-[450px] space-y-4 rounded-2xl border p-7 shadow-lg">
+        <input
+          type="text"
+          name="name"
+          value={userData.name}
+          onChange={handleInputChange}
+          placeholder="Enter your username"
+          className="input"
+        />
+        <input
+          type="text"
+          name="email"
+          value={userData.email}
+          onChange={handleInputChange}
+          placeholder="Enter your Email"
+          className="input"
+        />
+        <input
+          type="text"
+          name="password"
+          value={userData.password}
+          onChange={handleInputChange}
+          placeholder="Enter your Password"
+          className="input"
+        />
+        {(!isAllCharacters || !isPasswordLongEnough) && (
+          <p className="mt-2 flex items-center gap-1 text-sm text-red-600">
+            Password does not meet security requirements
+          </p>
+        )}
+        <input
+          type="text"
+          name="passwordConfirm"
+          value={userData.passwordConfirm}
+          onChange={handleInputChange}
+          className={`w-full rounded-lg border px-4 py-2 focus:ring-2 focus:ring-green-500 ${
+            isPasswordMismatch
+              ? "border-red-300 bg-red-50"
+              : isPasswordMatch
+                ? "border-green-300 bg-green-50"
+                : "border-gray-300"
+          }`}
+          placeholder="Confirm your new password"
+        />
+        {isPasswordMatch && (
+          <p className="mt-2 flex items-center gap-1 text-sm text-green-600">
+            <FaCheckDouble className="h-4 w-4" />
+            Passwords match
+          </p>
+        )}
+        {isPasswordMismatch && (
+          <p className="mt-2 flex items-center gap-1 text-sm text-red-600">
+            <BsX className="h-4 w-4" />
+            Passwords do not match
+          </p>
+        )}
         <button
           type="button"
           key="submitButton"
@@ -136,7 +150,6 @@ export default function SignUpForm() {
           }
           className="form-submit-button w-full"
         >
-          <FaLock size={20} />
           {createUserMutation.isPending ? "Signing up new user..." : "Sign Up"}
         </button>
       </form>

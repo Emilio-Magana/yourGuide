@@ -44,7 +44,7 @@ export default function SectionNavigator({
       </ul>
       <Link
         to={`/tours/${tourId}/checkout`}
-        className="rounded-3xl bg-sky-500 px-3 py-3 text-header duration-300 hover:-translate-y-1 hover:drop-shadow-[0_4px_1.2px_var(--primary)] s_window:px-3 m_window:px-5"
+        className="rounded-3xl bg-sky-500 px-3 py-3 text-white duration-300 hover:-translate-y-1 hover:drop-shadow-[0_4px_1.2px_var(--primary)] s_window:px-3 m_window:px-5"
       >
         Start Planning
       </Link>

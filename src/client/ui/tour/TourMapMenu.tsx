@@ -22,11 +22,11 @@ export default function TourMapMenu({
     <div className={className}>
       <div className="mb-5 flex items-baseline justify-between text-2xl">
         <h1 className="flex items-center gap-2 font-bold text-white">
-          <FaMapPin className="text-highLightBg" />
+          <FaMapPin className="text-sky-400" />
           Tour Locations
         </h1>
         <button onClick={resetView} className="flex items-center gap-2">
-          <MdOutlineZoomOutMap className="text-highLightBg" />
+          <MdOutlineZoomOutMap className="text-sky-400" />
         </button>
       </div>
       <div className="space-y-4">
@@ -36,16 +36,16 @@ export default function TourMapMenu({
             onClick={() => flyToLocation(loc, idx)}
             className={`cursor-pointer rounded-xl p-3 transition-all ${
               selectedLocation === loc
-                ? "scale-105 bg-highLightBg text-white shadow-lg duration-300"
-                : "bg-simBg text-header hover:bg-secondary hover:shadow-md"
+                ? "scale-105 bg-sky-400 text-white shadow-lg duration-300"
+                : "bg-simBg text-primary hover:bg-secondary hover:shadow-md"
             }`}
           >
             <div className="flex items-start gap-3">
               <div
                 className={`flex h-8 w-8 flex-shrink-0 items-center justify-center self-center rounded-full font-bold ${
                   selectedLocation === loc
-                    ? "bg-white text-highLightBg"
-                    : "bg-highLightBg text-white"
+                    ? "bg-white text-sky-400"
+                    : "bg-sky-400 text-white"
                 }`}
               >
                 {idx + 1}

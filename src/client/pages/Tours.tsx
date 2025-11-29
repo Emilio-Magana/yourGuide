@@ -89,7 +89,7 @@ export default function Tours() {
         detailed={false}
       />
 
-      <article className="flex flex-col gap-3 p-2 duration-300 s_window:flex-row">
+      <article className="flex min-h-[590px] flex-col gap-3 p-2 duration-300 s_window:flex-row">
         <ControlPanel
           searchQuery={searchQuery}
           handleSearchChange={handleSearchChange}

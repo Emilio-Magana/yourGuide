@@ -79,7 +79,7 @@ export default function Maptile({
       // Custom marker
       const el = document.createElement("div");
       el.style.cssText = `
-        background-color: var(--highLightBg);
+        background-color: rgb(56,189,248);
         width: 36px;
         height: 36px;
         border-radius: 50%;

@@ -20,12 +20,14 @@ export default function TourCardMiniLink({
   duration,
   className,
 }: TourCardMiniLinkProps) {
-  function handleClick() {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  }
-
   return (
-    <Link className={className} to={`/tours/${_id}`} onClick={handleClick}>
+    <Link
+      className={className}
+      to={`/tours/${_id}`}
+      onClick={() => {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }}
+    >
       <img
         src={`${api_url}/img/tours/${imageCover}`}
         alt={name}

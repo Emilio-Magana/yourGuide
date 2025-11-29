@@ -23,12 +23,15 @@ export default function TourCard({
   maxGroupSize,
   ratingsQuantity,
 }: Tour) {
-  function handleClick() {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  }
   return (
     <section className="w-full overflow-hidden rounded-2xl shadow-lg">
-      <Link to={`/tours/${_id}`} className="relative" onClick={handleClick}>
+      <Link
+        to={`/tours/${_id}`}
+        className="relative"
+        onClick={() => {
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        }}
+      >
         <img
           src={`${api_url}/img/tours/${imageCover}`}
           alt={name}
@@ -76,6 +79,9 @@ export default function TourCard({
             <Link
               to={`/tours/${_id}`}
               className="place-self-center rounded bg-slate-400 p-2 text-white drop-shadow-[0_2px_1.2px_rgba(0,0,0,1)] duration-300 hover:-translate-y-1 hover:bg-slate-500"
+              onClick={() => {
+                window.scrollTo({ top: 0, behavior: "smooth" });
+              }}
             >
               Details
             </Link>

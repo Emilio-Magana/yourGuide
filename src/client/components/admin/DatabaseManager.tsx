@@ -148,7 +148,7 @@ export default function DatabaseManager({ sectionRef, id }: UserSection) {
       ref={sectionRef}
       className="flex scroll-mt-24 flex-col gap-5"
     >
-      <h1 className="user-section-header">Data Management</h1>
+      <h1 className="user-section-primary">Data Management</h1>
       <div className="flex gap-2">
         <ViewToggle
           label1="Users"
@@ -159,7 +159,7 @@ export default function DatabaseManager({ sectionRef, id }: UserSection) {
         {viewMode === "Users" && (
           <button
             onClick={() => setShowCreateModal(true)}
-            className="flex items-center gap-2 rounded-lg bg-highLightBg px-4 text-white duration-300 hover:-translate-y-1 hover:drop-shadow-[0_4px_1.2px_var(--primary)]"
+            className="flex items-center gap-2 rounded-lg bg-sky-400 px-4 text-white duration-300 hover:-translate-y-1 hover:drop-shadow-[0_4px_1.2px_var(--primary)]"
           >
             <FaPlus size={16} />
             Create User

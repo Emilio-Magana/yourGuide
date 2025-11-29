@@ -58,8 +58,8 @@ export default function StaggeredTestimonials({
             }}
             className={`absolute flex h-60 max-w-64 cursor-pointer flex-col gap-3 place-self-center p-4 shadow-xl ${
               offset === 0
-                ? "bg-highLightBg text-white transition-colors duration-200"
-                : "text-header bg-mainBg transition-colors duration-100"
+                ? "bg-sky-400 text-white transition-colors duration-200"
+                : "bg-mainBg text-primary transition-colors duration-100"
             }`}
             style={{
               clipPath:

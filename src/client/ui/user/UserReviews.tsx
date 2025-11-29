@@ -11,7 +11,7 @@ export default function UserReviews({ sectionRef, id, user }: UserSection) {
       ref={sectionRef}
       className="flex scroll-mt-24 flex-col gap-5"
     >
-      <h1 className="user-section-header">Reviews</h1>
+      <h1 className="user-section-primary">Reviews</h1>
       <div
         className={`grid grid-cols-1 gap-3 duration-300 m_window:grid-cols-2 l_window:grid-cols-3`}
       >

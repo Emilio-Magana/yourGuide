@@ -10,7 +10,7 @@ export default function Header() {
 
   return (
     <header className="sticky top-0 z-20 h-0 w-full font-mono ease-in-out">
-      <nav className="relative flex h-[70px] items-baseline justify-center gap-1 px-3 pt-7">
+      <nav className="relative flex h-[70px] items-baseline justify-center gap-1 px-10 pt-5">
         <motion.div
           style={{ opacity: bgOpacity }}
           className="absolute inset-0 bg-gradient-to-br from-headerBegBg to-headerEndBg"

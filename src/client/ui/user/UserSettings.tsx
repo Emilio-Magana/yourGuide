@@ -12,7 +12,7 @@ export default function UserSettings({ sectionRef, id }: SettingsProps) {
       ref={sectionRef}
       className="flex w-full scroll-mt-24 flex-col gap-5 text-black"
     >
-      <h1 className="user-section-header">Settings</h1>
+      <h1 className="user-section-primary">Settings</h1>
       <PasswordForm />
     </article>
   );

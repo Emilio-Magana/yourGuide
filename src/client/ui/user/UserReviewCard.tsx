@@ -8,7 +8,6 @@ const api_url = import.meta.env.VITE_API_URL;
 interface UserReviewCardProps {
   _id: Tour["_id"];
   imageCover: string;
-
   review: string;
   name: string;
 }
@@ -16,19 +15,16 @@ interface UserReviewCardProps {
 export default function UserReviewCard({
   _id,
   imageCover,
-
   review,
   name,
 }: UserReviewCardProps) {
-  function handleClick() {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  }
-
   return (
     <Link
       className="relative w-full overflow-hidden rounded-2xl duration-300 hover:scale-105"
       to={`/tours/${_id}`}
-      onClick={handleClick}
+      onClick={() => {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }}
     >
       <img
         src={`${api_url}/img/tours/${imageCover}`}

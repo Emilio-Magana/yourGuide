@@ -40,7 +40,7 @@ export default function PaginationNavigator({
               onClick={() => goToPage(pageNum)}
               className={`h-10 w-10 rounded-lg duration-200 hover:-translate-y-[3px] ${
                 currentPage === pageNum
-                  ? "bg-highLightBg text-white"
+                  ? "bg-sky-400 text-white"
                   : "border border-secondary hover:border-white hover:text-white"
               }`}
             >

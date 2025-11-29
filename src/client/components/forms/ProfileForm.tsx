@@ -95,7 +95,7 @@ export default function ProfileForm({ user }: { user: User }) {
             {isEditing && (
               <label
                 htmlFor="photo-upload"
-                className="absolute bottom-0 right-0 cursor-pointer rounded-full bg-highLightBg p-2 shadow-lg duration-300 hover:bg-indigo-600"
+                className="absolute bottom-0 right-0 cursor-pointer rounded-full bg-sky-400 p-2 shadow-lg duration-300 hover:bg-sky-600"
               >
                 <BsCamera size={20} className="text-white" />
                 <input
@@ -111,7 +111,7 @@ export default function ProfileForm({ user }: { user: User }) {
           {!isEditing ? (
             <button
               onClick={() => setIsEditing(true)}
-              className="w-52 rounded-lg bg-highLightBg py-2 text-sm font-medium text-white shadow-md duration-300 hover:-translate-y-1 hover:drop-shadow-[0_4px_1.2px_rgb(0,0,0)]"
+              className="w-52 rounded-lg bg-sky-400 py-2 text-sm font-medium text-white shadow-md duration-300 hover:-translate-y-1 hover:drop-shadow-[0_4px_1.2px_rgb(0,0,0)]"
             >
               Edit Profile
             </button>
@@ -198,7 +198,7 @@ export default function ProfileForm({ user }: { user: User }) {
               onChange={handleInputChange}
               onFocus={(e) => handleOnFocus(e, "address")}
               placeholder="Enter your full address"
-              className="w-full resize-none rounded-lg border border-gray-300 px-4 py-3 focus:ring-2 focus:ring-blue-500 disabled:bg-gray-50 disabled:text-gray-600"
+              className="input"
             />
           </div>
         </div>
@@ -213,7 +213,7 @@ export default function ProfileForm({ user }: { user: User }) {
           onChange={handleInputChange}
           onFocus={(e) => handleOnFocus(e, "email")}
           placeholder="Enter your full address"
-          className="w-full resize-none rounded-lg border border-gray-300 px-4 py-3 focus:ring-2 focus:ring-blue-500 disabled:bg-gray-50 disabled:text-gray-600"
+          className="input"
         />
       </div>
     </form>

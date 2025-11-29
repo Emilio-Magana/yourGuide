@@ -9,7 +9,7 @@ export default function UserProfile({ user, id, sectionRef }: UserSection) {
       ref={sectionRef}
       className="flex scroll-mt-28 flex-col gap-5 text-black"
     >
-      <h1 className="user-section-header">Account Management</h1>
+      <h1 className="user-section-primary">Account Management</h1>
       <ProfileForm user={user as User} />
     </article>
   );

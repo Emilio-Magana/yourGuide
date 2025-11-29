@@ -49,7 +49,7 @@ export default function SortTourDB({
 
       <button
         onClick={toggleSortOrder}
-        className="group relative flex items-center justify-center gap-2 rounded-lg bg-secondary px-4 py-2 duration-300 hover:border-headerOpposite hover:bg-headerOpposite hover:px-6"
+        className="group relative flex items-center justify-center gap-2 rounded-lg bg-secondary px-4 py-2 duration-300 hover:border-opposite hover:bg-opposite hover:px-6"
       >
         {tourSortBy === "name" ? (
           sortOrder === "asc" ? (

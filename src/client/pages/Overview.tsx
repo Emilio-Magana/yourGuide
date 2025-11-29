@@ -19,7 +19,7 @@ export default function Overview() {
       {/* h-16 */}
       <div className="place-items-center justify-center">
         {/* <div className="flex place-items-center rounded-full p-2 shadow-[0_10px_15px_-3px_rgb(0,0,0/0.1)]"> */}
-        <div className="bg-mainShadeBg flex place-items-center gap-2 rounded-full p-2 shadow-2xl">
+        <div className="bg-mainShadeBg flex h-16 place-items-center gap-2 rounded-full p-2 shadow-2xl">
           <h2 className="gap-2 rounded-full text-center text-xl text-primary">
             Check out our Tours
           </h2>

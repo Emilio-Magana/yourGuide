@@ -58,7 +58,7 @@ function AccordionTitle({ onClick, tour }: TitleProps) {
       <div className="flex place-items-center gap-2">
         <Link
           to={`/tours/${tour._id}`}
-          className="rounded-md py-2 text-lg font-semibold text-primary duration-300 hover:cursor-pointer hover:bg-headerBegBg hover:px-3 hover:drop-shadow-[-4px_0px_1px_var(--primary)]"
+          className="rounded-md py-2 text-lg font-semibold text-primary duration-300 hover:cursor-pointer hover:bg-headerBegBg hover:px-3 hover:text-white hover:drop-shadow-[-4px_0px_1px_var(--primary)]"
           onClick={(e) => {
             e.stopPropagation();
             window.scrollTo({ top: 0, behavior: "smooth" });

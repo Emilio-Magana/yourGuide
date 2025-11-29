@@ -38,15 +38,16 @@ export default function TourHeader({
         src={`${api_url}/img/tours/${tourCover}`}
         className={`w-full object-none object-center duration-300 ${height}`}
       />
-      <h1 className="absolute inset-0 flex flex-col items-center justify-center gap-10 text-5xl font-semibold text-header drop-shadow-[-1px_1.2px_1.2px_var(--headerOpposite)] duration-300">
+      <h1 className="absolute inset-0 flex flex-col items-center justify-center gap-10 text-5xl font-semibold text-primary drop-shadow-[-1px_1.2px_1.2px_var(--opposite)] duration-300">
         {title}
       </h1>
       {detailed && (
-        <div className="absolute inset-x-0 bottom-20 flex flex-col items-center justify-center gap-10 font-semibold text-header drop-shadow-[-1px_1.2px_1.2px_var(--headerOpposite)] duration-300">
+        <div className="absolute inset-x-0 bottom-20 flex flex-col items-center justify-center gap-10 font-semibold text-primary drop-shadow-[-1px_1.2px_1.2px_var(--opposite)] duration-300">
           <ul className="flex gap-10 uppercase">
             <li className="inline-flex items-center gap-1">
               <FaClock />
               {detailOne}
+              <span>days</span>
             </li>
             <li className="inline-flex items-center gap-1">
               <FaLocationDot />

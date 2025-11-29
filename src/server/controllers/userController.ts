@@ -1,11 +1,12 @@
-import multer, { type FileFilterCallback } from "multer";
-import type { NextFunction, Request, Response } from "express";
-import sharp from "sharp";
-import User from "./../models/userModel";
-import AppError from "./../utils/appError";
-import { catchAsync } from "./../utils/catchAsync";
 import type { UserRequest } from "./../common/interfaces/mainInterfaces";
 import { deleteOne, updateOne, getOne, getAll } from "./handlerFactory";
+import { catchAsync } from "./../utils/catchAsync";
+import AppError from "./../utils/appError";
+import User from "./../models/userModel";
+
+import type { NextFunction, Request, Response } from "express";
+import multer, { type FileFilterCallback } from "multer";
+import sharp from "sharp";
 
 const multerStorage = multer.memoryStorage();
 
@@ -125,12 +126,16 @@ const deleteMe = catchAsync(
   },
 );
 
-const createUser = (req: Request, res: Response) => {
-  res.status(500).json({
-    status: "error",
-    message: "This route is not defined! Please use /signup instead",
-  });
-};
+const createUser = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    await User.create({
+      name: req.body.name,
+      email: req.body.email,
+      password: req.body.password,
+      passwordConfirm: req.body.passwordConfirm,
+    });
+  },
+);
 
 const getUser = getOne(User);
 const getUserReviews = getOne(User, { path: "reviews" });

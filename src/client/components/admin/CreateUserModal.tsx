@@ -28,6 +28,8 @@ export function CreateUserModal({ onClose }: { onClose: () => void }) {
     }
   };
 
+  console.log(formData);
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 text-black">
       <div className="mx-4 w-full max-w-md rounded-lg bg-white p-6">

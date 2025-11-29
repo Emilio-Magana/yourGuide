@@ -73,7 +73,7 @@ export default function SortTours({
 
       <button
         onClick={toggleSortOrder}
-        className="group relative flex items-center justify-center gap-2 rounded-lg bg-centerLBg px-4 py-2 text-white duration-300 hover:bg-headerOpposite hover:text-header"
+        className="group relative flex items-center justify-center gap-2 rounded-lg bg-centerLBg px-4 py-2 text-white duration-300 hover:bg-opposite hover:text-primary"
       >
         {tourSortBy === "name" ? (
           sortOrder === "asc" ? (

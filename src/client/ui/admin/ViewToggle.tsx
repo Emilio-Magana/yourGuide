@@ -29,7 +29,7 @@ export default function ViewToggle({
         onClick={() => handleViewModeChange("Users")}
         className={`relative z-10 w-24 rounded-l-md py-1 text-center transition-colors ${
           viewMode === "Users"
-            ? "font-medium text-blue-600"
+            ? "font-medium text-sky-700"
             : "text-gray-600 hover:text-gray-900"
         }`}
       >
@@ -40,7 +40,7 @@ export default function ViewToggle({
         onClick={() => handleViewModeChange("Tours")}
         className={`relative z-10 w-24 rounded-r-md py-1 text-center transition-colors ${
           viewMode === "Tours"
-            ? "font-medium text-blue-600"
+            ? "font-medium text-sky-700"
             : "text-gray-600 hover:text-gray-900"
         }`}
       >

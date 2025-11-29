@@ -7,7 +7,7 @@ export default function DarkModeToggle() {
   return (
     <button
       onClick={toggleDarkMode}
-      className="hover:bg-navBg flex rounded p-2 drop-shadow-[0px_1.3px_2px_var(--headerOpposite)] duration-300 hover:px-5"
+      className="hover:bg-navBg flex rounded p-2 drop-shadow-[0px_1.3px_2px_var(--opposite)] duration-300 hover:px-5"
     >
       {isDarkMode ? (
         <HiOutlineSun className="text-white transition-colors duration-300" />

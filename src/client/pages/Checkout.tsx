@@ -114,7 +114,7 @@ function Checkout() {
   return (
     <div className="my-8 flex flex-col items-center justify-center rounded-2xl p-4 shadow-2xl">
       <div className="sticky top-0 z-10 flex items-center justify-between rounded-t-2xl border-b border-secondary px-6 py-4">
-        <h2 className="text-2xl font-bold text-header">
+        <h2 className="text-2xl font-bold text-primary">
           Complete Your Booking
         </h2>
       </div>
@@ -132,7 +132,7 @@ function Checkout() {
               >
                 {step > 1 ? <FaCheck size={24} /> : "1"}
               </div>
-              <span className="text-sm font-medium text-header">Details</span>
+              <span className="text-sm font-medium text-primary">Details</span>
             </div>
             <FaChevronRight size={20} className="text-gray-400" />
             <div className="flex items-center gap-2">
@@ -145,7 +145,7 @@ function Checkout() {
               >
                 {step > 2 ? <FaCheck size={24} /> : "2"}
               </div>
-              <span className="text-sm font-medium text-header">
+              <span className="text-sm font-medium text-primary">
                 Billing Info
               </span>
             </div>
@@ -160,13 +160,13 @@ function Checkout() {
               >
                 3
               </div>
-              <span className="text-sm font-medium text-header">Review</span>
+              <span className="text-sm font-medium text-primary">Review</span>
             </div>
           </div>
 
           {step === 1 && (
             <div className="space-y-6">
-              <h3 className="text-xl font-semibold text-header">
+              <h3 className="text-xl font-semibold text-primary">
                 Booking Details
               </h3>
 
