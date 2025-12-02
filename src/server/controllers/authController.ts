@@ -79,18 +79,16 @@ const login = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const { email, password } = req.body;
 
-    // 1) Check if email and password exist
     if (!email || !password) {
       return next(new AppError("Please provide email and password!", 400));
     }
-    // 2) Check if user exists && password is correct
+
     const user: IUser = await User.findOne({ email }).select("+password");
 
     if (!user || !(await user.correctPassword(password, user.password))) {
       return next(new AppError("Incorrect email or password", 401));
     }
 
-    // 3) If everything ok, send token to client
     createSendToken(user, 200, req, res);
   },
 );
@@ -111,30 +109,19 @@ const logout = (req: Request, res: Response) => {
   res.status(200).json({ status: "success" });
 };
 
-// const protect = catchAsync(
 const protect = async (req: UserRequest, res: Response, next: NextFunction) => {
-  // console.log("🔒 PROTECT MIDDLEWARE - START");
-  // console.log("Cookies:", req.cookies);
-  // console.log("JWT Cookie value:", req.cookies?.jwt);
-
   try {
-    // 1) Getting token and check if it's there
     let token;
     if (
       req.headers.authorization &&
       req.headers.authorization.startsWith("Bearer")
     ) {
       token = req.headers.authorization.split(" ")[1];
-      // console.log("Token from Authorization primary:", token);
     } else if (req.cookies.jwt) {
       token = req.cookies.jwt;
-      // console.log("Token from cookie:", token);
     }
 
-    // console.log("Final token value:", token);
-
     if (!token || token === "loggedout") {
-      // console.log("❌ No valid token, returning 401");
       return next(
         new AppError(
           "You are not logged in! Please log in to get access.",
@@ -143,21 +130,16 @@ const protect = async (req: UserRequest, res: Response, next: NextFunction) => {
       );
     }
 
-    // 2) Verification token
-    // console.log("Attempting to verify token...");
     let decoded;
     try {
       decoded = await verifyToken(token, process.env.JWT_SECRET!);
-      // console.log("✅ Token verified:", decoded);
     } catch (error) {
-      // console.log("❌ Token verification failed:", error);
       return next(
         new AppError("Invalid or expired token. Please log in again.", 401),
       );
     }
-    // 3) Check if user still exists
+
     const currentUser = await User.findById(decoded.id);
-    // console.log("User found:", currentUser ? "Yes" : "No"); // ⬅️ Debug log
     if (!currentUser) {
       return next(
         new AppError(
@@ -166,7 +148,6 @@ const protect = async (req: UserRequest, res: Response, next: NextFunction) => {
         ),
       );
     }
-    // 4) Check if user changed password after the token was issued
     if (currentUser.changedPasswordAfter(decoded.iat as number)) {
       return next(
         new AppError(
@@ -175,7 +156,6 @@ const protect = async (req: UserRequest, res: Response, next: NextFunction) => {
         ),
       );
     }
-    // GRANT ACCESS TO PROTECTED ROUTE
     req.user = currentUser;
     res.locals.user = currentUser;
     next();
@@ -185,24 +165,20 @@ const protect = async (req: UserRequest, res: Response, next: NextFunction) => {
   }
 };
 
-// Only for rendered pages, no errors!
 const isLoggedIn = async (req: Request, res: Response, next: NextFunction) => {
   if (req.cookies.jwt) {
     try {
-      // 1) verify token
       const decoded = await verifyToken(
         req.cookies.jwt,
         process.env.JWT_SECRET,
       );
 
-      // 2) Check if user still exists
       const currentUser = await User.findById(decoded.id);
 
       if (!currentUser) {
         return next(new AppError("There is no user with email address.", 404));
       }
 
-      // 3) Check if user changed password after the token was issued
       if (currentUser.changedPasswordAfter(decoded.iat as number)) {
         return next();
       }

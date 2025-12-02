@@ -1,6 +1,6 @@
 export default function Privacy({ lastUpdated }: { lastUpdated: string }) {
   return (
-    <section className="mx-6 my-28 text-primary duration-300 s_window:mx-10 m_window:mx-14 l_window:mx-16 xl_window:mx-20">
+    <section className="mx-6 mt-[70px] text-primary duration-300 s_window:mx-10 m_window:mx-14 l_window:mx-16 xl_window:mx-20">
       <div className="space-y-4">
         <h1 className="text-5xl">privacy policy.</h1>
         <p>Last Updated: {lastUpdated}</p>

@@ -58,7 +58,7 @@ export function CreateUserModal({ onClose }: { onClose: () => void }) {
             className="w-full rounded-lg border border-gray-300 px-3 py-2"
           />
           <input
-            type="password"
+            type="text"
             placeholder="Password"
             value={formData.password}
             onChange={(e) =>
@@ -67,7 +67,7 @@ export function CreateUserModal({ onClose }: { onClose: () => void }) {
             className="w-full rounded-lg border border-gray-300 px-3 py-2"
           />
           <input
-            type="password"
+            type="text"
             placeholder="Confirm Password"
             value={formData.passwordConfirm}
             onChange={(e) =>

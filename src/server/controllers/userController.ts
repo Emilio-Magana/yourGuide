@@ -128,11 +128,18 @@ const deleteMe = catchAsync(
 
 const createUser = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
-    await User.create({
+    const newUser = await User.create({
       name: req.body.name,
       email: req.body.email,
       password: req.body.password,
       passwordConfirm: req.body.passwordConfirm,
+      role: req.body.role,
+    });
+    res.status(201).json({
+      status: "success",
+      data: {
+        user: newUser,
+      },
     });
   },
 );

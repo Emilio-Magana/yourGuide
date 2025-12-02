@@ -12,7 +12,7 @@ export default function UserBookings({ sectionRef, id, user }: UserSection) {
       ref={sectionRef}
       className="flex scroll-mt-24 flex-col gap-5"
     >
-      <h1 className="user-section-primary">Bookings</h1>
+      <h1 className="user-section-header">Bookings</h1>
       {bookings && bookings.length > 0 ? (
         bookings.map((booking: any) => (
           <UserReviewCard

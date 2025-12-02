@@ -44,7 +44,8 @@ router.patch("/updateMe", uploadUserPhoto, resizeUserPhoto, updateMe);
 router.delete("/deleteMe", deleteMe);
 
 router.use(restrictTo("admin"));
-router.route("/").get(getAllUsers).post(createUser);
+router.get("/", getAllUsers);
+router.post("/createUser", createUser);
 router.route("/:id").get(getUser).patch(updateUser).delete(deleteUser);
 
 export default router;

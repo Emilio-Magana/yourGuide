@@ -23,9 +23,9 @@ export function useCreateUser() {
       email: string;
       password: string;
       passwordConfirm: string;
-      role?: UserRoles;
+      role: UserRoles;
     }) => {
-      const { data } = await api.post("/", userData);
+      const { data } = await api.post("/users/createUser", userData);
 
       return data.data.user;
     },
@@ -46,10 +46,6 @@ export function useSignUserUp() {
       passwordConfirm: string;
     }) => {
       const { data } = await api.post("/users/signup", userData);
-      console.log("data", data);
-      console.log("data.data", data.data);
-      console.log("data.data.data", data.data.data);
-
       return data.data.user;
     },
     onSuccess: () => {
