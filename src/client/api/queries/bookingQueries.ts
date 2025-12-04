@@ -14,6 +14,8 @@ export function useCreateCheckoutSession() {
     }) => {
       const { data } = await api.get(
         `/bookings/checkout-session/${tourId}?participants=${participants}&date=${date}`,
+        // `/bookings/checkout-session/${tourId}`,
+        { withCredentials: true },
       );
       return data.checkoutSession;
     },

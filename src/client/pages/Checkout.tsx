@@ -60,13 +60,6 @@ function Checkout() {
 
   const totals = calculateTotal();
 
-  console.log(
-    "pariticpants:",
-    bookingDetails.participants,
-    "\ntotal:",
-    totals.subtotal,
-  );
-
   useEffect(() => {
     if (user && checkoutMode === "user") {
       setCustomerInfo({

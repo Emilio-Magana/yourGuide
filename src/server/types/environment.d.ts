@@ -1,4 +1,3 @@
-// import { type IUser } from "@server/models/userModel";
 declare global {
   namespace NodeJS {
     interface ProcessEnv {

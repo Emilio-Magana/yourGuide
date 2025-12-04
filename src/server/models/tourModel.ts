@@ -2,7 +2,6 @@ import { Schema, Document, model, Query } from "mongoose";
 import { createRequire } from "module";
 const require = createRequire(import.meta.url);
 const slugify = require("slugify");
-// import slugify from "slugify";
 import { type IUser } from "./userModel";
 
 /**
@@ -188,7 +187,7 @@ const tourSchema: Schema = new Schema(
   {
     toJSON: { virtuals: true },
     toObject: { virtuals: true },
-  }
+  },
 );
 
 // tourSchema.index({ price: 1 });

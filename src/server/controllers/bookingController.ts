@@ -1,8 +1,8 @@
-import type { Stripe } from "stripe";
+import Stripe from "stripe";
 import type { Response, NextFunction, Request } from "express";
+
 import User from "./../models/userModel";
 import Tour from "./../models/tourModel";
-import { stripe } from "./../lib/stripe";
 import AppError from "./../utils/appError";
 import Booking from "./../models/bookingModel";
 import { catchAsync } from "./../utils/catchAsync";
@@ -15,10 +15,13 @@ import {
 } from "./handlerFactory";
 import type { UserRequest } from "./../common/interfaces/mainInterfaces";
 
+// const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || "api_key");
+
 const getCheckoutSession = catchAsync(
   async (req: UserRequest, res: Response, next: NextFunction) => {
-    // 1) Get the currently booked tour
+    const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
     const tour = await Tour.findById(req.params.tourId);
+
     // console.log(tour);
     if (!tour) {
       return next(new AppError("No tour found with that ID", 404));
@@ -26,7 +29,8 @@ const getCheckoutSession = catchAsync(
     const participants = parseInt(req.query.participants as string) || 1;
     const date = req.query.date as string;
 
-    // 2) Create checkout session
+    console.log(process.env.STRIPE_SECRET_KEY);
+
     const checkoutSession: Stripe.Checkout.Session =
       await stripe.checkout.sessions.create({
         payment_method_types: ["card"],
@@ -54,9 +58,9 @@ const getCheckoutSession = catchAsync(
             },
           },
         ],
+        mode: "payment",
       });
 
-    // 3) Create session as response
     res.status(200).json({
       status: "success",
       checkoutSession,
@@ -96,6 +100,7 @@ const createBookingCheckout = async (session: Stripe.Checkout.Session) => {
 
 const webhookCheckout = catchAsync(
   (req: Request, res: Response, next: NextFunction) => {
+    const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
     const signature = req.headers["stripe-signature"];
 
     if (!signature) {

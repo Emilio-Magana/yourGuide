@@ -1,12 +1,11 @@
 import hpp from "hpp";
-
 import cors from "cors";
 import path from "path";
-import express from "express";
-import bodyParser from "body-parser";
 import helmet from "helmet";
 import morgan from "morgan";
+import express from "express";
 import { fileURLToPath } from "url";
+import bodyParser from "body-parser";
 import compression from "compression";
 import cookieParser from "cookie-parser";
 import rateLimit from "express-rate-limit";
@@ -41,7 +40,6 @@ app.use(cors(corsOptions));
 
 // // // Body parser, reading data from body into req.body
 app.use(express.json({ limit: "10kb" }));
-app.use(express.json());
 app.use(express.urlencoded({ extended: true, limit: "10kb" }));
 app.use(cookieParser());
 

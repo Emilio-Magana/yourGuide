@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import type { User } from "../../config/schema";
 import { api } from "../api";
@@ -19,30 +19,26 @@ export function useAuth() {
       }
     },
     retry: false,
-    refetchOnWindowFocus: false, // Stop refetching on window focus
-    refetchOnMount: false, // Stop refetching on component mount
-    staleTime: Infinity, // Cache forever until manually invalidated
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
+    staleTime: Infinity,
   });
 }
 export function useLogin() {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
-  const location = useLocation();
+
   return useMutation({
-    mutationFn: async ({
-      email,
-      password,
-    }: {
-      email: string;
-      password: string;
-    }) => {
-      const { data } = await api.post("/users/login", { email, password });
+    mutationFn: async (credentials: { email: string; password: string }) => {
+      const { data } = await api.post("/users/login", credentials);
       return data;
     },
     onSuccess: (data) => {
+      if (data.token) {
+        localStorage.setItem("token", data.token);
+      }
       queryClient.setQueryData(["authUser"], data.data?.user || data.user);
-      const from = location.state?.from?.pathname || "/";
-      navigate(from, { replace: true });
+      navigate(-1);
     },
   });
 }
@@ -54,10 +50,9 @@ export function useLogout() {
       await api.get("/users/logout");
     },
     onSuccess: () => {
+      localStorage.removeItem("token");
       queryClient.setQueryData(["authUser"], null);
-      queryClient.invalidateQueries({ queryKey: ["bookings"] });
-      queryClient.invalidateQueries({ queryKey: ["tours"] });
-      queryClient.invalidateQueries({ queryKey: ["reviews"] });
+      queryClient.clear();
       navigate("/");
     },
   });

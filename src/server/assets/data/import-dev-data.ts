@@ -1,8 +1,8 @@
 import fs from "fs";
 import mongoose from "mongoose";
-import Tour from "src/server/models/tourModel";
-import User from "src/server/models/userModel";
-import Review from "src/server/models/reviewModel";
+import Tour from "../../models/tourModel";
+import User from "../../models/userModel";
+import Review from "../../models/reviewModel";
 
 const DB: string = process.env.DATABASE;
 

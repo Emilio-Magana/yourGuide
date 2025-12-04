@@ -70,14 +70,14 @@ export default function CustomerInfo({
                 <p className="mt-1 text-sm text-gray-600">{user.email}</p>
               </button>
             ) : (
-              <button
-                onClick={() => setCheckoutMode("user")}
-                className="rounded-lg border-2 border-gray-300 p-6 transition-colors hover:bg-gray-50"
+              <a
+                href="/login"
+                className="flex flex-col items-center justify-center rounded-lg border-2 border-gray-300 p-6 transition-colors hover:bg-gray-50"
               >
                 <FaUser className="mx-auto mb-2 h-8 w-8 text-gray-400" />
                 <p className="font-semibold text-gray-900">Sign In</p>
                 <p className="mt-1 text-sm text-gray-600">Use your account</p>
-              </button>
+              </a>
             )}
 
             <button
