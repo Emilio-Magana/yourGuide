@@ -1,19 +1,29 @@
 import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
-import type { Tour } from "../config/schema";
 import { FaStar } from "react-icons/fa";
+import { motion, AnimatePresence } from "framer-motion";
+
+import type { Tour } from "../config/schema";
 
 interface AccordionProps {
   children: React.ReactNode;
   tour: Tour;
+  reviewLength: number | undefined;
 }
 
-export default function TourAccordion({ children, tour }: AccordionProps) {
+export default function TourAccordion({
+  children,
+  tour,
+  reviewLength,
+}: AccordionProps) {
   const [isOpen, setIsOpen] = useState(false);
   return (
     <div className="">
-      <AccordionTitle onClick={() => setIsOpen(!isOpen)} tour={tour} />
+      <AccordionTitle
+        onClick={() => setIsOpen(!isOpen)}
+        tour={tour}
+        reviewLength={reviewLength}
+      />
       <AnimatePresence initial={false}>
         {isOpen && (
           <motion.div
@@ -40,8 +50,9 @@ export default function TourAccordion({ children, tour }: AccordionProps) {
 interface TitleProps {
   onClick: () => void;
   tour: Tour;
+  reviewLength: number | undefined;
 }
-function AccordionTitle({ onClick, tour }: TitleProps) {
+function AccordionTitle({ onClick, tour, reviewLength }: TitleProps) {
   const getDifficultyColor = (difficulty: string) => {
     const colors = {
       diffcult: "bg-red-100 text-red-800",
@@ -86,7 +97,7 @@ function AccordionTitle({ onClick, tour }: TitleProps) {
             <span className="font-semibold text-yellow-700">
               {tour.ratingsAverage.toFixed(1)}
             </span>
-            <span className="text-gray-500">({tour.ratingsQuantity || 0})</span>
+            <span className="text-gray-500">({reviewLength})</span>
           </div>
         )}
       </div>

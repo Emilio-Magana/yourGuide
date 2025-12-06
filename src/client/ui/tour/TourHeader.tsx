@@ -1,6 +1,5 @@
 import { FaLocationDot } from "react-icons/fa6";
-import { useLocation } from "react-router-dom";
-import { FaClock } from "react-icons/fa";
+import { FaClock, FaStar } from "react-icons/fa";
 
 const api_url = import.meta.env.VITE_API_URL;
 
@@ -8,10 +7,11 @@ interface PageHeaderProps {
   tourCover: string;
   height: string;
   title: string;
-
   detailed?: boolean;
   detailOne?: string;
   detailTwo?: string;
+  rating?: string;
+  reviewLength?: number;
 }
 
 export default function TourHeader({
@@ -21,17 +21,9 @@ export default function TourHeader({
   detailed,
   detailOne,
   detailTwo,
+  rating,
+  reviewLength,
 }: PageHeaderProps) {
-  const location = useLocation();
-  const pathname = location.pathname;
-
-  let startOpacity;
-  if (pathname.slice(6, 7) === "/") {
-    startOpacity = 0.5;
-  } else {
-    startOpacity = 0;
-  }
-
   return (
     <section className="relative">
       <img
@@ -52,6 +44,11 @@ export default function TourHeader({
             <li className="inline-flex items-center gap-1">
               <FaLocationDot />
               {detailTwo}
+            </li>
+            <li className="inline-flex items-center gap-1">
+              <FaStar />
+              {rating}
+              <span>({reviewLength})</span>
             </li>
           </ul>
         </div>

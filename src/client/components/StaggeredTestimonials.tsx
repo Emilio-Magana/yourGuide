@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import type { Review } from "../config/schema";
+import { FaStar } from "react-icons/fa";
 
 const api_url = import.meta.env.VITE_API_URL;
 
@@ -56,7 +57,7 @@ export default function StaggeredTestimonials({
               stiffness: 400,
               damping: 100,
             }}
-            className={`absolute flex h-60 w-64 cursor-pointer flex-col gap-3 place-self-center p-4 shadow-xl ${
+            className={`absolute flex h-60 w-64 cursor-pointer flex-col gap-2 place-self-center p-4 shadow-xl ${
               offset === 0
                 ? "bg-sky-400 text-white transition-colors duration-200"
                 : "hover:bg-mainShadeBg bg-mainBg text-primary transition-colors duration-100"
@@ -77,6 +78,17 @@ export default function StaggeredTestimonials({
             <p className="place-self-stretch text-xs font-medium">
               – {review.user.name}
             </p>
+            {review.rating && (
+              <div className="flex">
+                {Array.from({ length: 5 }, (_, i) => (
+                  <FaStar
+                    key={i}
+                    size={16}
+                    className={`${i < review.rating ? "fill-yellow-400 text-yellow-400" : "text-gray-300"}`}
+                  />
+                ))}
+              </div>
+            )}
           </motion.div>
         );
       })}

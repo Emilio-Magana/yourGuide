@@ -39,6 +39,8 @@ export default function TourDetails() {
         detailed={true}
         detailOne={tour!.duration.toString()}
         detailTwo={tour!.startLocation.description}
+        rating={tour!.ratingsAverage.toFixed(1)}
+        reviewLength={reviews!.length}
       />
 
       <SectionNavigator

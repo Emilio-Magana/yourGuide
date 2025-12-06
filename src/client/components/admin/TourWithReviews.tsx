@@ -8,7 +8,7 @@ export function TourWithReviews({ tour }: { tour: Tour }) {
 
   return (
     <div className="bg-mainBg">
-      <TourAccordion tour={tour}>
+      <TourAccordion tour={tour} reviewLength={reviews?.length}>
         <TourReviewsDB reviews={reviews as Review[]} />
       </TourAccordion>
     </div>
