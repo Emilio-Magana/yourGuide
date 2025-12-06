@@ -23,12 +23,12 @@ export default function BookingDetails({
   setStep,
 }: Props) {
   return (
-    <div className="space-y-6">
-      <h3 className="text-xl font-semibold text-gray-900">Booking Details</h3>
+    <div className="space-y-6 text-primary">
+      <h3 className="text-xl font-semibold">Booking Details</h3>
 
       <div>
-        <label className="mb-2 block text-sm font-medium text-gray-700">
-          <FaCalendarDay className="mr-2 inline h-4 w-4" />
+        <label className="mb-2 block text-sm font-medium">
+          <FaCalendarDay size={16} className="mr-2 inline" />
           Select Date
         </label>
         <input
@@ -38,13 +38,13 @@ export default function BookingDetails({
             setBookingDetails({ ...bookingDetails, date: e.target.value })
           }
           min={new Date().toISOString().split("T")[0]}
-          className="w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-transparent focus:ring-2 focus:ring-blue-500"
+          className="w-full rounded-lg border border-gray-300 px-4 py-3 text-sky-950 focus:border-transparent focus:ring-2 focus:ring-blue-500"
         />
       </div>
 
       <div>
-        <label className="mb-2 block text-sm font-medium text-gray-700">
-          <FaUsers className="mr-2 inline h-4 w-4" />
+        <label className="mb-2 block text-sm font-medium">
+          <FaUsers size={16} className="mr-2 inline" />
           Number of Participants
         </label>
         <input
@@ -58,9 +58,9 @@ export default function BookingDetails({
               participants: parseInt(e.target.value) || 1,
             })
           }
-          className="w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-transparent focus:ring-2 focus:ring-blue-500"
+          className="w-full rounded-lg border border-gray-300 px-4 py-3 text-sky-950 focus:border-transparent focus:ring-2 focus:ring-blue-500"
         />
-        <p className="mt-2 text-sm text-gray-500">
+        <p className="mt-2 text-sm text-tertiary">
           Price per person: ${tour.price.toFixed(2)}
         </p>
       </div>

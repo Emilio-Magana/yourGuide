@@ -31,7 +31,7 @@ export default function TourCardMiniLink({
       <img
         src={`${api_url}/img/tours/${imageCover}`}
         alt={name}
-        className="min-h-60 w-full flex-1 duration-300 ease-in-out hover:scale-105"
+        className="h-60 w-full flex-1 duration-300 ease-in-out hover:scale-105"
       />
       <article className="sky-950 relative h-28 flex-none flex-col gap-3 bg-white px-4 py-4 font-light">
         <h1 className="justify-stretch text-xl uppercase leading-none">

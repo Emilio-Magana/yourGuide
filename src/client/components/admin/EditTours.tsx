@@ -20,7 +20,7 @@ export default function EditTours({ sectionRef, id }: UserSection) {
     <article
       id={id}
       ref={sectionRef}
-      className="flex w-full scroll-mt-24 flex-col gap-5 text-black"
+      className="flex w-full scroll-mt-7 flex-col gap-5 text-black"
     >
       <h1 className="user-section-header">Edit Tours</h1>
       {isEditing ? (

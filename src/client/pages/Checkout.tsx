@@ -1,22 +1,19 @@
 import { loadStripe } from "@stripe/stripe-js";
+import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 
-import { useGetTour } from "../api/queries/tourQueries";
-import { useParams } from "react-router-dom";
+import { useCreateCheckoutSession } from "../api/queries/bookingQueries";
 import PathFinderLoader from "../components/PathFinderLoader";
+import BookingProgress from "../ui/booking/BookingProgress";
 import BookingDetails from "../ui/booking/BookingDetails";
-import type { Tour, User } from "../config/schema";
-import CustomerInfo from "../ui/booking/CustomerInfo";
+import { useGetTour } from "../api/queries/tourQueries";
 import BookingReview from "../ui/booking/BookingReview";
 import OrderSummary from "../ui/booking/OrderSummary";
-import BookingProgress from "../ui/booking/BookingProgress";
+import CustomerInfo from "../ui/booking/CustomerInfo";
 import { useAuth } from "../api/queries/authQueries";
-import { useCreateCheckoutSession } from "../api/queries/bookingQueries";
+import type { Tour, User } from "../config/schema";
 
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
-
-// add a componeent to the billign page gibing hte option to continue as guest or sign in
-// remove the option of email and phone nubmer from billing -> add this to customer information rihgt above billing information
 
 function Checkout() {
   const { tourId } = useParams();

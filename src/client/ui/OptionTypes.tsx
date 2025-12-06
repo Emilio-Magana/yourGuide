@@ -18,13 +18,23 @@ type Option = {
   Icon: IconType;
   notifs?: number;
   isOpen: boolean;
-  isActive: boolean;
+  isActive?: boolean;
+  onClick?: () => Promise<void>;
 };
-function RSBOption({ Icon, id, isActive, isOpen, notifs, href }: Option) {
+function RSBOption({
+  Icon,
+  id,
+  isActive,
+  isOpen,
+  notifs,
+  href,
+  onClick,
+}: Option) {
   return (
     <HashLink smooth to={href}>
       <motion.button
         layout
+        onClick={onClick}
         className={`relative flex h-10 w-full items-center rounded-md transition-colors ${isActive ? "bg-indigo-100 text-indigo-800" : "text-slate-500 hover:bg-slate-100"}`}
       >
         <motion.div

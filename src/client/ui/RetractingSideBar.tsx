@@ -1,11 +1,12 @@
 import { FiChevronsRight } from "react-icons/fi";
 import { FaUserCircle } from "react-icons/fa";
-
 import { motion } from "framer-motion";
 import type { RefObject } from "react";
 
 import { RSBOption, type NavOption } from "./OptionTypes";
 import type { User } from "../config/schema";
+import { MdLogout } from "react-icons/md";
+import { useLogout } from "../api/queries/authQueries";
 
 const api_url = import.meta.env.VITE_API_URL;
 
@@ -29,6 +30,14 @@ export default function RetractingSideBar({
   user,
   sections,
 }: SideBarProps) {
+  const logoutMutation = useLogout();
+  const handLoggingOut = async () => {
+    try {
+      await logoutMutation.mutateAsync();
+    } catch (error) {
+      console.error("Logout failed:", error);
+    }
+  };
   return (
     <motion.nav
       layout
@@ -67,6 +76,14 @@ export default function RetractingSideBar({
             />
           ),
         )}
+        <RSBOption
+          key="Logout"
+          href="#"
+          Icon={MdLogout}
+          id="Logout"
+          isOpen={isOpen}
+          onClick={handLoggingOut}
+        />
       </div>
       <ToggleClose isOpen={isOpen} setIsOpen={setIsOpen} />
     </motion.nav>

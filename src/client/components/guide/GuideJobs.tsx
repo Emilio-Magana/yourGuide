@@ -10,7 +10,7 @@ export default function GuideJobs({ sectionRef, id }: JobsProps) {
     <article
       id={id}
       ref={sectionRef}
-      className="flex scroll-mt-24 flex-col gap-5"
+      className="flex scroll-mt-7 flex-col gap-5"
     >
       <h1 className="user-section-primary">Your Tasks</h1>
     </article>

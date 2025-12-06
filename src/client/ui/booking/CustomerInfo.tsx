@@ -49,12 +49,12 @@ export default function CustomerInfo({
   setCustomerInfo,
 }: Props) {
   return (
-    <div className="space-y-6">
-      <h3 className="text-xl font-semibold text-gray-900">Your Information</h3>
+    <div className="space-y-6 text-primary">
+      <h3 className="text-xl font-semibold">Your Information</h3>
 
       {!checkoutMode && (
         <div className="space-y-4">
-          <p className="text-gray-600">How would you like to continue?</p>
+          <p className="text-tertiary">How would you like to continue?</p>
           <div className="grid grid-cols-2 gap-4">
             {user ? (
               <button
@@ -62,10 +62,8 @@ export default function CustomerInfo({
                 className="rounded-lg border-2 border-blue-600 p-6 transition-colors hover:bg-blue-50"
               >
                 <FaUser className="mx-auto mb-2 h-8 w-8 text-blue-600" />
-                <p className="font-semibold text-gray-900">
-                  Continue as {user.name}
-                </p>
-                <p className="mt-1 text-sm text-gray-600">{user.email}</p>
+                <p className="font-semibold">Continue as {user.name}</p>
+                <p className="mt-1 text-sm text-tertiary">{user.email}</p>
               </button>
             ) : (
               <a
@@ -74,7 +72,7 @@ export default function CustomerInfo({
               >
                 <FaUser className="mx-auto mb-2 h-8 w-8 text-gray-400" />
                 <p className="font-semibold text-gray-900">Sign In</p>
-                <p className="mt-1 text-sm text-gray-600">Use your account</p>
+                <p className="mt-1 text-sm text-tertiary">Use your account</p>
               </a>
             )}
 
@@ -84,7 +82,7 @@ export default function CustomerInfo({
             >
               <FaUser className="mx-auto mb-2 h-8 w-8 text-gray-400" />
               <p className="font-semibold text-gray-900">Continue as Guest</p>
-              <p className="mt-1 text-sm text-gray-600">No account needed</p>
+              <p className="mt-1 text-sm text-tertiary">No account needed</p>
             </button>
           </div>
         </div>
@@ -105,7 +103,7 @@ export default function CustomerInfo({
             </div>
 
             <div>
-              <label className="mb-2 block text-sm font-medium text-gray-700">
+              <label className="mb-2 block text-sm font-medium text-sky-950">
                 Email Address
               </label>
               <input
@@ -118,13 +116,13 @@ export default function CustomerInfo({
                   })
                 }
                 disabled={checkoutMode === "user" && !!user}
-                className="w-full rounded-lg border border-gray-300 px-4 py-3 focus:ring-2 focus:ring-blue-500 disabled:bg-gray-100"
+                className="w-full rounded-lg border border-gray-300 px-4 py-3 text-sky-950 focus:ring-2 focus:ring-blue-500 disabled:bg-gray-100"
                 placeholder="your.email@example.com"
               />
             </div>
 
             <div>
-              <label className="mb-2 block text-sm font-medium text-gray-700">
+              <label className="mb-2 block text-sm font-medium text-sky-950">
                 Phone Number
               </label>
               <input
@@ -136,20 +134,18 @@ export default function CustomerInfo({
                     phone: e.target.value,
                   })
                 }
-                className="w-full rounded-lg border border-gray-300 px-4 py-3 focus:ring-2 focus:ring-blue-500"
+                className="w-full rounded-lg border border-gray-300 px-4 py-3 text-sky-950 focus:ring-2 focus:ring-blue-500"
                 placeholder="+1 (555) 123-4567"
               />
             </div>
           </div>
 
           <div>
-            <h4 className="mb-4 font-semibold text-gray-900">
-              Billing Address
-            </h4>
+            <h4 className="mb-4 font-semibold">Billing Address</h4>
 
             <div className="mb-4 grid grid-cols-2 gap-4">
               <div>
-                <label className="mb-2 block text-sm font-medium text-gray-700">
+                <label className="mb-2 block text-sm font-medium text-tertiary">
                   First Name
                 </label>
                 <input
@@ -161,12 +157,12 @@ export default function CustomerInfo({
                       firstName: e.target.value,
                     })
                   }
-                  className="w-full rounded-lg border border-gray-300 px-4 py-3 focus:ring-2 focus:ring-blue-500"
+                  className="w-full rounded-lg border border-gray-300 px-4 py-3 text-sky-950 focus:ring-2 focus:ring-blue-500"
                   placeholder="John"
                 />
               </div>
               <div>
-                <label className="mb-2 block text-sm font-medium text-gray-700">
+                <label className="mb-2 block text-sm font-medium text-tertiary">
                   Last Name
                 </label>
                 <input
@@ -178,14 +174,14 @@ export default function CustomerInfo({
                       lastName: e.target.value,
                     })
                   }
-                  className="w-full rounded-lg border border-gray-300 px-4 py-3 focus:ring-2 focus:ring-blue-500"
+                  className="w-full rounded-lg border border-gray-300 px-4 py-3 text-sky-950 focus:ring-2 focus:ring-blue-500"
                   placeholder="Doe"
                 />
               </div>
             </div>
 
             <div className="mb-4">
-              <label className="mb-2 block text-sm font-medium text-gray-700">
+              <label className="mb-2 block text-sm font-medium text-tertiary">
                 Street Address
               </label>
               <input
@@ -197,14 +193,14 @@ export default function CustomerInfo({
                     address: e.target.value,
                   })
                 }
-                className="w-full rounded-lg border border-gray-300 px-4 py-3 focus:ring-2 focus:ring-blue-500"
+                className="w-full rounded-lg border border-gray-300 px-4 py-3 text-sky-950 focus:ring-2 focus:ring-blue-500"
                 placeholder="123 Main St"
               />
             </div>
 
             <div className="grid grid-cols-3 gap-4">
               <div>
-                <label className="mb-2 block text-sm font-medium text-gray-700">
+                <label className="mb-2 block text-sm font-medium text-tertiary">
                   City
                 </label>
                 <input
@@ -216,12 +212,12 @@ export default function CustomerInfo({
                       city: e.target.value,
                     })
                   }
-                  className="w-full rounded-lg border border-gray-300 px-4 py-3 focus:ring-2 focus:ring-blue-500"
+                  className="w-full rounded-lg border border-gray-300 px-4 py-3 text-sky-950 focus:ring-2 focus:ring-blue-500"
                   placeholder="New York"
                 />
               </div>
               <div>
-                <label className="mb-2 block text-sm font-medium text-gray-700">
+                <label className="mb-2 block text-sm font-medium text-tertiary">
                   Country
                 </label>
                 <input
@@ -233,12 +229,12 @@ export default function CustomerInfo({
                       country: e.target.value,
                     })
                   }
-                  className="w-full rounded-lg border border-gray-300 px-4 py-3 focus:ring-2 focus:ring-blue-500"
+                  className="w-full rounded-lg border border-gray-300 px-4 py-3 text-sky-950 focus:ring-2 focus:ring-blue-500"
                   placeholder="USA"
                 />
               </div>
               <div>
-                <label className="mb-2 block text-sm font-medium text-gray-700">
+                <label className="mb-2 block text-sm font-medium text-tertiary">
                   ZIP Code
                 </label>
                 <input
@@ -250,7 +246,7 @@ export default function CustomerInfo({
                       zipCode: e.target.value,
                     })
                   }
-                  className="w-full rounded-lg border border-gray-300 px-4 py-3 focus:ring-2 focus:ring-blue-500"
+                  className="w-full rounded-lg border border-gray-300 px-4 py-3 text-sky-950 focus:ring-2 focus:ring-blue-500"
                   placeholder="10001"
                 />
               </div>

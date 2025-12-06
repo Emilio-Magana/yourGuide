@@ -6,7 +6,7 @@ import { motion, useScroll, useTransform } from "framer-motion";
 
 export default function Header() {
   const { scrollY } = useScroll();
-  const bgOpacity = useTransform(scrollY, [0, 320], [0, 0.98]);
+  const bgOpacity = useTransform(scrollY, [0, 250], [0, 0.98]);
 
   return (
     <header className="sticky top-0 z-20 h-0 w-full font-mono ease-in-out">

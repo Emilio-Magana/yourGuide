@@ -51,14 +51,14 @@ export default function BookingReview({
   customerInfo,
 }: Props) {
   return (
-    <div className="space-y-6">
-      <h3 className="text-xl font-semibold text-gray-900">
+    <div className="space-y-6 text-sky-950">
+      <h3 className="text-xl font-semibold text-primary">
         Review Your Booking
       </h3>
 
       <div className="space-y-4 rounded-lg bg-gray-50 p-6">
         <div>
-          <h4 className="mb-2 font-semibold text-gray-900">Booking Details</h4>
+          <h4 className="mb-2 font-semibold">Booking Details</h4>
           <div className="space-y-2 text-sm">
             <p className="flex justify-between">
               <span className="text-gray-600">Date:</span>
@@ -79,9 +79,7 @@ export default function BookingReview({
         </div>
 
         <div className="border-t pt-4">
-          <h4 className="mb-2 font-semibold text-gray-900">
-            Customer Information
-          </h4>
+          <h4 className="mb-2 font-semibold">Customer Information</h4>
           <div className="space-y-1 text-sm text-gray-600">
             <p>{customerInfo.email}</p>
             <p>{customerInfo.phone}</p>
@@ -89,7 +87,7 @@ export default function BookingReview({
         </div>
 
         <div className="border-t pt-4">
-          <h4 className="mb-2 font-semibold text-gray-900">Billing Address</h4>
+          <h4 className="mb-2 font-semibold">Billing Address</h4>
           <div className="space-y-1 text-sm text-gray-600">
             <p>
               {billingInfo.firstName} {billingInfo.lastName}
@@ -126,7 +124,7 @@ export default function BookingReview({
         <button
           onClick={() => setStep(2)}
           disabled={createCheckoutSession.isPending}
-          className="w-full rounded-lg border border-gray-300 px-6 py-3 font-semibold transition-colors hover:bg-gray-50 disabled:opacity-50"
+          className="w-full rounded-lg border border-gray-300 px-6 py-3 font-semibold text-primary transition-colors hover:bg-gray-50 disabled:opacity-50"
         >
           Back
         </button>
