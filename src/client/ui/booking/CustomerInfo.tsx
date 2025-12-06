@@ -48,8 +48,6 @@ export default function CustomerInfo({
   customerInfo,
   setCustomerInfo,
 }: Props) {
-  console.log(checkoutMode);
-
   return (
     <div className="space-y-6">
       <h3 className="text-xl font-semibold text-gray-900">Your Information</h3>

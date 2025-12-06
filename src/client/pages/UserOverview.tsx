@@ -19,28 +19,29 @@ export default function UserOverview() {
 
   const userSections = userNavigation[user?.role || "user"];
 
-  console.log(user.name);
   const sectionRefs = useMemo(() => refGenerator(userSections), [userSections]);
-
-  // console.log("role", user?.role); //renders twice but maybe thats because its in development
 
   return (
     // h-[calc(100vh-70px)]
-    <section className="z-10 mt-[70px] flex w-screen bg-mainBg pb-10 pt-4">
-      <RetractingSideBar
-        className="sticky top-[70px] h-[388px] shrink-0 overflow-hidden rounded-r-2xl bg-white p-2"
-        // active={active}
-        sections={userSections}
-        sectionRefs={sectionRefs}
-        numBookings={bookingLength} //not sure if this works quite yet...
-        setIsOpen={setIsOpen}
-        isOpen={isOpen}
-        user={user}
-      />
+    <section className="z-30 mt-[70px] flex w-screen bg-mainBg pb-10 pt-4">
+      <div className="relative">
+        <div className="sticky top-0 z-30 box-border h-5 bg-mainBg" />
+
+        <RetractingSideBar
+          className="sticky top-[10px] z-40 h-[388px] shrink-0 overflow-hidden rounded-r-2xl bg-white p-2"
+          // active={active}
+          sections={userSections}
+          sectionRefs={sectionRefs}
+          numBookings={bookingLength} //not sure if this works quite yet...
+          setIsOpen={setIsOpen}
+          isOpen={isOpen}
+          user={user}
+        />
+      </div>
       <motion.div
         layout
         key="dashboard"
-        className="-ml-[1px] flex w-screen flex-col gap-7 p-4 text-primary"
+        className="z-30 -ml-[1px] flex w-screen flex-col gap-7 bg-mainBg p-4 text-primary"
       >
         {userSections.map((section) => {
           const SectionComponent = section.component;

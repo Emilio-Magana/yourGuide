@@ -11,7 +11,7 @@ import TourHeader from "../ui/tour/TourHeader";
 import TourMap from "../ui/tour/TourMap";
 import ImageGrid from "../ui/ImageGrid";
 
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useMemo } from "react";
 
 export default function TourDetails() {
@@ -77,6 +77,17 @@ export default function TourDetails() {
       ) : (
         <div>No Reviews!</div>
       )}
+      <div className="mx-9 mb-5 flex flex-col gap-4 text-lg font-medium text-primary">
+        <h2>Contribute and add a review</h2>
+        <div className="h-6">
+          <Link
+            to={`/tours/${tourId}/userReview`}
+            className="w-fit rounded-3xl border border-primary bg-mainBg px-3 py-3 duration-300 hover:border-sky-400 hover:bg-sky-400 hover:py-2 hover:pr-5"
+          >
+            Write a review
+          </Link>
+        </div>
+      </div>
       <ViewOtherTours
         className="mx-9 my-2 flex flex-col gap-[11px]"
         tours={tours!}

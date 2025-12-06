@@ -14,6 +14,7 @@ import {
   getDistances,
   uploadTourImages,
   resizeTourImages,
+  uploadTourReviewImages,
 } from "./../controllers/tourController";
 
 const router = express.Router();
@@ -36,6 +37,7 @@ router
 router
   .route("/:id")
   .get(getTour)
+  .post(uploadTourReviewImages)
   .patch(
     protect,
     restrictTo("admin", "lead-guide"),

@@ -78,7 +78,7 @@ export default function TourCard({
             </h3>
             <Link
               to={`/tours/${_id}`}
-              className="place-self-center rounded bg-slate-400 p-2 text-white drop-shadow-[0_2px_1.2px_rgba(0,0,0,1)] duration-300 hover:-translate-y-1 hover:bg-slate-500"
+              className="place-self-center rounded bg-sky-400 p-2 text-white duration-300 hover:-translate-y-1 hover:drop-shadow-[0_2px_1.2px_rgba(0,0,0,1)]"
               onClick={() => {
                 window.scrollTo({ top: 0, behavior: "smooth" });
               }}

@@ -30,11 +30,11 @@ export default function SectionNavigator({
   };
   return (
     <nav className={className}>
-      <ul className="flex gap-0 text-sky-500 duration-300 m_window:gap-2 l_window:gap-4 xl_window:gap-5">
+      <ul className="flex gap-0 text-sky-500 duration-300 m_window:gap-2">
         {sections.map((section, id) => (
           <li key={id}>
             <button
-              className="place-self-center rounded-3xl px-3 py-3 duration-300 hover:bg-sky-200 s_window:px-3 m_window:px-5"
+              className="place-self-center rounded-3xl px-3 py-3 duration-300 hover:bg-sky-200 hover:px-8 s_window:px-3 m_window:px-5 m_window:hover:px-12"
               onClick={() => scrollToSection(section.id)}
             >
               {section.id}

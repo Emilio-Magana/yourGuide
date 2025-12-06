@@ -47,8 +47,10 @@ const tour = z.object({
 });
 const review = z.object({
   _id: z.string(),
+  title: z.string(),
   review: z.string(),
   rating: z.number(),
+  whenTheyWent: z.date(),
   tour: tour,
   user: user,
   createdAt: z.string(),

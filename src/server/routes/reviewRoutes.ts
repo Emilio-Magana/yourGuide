@@ -8,13 +8,20 @@ import {
   getReview,
 } from "./../controllers/reviewController";
 import { protect, restrictTo } from "./../controllers/authController";
+import { uploadTourReviewImages } from "../controllers/tourController";
 
 const router = express.Router({ mergeParams: true });
 
 router
   .route("/")
   .get(getAllReviews)
-  .post(protect, restrictTo("user"), setTourUserIds, createReview);
+  .post(
+    protect,
+    restrictTo("user"),
+    uploadTourReviewImages,
+    setTourUserIds,
+    createReview,
+  );
 
 router.use(protect);
 

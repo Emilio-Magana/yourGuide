@@ -56,10 +56,10 @@ export default function StaggeredTestimonials({
               stiffness: 400,
               damping: 100,
             }}
-            className={`absolute flex h-60 max-w-64 cursor-pointer flex-col gap-3 place-self-center p-4 shadow-xl ${
+            className={`absolute flex h-60 w-64 cursor-pointer flex-col gap-3 place-self-center p-4 shadow-xl ${
               offset === 0
                 ? "bg-sky-400 text-white transition-colors duration-200"
-                : "bg-mainBg text-primary transition-colors duration-100"
+                : "hover:bg-mainShadeBg bg-mainBg text-primary transition-colors duration-100"
             }`}
             style={{
               clipPath:
@@ -72,6 +72,7 @@ export default function StaggeredTestimonials({
               alt={review.user.name}
               className="h-12 w-12 rounded-full object-cover"
             />
+            {review.title && <h1 className="">{review.title}</h1>}
             <p className="text-sm italic">"{review.review}"</p>
             <p className="place-self-stretch text-xs font-medium">
               – {review.user.name}

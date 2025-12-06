@@ -43,6 +43,9 @@ const uploadTourImages = upload.fields([
   { name: "imageCover", maxCount: 1 },
   { name: "images", maxCount: 3 },
 ]);
+const uploadTourReviewImages = upload.fields([
+  { name: "reviewImages", maxCount: 3 },
+]);
 
 const resizeTourImages = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
@@ -250,16 +253,17 @@ const updateTour = updateOne(Tour);
 const deleteTour = deleteOne(Tour);
 
 export {
+  uploadTourReviewImages,
   uploadTourImages,
   resizeTourImages,
-  aliasTopTours,
-  getTourStats,
   getMonthlyPlan,
   getToursWithin,
+  aliasTopTours,
+  getTourStats,
   getDistances,
   getAllTours,
-  getTour,
   createTour,
   updateTour,
   deleteTour,
+  getTour,
 };

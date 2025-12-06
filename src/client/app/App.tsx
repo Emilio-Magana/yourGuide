@@ -17,6 +17,7 @@ import ProtectedRoutes from "../authentication/ProtectedRoutes";
 import { DarkModeProvider } from "../context/DarkModeContext";
 import AppLayout from "../ui/AppLayout";
 import Signup from "../pages/Signup";
+import PostTourReview from "../pages/PostTourReview";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -41,6 +42,10 @@ function App() {
               <Route path="/tours" element={<Tours />} />
               <Route path="/tours/:tourId" element={<TourDetails />} />
               <Route path="/tours/:tourId/checkout" element={<Checkout />} />
+              <Route
+                path="/tours/:tourId/userReview"
+                element={<PostTourReview />}
+              />
               <Route
                 path="/privacy"
                 element={<Privacy lastUpdated={lastUpdated} />}

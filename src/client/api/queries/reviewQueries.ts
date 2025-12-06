@@ -36,16 +36,33 @@ export function useCreateReview() {
   return useMutation({
     mutationFn: async ({
       tourId,
+      title,
       review,
       rating,
+      whenTheyWent,
+      reviewImages,
     }: {
       tourId: string;
+      title: string;
       review: string;
       rating: number;
+      whenTheyWent: Date;
+      reviewImages?: File[];
     }) => {
-      const { data } = await api.post(`/tours/${tourId}/reviews`, {
-        review,
-        rating,
+      const formData = new FormData();
+      formData.append("title", title);
+      formData.append("review", review);
+      formData.append("rating", rating.toString());
+      formData.append("whenTheyWent", whenTheyWent.toISOString());
+
+      if (reviewImages) {
+        reviewImages.forEach((file) => {
+          formData.append("reviewImages", file);
+        });
+      }
+
+      const { data } = await api.post(`/tours/${tourId}/reviews`, formData, {
+        headers: { "Content-Type": "multipart/form-data" },
       });
       return data.data.data;
     },

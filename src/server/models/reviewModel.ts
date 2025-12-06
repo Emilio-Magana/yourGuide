@@ -13,8 +13,10 @@ import { type IUser } from "./userModel";
  */
 
 export type TReview = {
+  title: string;
   review: string;
   rating: number;
+  whenTheyWent?: Date;
   createdAt: Date;
   tour: ITour;
   user: IUser;
@@ -28,6 +30,10 @@ export interface ReviewModel extends Model<IReview> {
 
 const reviewSchema = new Schema(
   {
+    title: {
+      type: String,
+      required: [true, "Review can not be without a title!"],
+    },
     review: {
       type: String,
       required: [true, "Review can not be empty!"],
@@ -36,6 +42,11 @@ const reviewSchema = new Schema(
       type: Number,
       min: 1,
       max: 5,
+      required: [true, "Review must have a rating"],
+    },
+    whenTheyWent: {
+      type: Date,
+      required: [true, "Please specify when you took this tour"],
     },
     createdAt: {
       type: Date,
@@ -55,7 +66,7 @@ const reviewSchema = new Schema(
   {
     toJSON: { virtuals: true },
     toObject: { virtuals: true },
-  }
+  },
 );
 
 reviewSchema.index({ tour: 1, user: 1 }, { unique: true });
@@ -108,7 +119,7 @@ reviewSchema.post<Query<IReview, IReview>>(/^findOneAnd/, async function () {
   const query = this as Query<IReview, IReview> & { r?: IReview | null };
   if (query.r) {
     await (query.r.constructor as ReviewModel).calcAverageRatings(
-      query.r.tour.toString()
+      query.r.tour.toString(),
     );
   }
 });

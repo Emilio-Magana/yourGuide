@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import logo from "/img/logo-green-small.png";
 import CardLink from "../ui/CardMiniLink";
+const api_url = import.meta.env.VITE_API_URL;
 
 const cardInfo = [
   { label: "The Outdoors", imageCover: "tour-1-2.jpg" },
@@ -44,8 +45,7 @@ export default function Overview() {
 
       <div className="grid grid-cols-1 shadow-2xl duration-300 m_window:h-[480px] m_window:grid-cols-[1fr_400px] l_window:grid-cols-[1fr_500px] xl_window:grid-cols-[1fr_600px]">
         <img
-          src="/img/tours/tour-1-1.jpg"
-          alt=""
+          src={`${api_url}/img/tours/tour-1-1.jpg`}
           className="h-[480px] w-full object-none max-m_window:rounded-t-xl m_window:rounded-l-xl"
         />
 

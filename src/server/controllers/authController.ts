@@ -95,9 +95,6 @@ const logout = (req: Request, res: Response) => {
 
 const protect = async (req: UserRequest, res: Response, next: NextFunction) => {
   try {
-    // console.log("🔍 Headers:", req.headers.authorization); // Add this
-    // console.log("🍪 Cookies:", req.cookies); // Add this
-
     let token;
     if (
       req.headers.authorization &&
@@ -107,14 +104,11 @@ const protect = async (req: UserRequest, res: Response, next: NextFunction) => {
     } else if (req.cookies.jwt) {
       token = req.cookies.jwt;
     }
-
-    // console.log("✅ Token extracted:", token); // Add this
-
     if (!token || token === "loggedout") {
       return next(
         new AppError(
           "You are not logged in! Please log in to get access.",
-          401, // This should be 401, not 403
+          401,
         ),
       );
     }

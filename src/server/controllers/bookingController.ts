@@ -15,21 +15,15 @@ import {
 } from "./handlerFactory";
 import type { UserRequest } from "./../common/interfaces/mainInterfaces";
 
-// const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || "api_key");
-
 const getCheckoutSession = catchAsync(
   async (req: UserRequest, res: Response, next: NextFunction) => {
     const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
     const tour = await Tour.findById(req.params.tourId);
-
-    // console.log(tour);
     if (!tour) {
       return next(new AppError("No tour found with that ID", 404));
     }
     const participants = parseInt(req.query.participants as string) || 1;
     const date = req.query.date as string;
-
-    console.log(process.env.STRIPE_SECRET_KEY);
 
     const checkoutSession: Stripe.Checkout.Session =
       await stripe.checkout.sessions.create({
@@ -73,7 +67,6 @@ const createBookingCheckout = async (session: Stripe.Checkout.Session) => {
     throw new AppError("Total amount is missing in the session", 400);
   }
   const tour = session.client_reference_id;
-  // const user = (await User.findOne({ email: session.customer_email }))?._id;
   const user = await User.findOne({ email: session.customer_email });
 
   if (!user) {
