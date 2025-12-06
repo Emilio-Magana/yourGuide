@@ -1,2 +1,10 @@
 # React + TypeScript + Vite
 ![Alt text](/public/readMe/homepage.png?raw=true "Homepage")
+![Alt text](/public/readMe/tourpage.png?raw=true "tourpage")
+![Alt text](/public/readMe/tourdetails.png?raw=true "tourdetails")
+![Alt text](/public/readMe/tourmap.png?raw=true "tourmap")
+![Alt text](/public/readMe/includedreviews.png?raw=true "includedreviews")
+![Alt text](/public/readMe/checkout.png?raw=true "checkout")
+![Alt text](/public/readMe/adminoverviewtop.png?raw=true "adminoverviewtop")
+![Alt text](/public/readMe/adminDB.png?raw=true "adminDB")
+![Alt text](/public/readMe/adminEditTours.png?raw=true "adminEditTours")
