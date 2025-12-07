@@ -30,7 +30,7 @@ if (process.env.NODE_ENV === "development") {
 }
 
 const corsOptions = {
-  origin: "http://localhost:5173",
+  origin: ["http://localhost:5173", "https://yourguide.onrender.com"],
   credentials: true,
 };
 app.use(cors(corsOptions));
