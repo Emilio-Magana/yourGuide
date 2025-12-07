@@ -33,7 +33,7 @@ const corsOptions = {
   origin: [
     "http://localhost:5173",
     "https://yourguide.onrender.com",
-    "https://your-guide.vercel.app/",
+    "https://your-guide-flame.vercel.app/",
   ],
   credentials: true,
 };
