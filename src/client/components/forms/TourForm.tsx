@@ -206,7 +206,7 @@ export default function TourForm({
         JSON.stringify(formData.guides.filter((g) => g)),
       );
 
-      const url = isEditing ? `/api/v1/tours/${tourId}` : "/api/v1/tours";
+      const url = isEditing ? `/api/tours/${tourId}` : "/api/tours";
       const method = isEditing ? "PATCH" : "POST";
 
       const response = await fetch(url, {
