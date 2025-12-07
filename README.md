@@ -1,9 +1,9 @@
 # yourGuide
 
 One time spot for all tours possible! <br/>
-2. User are able to create a profile and book tours of different kinds from all over the world.
-3. All users have the ability to edit their personal information, and account security.
-4. Users also have the ability to change between light and dark mode.
+1. User are able to create a profile and book tours of different kinds from all over the world.<br/>
+2. All users have the ability to edit their personal information, and account security.<br/>
+3. Users also have the ability to change between light and dark mode.<br/>
 ![Alt text](/public/readMe/homepage.png?raw=true "Homepage")
 _The homepage_<br>
 
