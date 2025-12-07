@@ -85,10 +85,10 @@ app.post(
 app.use(express.static(path.join(__dirname, "./../../public")));
 
 app.get("/", (req, res) => res.send("Server working!"));
-app.use("/api/tours", tourRouter);
-app.use("/api/users", userRouter);
-app.use("/api/reviews", reviewRouter);
-app.use("/api/bookings", bookingRouter);
+app.use("/tours", tourRouter);
+app.use("/users", userRouter);
+app.use("/reviews", reviewRouter);
+app.use("/bookings", bookingRouter);
 
 app.all("*all", (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
