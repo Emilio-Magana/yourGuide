@@ -30,7 +30,11 @@ if (process.env.NODE_ENV === "development") {
 }
 
 const corsOptions = {
-  origin: ["http://localhost:5173", "https://yourguide.onrender.com"],
+  origin: [
+    "http://localhost:5173",
+    "https://yourguide.onrender.com",
+    "https://your-guide.vercel.app/",
+  ],
   credentials: true,
 };
 app.use(cors(corsOptions));
