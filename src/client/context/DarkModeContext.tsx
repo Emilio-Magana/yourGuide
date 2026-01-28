@@ -2,7 +2,7 @@ import { createContext, useContext, useEffect } from "react";
 import { useLocalStorageState } from "./../hooks/useLocalStorageState";
 
 type DarkModeContextType = {
-  isDarkMode: boolean;
+  isDarkModeEnabled: boolean;
   toggleDarkMode: () => void;
 };
 
@@ -11,30 +11,26 @@ const DarkModeContext = createContext<DarkModeContextType | undefined>(
 );
 
 function DarkModeProvider({ children }: { children: React.ReactNode }) {
-  const [isDarkMode, setIsDarkMode] = useLocalStorageState<boolean>(
-    false, // safe default
-    "isDarkMode",
+  const [isDarkModeEnabled, setIsDarkModeEnabled] = useLocalStorageState(
+    false,
+    "isDarkModeEnabled",
   );
 
-  useEffect(
-    function () {
-      if (isDarkMode) {
-        document.documentElement.classList.add("dark-mode");
-        document.documentElement.classList.remove("light-mode");
-      } else {
-        document.documentElement.classList.add("light-mode");
-        document.documentElement.classList.remove("dark-mode");
-      }
-    },
-    [isDarkMode],
-  );
+  useEffect(() => {
+    const classList = document.documentElement.classList;
+    if (isDarkModeEnabled) {
+      classList.add("dark-mode");
+      classList.remove("light-mode");
+    } else {
+      classList.add("light-mode");
+      classList.remove("dark-mode");
+    }
+  }, [isDarkModeEnabled]);
 
-  function toggleDarkMode() {
-    setIsDarkMode((isDark) => !isDark);
-  }
+  const toggleDarkMode = () => setIsDarkModeEnabled((enabled) => !enabled);
 
   return (
-    <DarkModeContext.Provider value={{ isDarkMode, toggleDarkMode }}>
+    <DarkModeContext.Provider value={{ isDarkModeEnabled, toggleDarkMode }}>
       {children}
     </DarkModeContext.Provider>
   );

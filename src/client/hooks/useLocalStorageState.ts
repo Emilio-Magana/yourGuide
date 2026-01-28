@@ -2,7 +2,7 @@ import { useState, useEffect, type Dispatch, type SetStateAction } from "react";
 
 export function useLocalStorageState<T>(
   initialState: T,
-  key: string
+  key: string,
 ): [T, Dispatch<SetStateAction<T>>] {
   const [value, setValue] = useState<T>(function () {
     const storedValue = localStorage.getItem(key);
@@ -13,7 +13,7 @@ export function useLocalStorageState<T>(
     function () {
       localStorage.setItem(key, JSON.stringify(value));
     },
-    [value, key]
+    [value, key],
   );
 
   return [value, setValue];

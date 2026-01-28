@@ -56,9 +56,9 @@ const review = z.object({
   createdAt: z.string(),
 });
 
-const tourSchema = z.object({ tours: z.array(tour) });
-const userSchema = z.object({ users: z.array(user) });
-const reviewSchema = z.object({ reviews: z.array(review) });
+// const tourSchema = z.object({ tours: z.array(tour) });
+// const userSchema = z.object({ users: z.array(user) });
+// const reviewSchema = z.object({ reviews: z.array(review) });
 
 type Tour = z.infer<typeof tour>;
 type User = z.infer<typeof user>;
@@ -66,7 +66,7 @@ type Review = z.infer<typeof review>;
 type Location = z.infer<typeof location>;
 type UserRoles = z.infer<typeof userRoles>;
 
-export { tourSchema, reviewSchema, userSchema };
+// export { tourSchema, reviewSchema, userSchema };
 export type { Tour, Review, User, UserRoles, Location };
 
 // for some reason the user is not able to flag logging out,
